@@ -57,12 +57,12 @@
       </nav>
       <nav id="sub-nav">
         
-          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="Flux RSS"></a>
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
         
-        <a id="nav-search-btn" class="nav-icon" title="Rechercher"></a>
+        <a id="nav-search-btn" class="nav-icon" title="Suche"></a>
       </nav>
       <div id="search-form-wrap">
-        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Rechercher"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://FY-Han.github.io.git"></form>
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Suche"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://FY-Han.github.io.git"></form>
       </div>
     </div>
   </div>
@@ -70,6 +70,106 @@
 
       <div class="outer">
         <section id="main">
+  
+    <article id="post-科研学习-计算机技术-技术杂谈-2021-9-23-markdown语法学习大全" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/blog/2021/9/23/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%8A%80%E6%9C%AF-%E6%8A%80%E6%9C%AF%E6%9D%82%E8%B0%88-2021-9-23-markdown%E8%AF%AD%E6%B3%95%E5%AD%A6%E4%B9%A0%E5%A4%A7%E5%85%A8/" class="article-date">
+  <time class="dt-published" datetime="2021-09-22T16:03:50.000Z" itemprop="datePublished">2021-09-23</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/blog/2021/9/23/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%8A%80%E6%9C%AF-%E6%8A%80%E6%9C%AF%E6%9D%82%E8%B0%88-2021-9-23-markdown%E8%AF%AD%E6%B3%95%E5%AD%A6%E4%B9%A0%E5%A4%A7%E5%85%A8/">markdown语法学习大全</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="MARKDOWN语法教程-约为HTML子集"><a href="#MARKDOWN语法教程-约为HTML子集" class="headerlink" title="MARKDOWN语法教程(约为HTML子集)"></a>MARKDOWN语法教程(约为HTML子集)</h1><p><strong>说明：</strong>markdown编译器各平台支持性不同</p>
+<h2 id="一、概述"><a href="#一、概述" class="headerlink" title="一、概述"></a>一、概述</h2><h3 id="1-1-设计理念"><a href="#1-1-设计理念" class="headerlink" title="1.1 设计理念"></a>1.1 设计理念</h3><ul>
+<li>markdown易于阅读，完全由文本和标点符号组成，由纯文本形式发布，不包含标记标签和格式化指令</li>
+</ul>
+<h3 id="1-2-内联HTML语法"><a href="#1-2-内联HTML语法" class="headerlink" title="1.2 内联HTML语法"></a>1.2 内联HTML语法</h3><ul>
+<li>markdown没有的标签可以使用html，如html的<a>代替markdown连接语法</li>
+<li>&lt;与&amp;符号在HTML中需要转义</li>
+</ul>
+<h2 id="二、语法"><a href="#二、语法" class="headerlink" title="二、语法"></a>二、语法</h2><h3 id="2-1-注释"><a href="#2-1-注释" class="headerlink" title="2.1 注释"></a>2.1 注释</h3><ul>
+<li><strong>代码</strong></li>
+</ul>
+<p>用ctrl+shift+`，开启代码块;或者typora本身会自动识别html语法;或者ctrl+shift+K</p>
+<p>&lt;div style=’display:none’&gt;<br>    这里是注释<br>&lt;/div&gt;</p>
+<ul>
+<li><strong>html注释</strong></li>
+</ul>
+<p>html语法，快捷键command+/</p>
+<!--注释不显示-->
+
+<!--不显示的多段注释-->
+
+
+<ul>
+<li><strong>hack方法</strong></li>
+</ul>
+<p>语义化比较差</p>
+<p><a href="#(%E6%B3%A8%E9%87%8A)">//</a>:&lt;&gt;(注释)</p>
+<p>[comment]:&lt;&gt;(注释)</p>
+<h3 id="2-2-分级前缀与文本格式"><a href="#2-2-分级前缀与文本格式" class="headerlink" title="2.2 分级前缀与文本格式"></a>2.2 分级前缀与文本格式</h3><ul>
+<li>分级标题 加# 或者ctrl+数字级别</li>
+<li>任务列表   </li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">- [ ] 文本 </span><br></pre></td></tr></table></figure>
+
+<p><strong>效果为：</strong></p>
+<ul>
+<li><p><input disabled="" type="checkbox">  文本</p>
+</li>
+<li><p>文本对齐</p>
+</li>
+</ul>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">center</span>&gt;</span></span>中心对齐<span class="xml"><span class="tag">&lt;/<span class="name">center</span>&gt;</span></span></span><br><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">p</span> <span class="attr">align</span>=<span class="string">&quot;left&quot;</span>&gt;</span></span>to the left<span class="xml"><span class="tag">&lt;/<span class="name">p</span>&gt;</span></span></span><br><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">p</span> <span class="attr">align</span>=<span class="string">&quot;right&quot;</span>&gt;</span></span>to the right<span class="xml"><span class="tag">&lt;/<span class="name">p</span>&gt;</span></span></span><br></pre></td></tr></table></figure>
+
+
+
+<ul>
+<li>字体效果</li>
+</ul>
+<p>删除线：两边加~</p>
+<p>下划线：两边加++</p>
+<p>背景高亮：两边加==</p>
+<p>==高亮==</p>
+<h3 id="2-3-链接与注脚"><a href="#2-3-链接与注脚" class="headerlink" title="2.3 链接与注脚"></a>2.3 链接与注脚</h3><ul>
+<li>超链接：选中文本后ctrl+K，后面补上链接，可再加“html中会出现的悬停标题”，如 <a target="_blank" rel="noopener" href="http://fy-han.github.io/%22%E6%82%AC%E5%81%9C%E6%A0%87%E9%A2%98%22">我的博客</a></li>
+<li>前后的引文链接：用[ ]把内容括起来，然后后面跟数字如<a target="_blank" rel="noopener" href="https://www.google.com/" title="谷歌">1</a> ：我常用的<a target="_blank" rel="noopener" href="https://www.google.com/" title="谷歌">Google</a></li>
+<li>用[^1],即可，文末补引用。丰阳说多读sci论文<a href="%E6%88%91%E7%BC%96%E7%9A%84">^1</a>,能增长知识。</li>
+</ul>
+<p><font face="黑体">黑体</font></p>
+<p><font face="微软雅黑">微软雅黑</font></p>
+<p>[TOC]</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://fy-han.github.io.git/blog/2021/9/23/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%8A%80%E6%9C%AF-%E6%8A%80%E6%9C%AF%E6%9D%82%E8%B0%88-2021-9-23-markdown%E8%AF%AD%E6%B3%95%E5%AD%A6%E4%B9%A0%E5%A4%A7%E5%85%A8/" data-id="cktvp73t30022w0u5akz0e62m" data-title="markdown语法学习大全" class="article-share-link">Teilen</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%8A%80%E6%9C%AF%E6%9D%82%E8%B0%88/" rel="tag">技术杂谈</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
   
     <article id="post-2021周报-3季度-2021-9-22-第30周至9-26" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
@@ -102,7 +202,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://fy-han.github.io.git/blog/2021/9/22/2021%E5%91%A8%E6%8A%A5-3%E5%AD%A3%E5%BA%A6-2021-9-22-%E7%AC%AC30%E5%91%A8%E8%87%B39-26/" data-id="cktuubqm5000aagu529tfeyqb" data-title="第30周至9.26" class="article-share-link">Partager</a>
+      <a data-url="https://fy-han.github.io.git/blog/2021/9/22/2021%E5%91%A8%E6%8A%A5-3%E5%AD%A3%E5%BA%A6-2021-9-22-%E7%AC%AC30%E5%91%A8%E8%87%B39-26/" data-id="cktvp73so000kw0u539o570zp" data-title="第30周至9.26" class="article-share-link">Teilen</a>
       
       
       
@@ -147,7 +247,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://fy-han.github.io.git/blog/2021/9/14/2021%E5%91%A8%E6%8A%A5-3%E5%AD%A3%E5%BA%A6-2021-9-14-%E7%AC%AC29%E5%91%A8%E8%87%B39-19/" data-id="cktuubqm40007agu539m26qof" data-title="第29周至9.19" class="article-share-link">Partager</a>
+      <a data-url="https://fy-han.github.io.git/blog/2021/9/14/2021%E5%91%A8%E6%8A%A5-3%E5%AD%A3%E5%BA%A6-2021-9-14-%E7%AC%AC29%E5%91%A8%E8%87%B39-19/" data-id="cktvp73sp000lw0u54jgvhzgc" data-title="第29周至9.19" class="article-share-link">Teilen</a>
       
       
       
@@ -188,7 +288,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://fy-han.github.io.git/blog/2021/9/11/2021%E5%91%A8%E6%8A%A5-3%E5%AD%A3%E5%BA%A6-2021-9-11-%E7%94%B3%E8%AF%B7%E8%AF%BE/" data-id="cktuubqm5000bagu554sl34jo" data-title="申请课" class="article-share-link">Partager</a>
+      <a data-url="https://fy-han.github.io.git/blog/2021/9/11/2021%E5%91%A8%E6%8A%A5-3%E5%AD%A3%E5%BA%A6-2021-9-11-%E7%94%B3%E8%AF%B7%E8%AF%BE/" data-id="cktvp73sh0005w0u51z4l914r" data-title="申请课" class="article-share-link">Teilen</a>
       
       
       
@@ -231,7 +331,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://fy-han.github.io.git/blog/2021/9/7/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%8A%80%E6%9C%AF-ai-2021-9-7-AI-%E7%AC%AC%E4%BA%8C%E8%8A%82%EF%BC%88%E7%BB%98%E5%9B%BE%EF%BC%89/" data-id="cktuubqnh0026agu56xjmfkf6" data-title="AI 第二节（绘图）" class="article-share-link">Partager</a>
+      <a data-url="https://fy-han.github.io.git/blog/2021/9/7/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%8A%80%E6%9C%AF-ai-2021-9-7-AI-%E7%AC%AC%E4%BA%8C%E8%8A%82%EF%BC%88%E7%BB%98%E5%9B%BE%EF%BC%89/" data-id="cktvp73t2001ww0u586xv44bi" data-title="AI 第二节（绘图）" class="article-share-link">Teilen</a>
       
       
       
@@ -270,7 +370,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://fy-han.github.io.git/blog/2021/9/4/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%8A%80%E6%9C%AF-web-develop-HTML5-CSS3-first-html/" data-id="cktuubqnt0034agu5ewem50td" data-title="" class="article-share-link">Partager</a>
+      <a data-url="https://fy-han.github.io.git/blog/2021/9/4/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%8A%80%E6%9C%AF-web-develop-HTML5-CSS3-first-html/" data-id="cktvp73te0037w0u50mi29n8s" data-title="" class="article-share-link">Teilen</a>
       
       
       
@@ -308,7 +408,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://fy-han.github.io.git/blog/2021/9/4/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%8A%80%E6%9C%AF-web-develop-HTML5-CSS3-2021-9-4-web%E5%BC%80%E5%8F%91%E7%AC%AC%E4%B8%80%E8%8A%82/" data-id="cktuubqns0032agu58lpm23s1" data-title="web开发第一节" class="article-share-link">Partager</a>
+      <a data-url="https://fy-han.github.io.git/blog/2021/9/4/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%8A%80%E6%9C%AF-web-develop-HTML5-CSS3-2021-9-4-web%E5%BC%80%E5%8F%91%E7%AC%AC%E4%B8%80%E8%8A%82/" data-id="cktvp73td0035w0u52te8gla0" data-title="web开发第一节" class="article-share-link">Teilen</a>
       
       
       
@@ -388,7 +488,7 @@ mscl docking glide(autodock), online programme()
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://fy-han.github.io.git/blog/2021/8/16/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%8A%80%E6%9C%AF-ai-2021-8-16-AI-%E7%AC%AC%E4%B8%80%E8%8A%82/" data-id="cktuubqng0023agu52zgla28u" data-title="AI 第一节" class="article-share-link">Partager</a>
+      <a data-url="https://fy-han.github.io.git/blog/2021/8/16/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%8A%80%E6%9C%AF-ai-2021-8-16-AI-%E7%AC%AC%E4%B8%80%E8%8A%82/" data-id="cktvp73t1001rw0u5fovrbemr" data-title="AI 第一节" class="article-share-link">Teilen</a>
       
       
       
@@ -437,7 +537,7 @@ mscl docking glide(autodock), online programme()
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://fy-han.github.io.git/blog/2021/8/12/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%88%86%E5%AD%90%E6%A8%A1%E6%8B%9F-MOE-2021-8-12-moe%E6%95%99%E7%A8%8B-1/" data-id="cktuubqnb001kagu5729730gi" data-title="moe教程-1" class="article-share-link">Partager</a>
+      <a data-url="https://fy-han.github.io.git/blog/2021/8/12/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%88%86%E5%AD%90%E6%A8%A1%E6%8B%9F-MOE-2021-8-12-moe%E6%95%99%E7%A8%8B-1/" data-id="cktvp73t0001mw0u5cwbec8jm" data-title="moe教程-1" class="article-share-link">Teilen</a>
       
       
       
@@ -482,7 +582,7 @@ mscl docking glide(autodock), online programme()
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://fy-han.github.io.git/blog/2021/7/31/2021%E5%91%A8%E6%8A%A5-3%E5%AD%A3%E5%BA%A6-2021-7-31-%E7%AC%AC22%E5%91%A87-25-8-1/" data-id="cktuubqm30006agu5hfgv7ig9" data-title="第22周7.25-8.1" class="article-share-link">Partager</a>
+      <a data-url="https://fy-han.github.io.git/blog/2021/7/31/2021%E5%91%A8%E6%8A%A5-3%E5%AD%A3%E5%BA%A6-2021-7-31-%E7%AC%AC22%E5%91%A87-25-8-1/" data-id="cktvp73sh0006w0u546wy2t38" data-title="第22周7.25-8.1" class="article-share-link">Teilen</a>
       
       
       
@@ -496,56 +596,11 @@ mscl docking glide(autodock), online programme()
 
 
   
-    <article id="post-科研学习-暑研工作-2021-7-26-summer-intern-work-1" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/blog/2021/7/26/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E6%9A%91%E7%A0%94%E5%B7%A5%E4%BD%9C-2021-7-26-summer-intern-work-1/" class="article-date">
-  <time class="dt-published" datetime="2021-07-26T09:59:36.000Z" itemprop="datePublished">2021-07-26</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/blog/2021/7/26/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E6%9A%91%E7%A0%94%E5%B7%A5%E4%BD%9C-2021-7-26-summer-intern-work-1/">summer intern work(1)</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        Here's something encrypted, password is required to continue reading.
-        
-          <p class="article-more-link">
-            <a href="/blog/2021/7/26/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E6%9A%91%E7%A0%94%E5%B7%A5%E4%BD%9C-2021-7-26-summer-intern-work-1/#more">Read More</a>
-          </p>
-        
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://fy-han.github.io.git/blog/2021/7/26/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E6%9A%91%E7%A0%94%E5%B7%A5%E4%BD%9C-2021-7-26-summer-intern-work-1/" data-id="cktuubqmd000eagu5e3nr8w68" data-title="summer intern work(1)" class="article-share-link">Partager</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/summer-intern/" rel="tag">summer intern</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
 
 
   <nav id="page-nav">
     
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/2/">Suivant &raquo;</a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/2/">weiter &raquo;</a>
   </nav>
 
 </section>
@@ -557,9 +612,9 @@ mscl docking glide(autodock), online programme()
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Mot-clés</h3>
+    <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/AMBER/" rel="tag">AMBER</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Gaussian/" rel="tag">Gaussian</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ai/" rel="tag">ai</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gmx/" rel="tag">gmx</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/" rel="tag">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/moe/" rel="tag">moe</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/summer-intern/" rel="tag">summer intern</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/web/" rel="tag">web</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BD%9C%E6%9B%B2/" rel="tag">作曲</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8D%9A%E5%AE%A2%E5%BB%BA%E7%AB%8B/" rel="tag">博客建立</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%91%A8%E6%8A%A5/" rel="tag">周报</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%94%9F%E6%B4%BB%E5%8F%8D%E6%80%9D/" rel="tag">生活反思</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BD%AF%E4%BB%B6%E4%BD%BF%E7%94%A8/" rel="tag">软件使用</a></li></ul>
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/AMBER/" rel="tag">AMBER</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Gaussian/" rel="tag">Gaussian</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ai/" rel="tag">ai</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gmx/" rel="tag">gmx</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/" rel="tag">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/moe/" rel="tag">moe</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/summer-intern/" rel="tag">summer intern</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/web/" rel="tag">web</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BD%9C%E6%9B%B2/" rel="tag">作曲</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8D%9A%E5%AE%A2%E5%BB%BA%E7%AB%8B/" rel="tag">博客建立</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%91%A8%E6%8A%A5/" rel="tag">周报</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8A%80%E6%9C%AF%E6%9D%82%E8%B0%88/" rel="tag">技术杂谈</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%94%9F%E6%B4%BB%E5%8F%8D%E6%80%9D/" rel="tag">生活反思</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BD%AF%E4%BB%B6%E4%BD%BF%E7%94%A8/" rel="tag">软件使用</a></li></ul>
     </div>
   </div>
 
@@ -567,16 +622,16 @@ mscl docking glide(autodock), online programme()
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Nuage de mot-clés</h3>
+    <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/AMBER/" style="font-size: 18px;">AMBER</a> <a href="/tags/Gaussian/" style="font-size: 10px;">Gaussian</a> <a href="/tags/ai/" style="font-size: 12px;">ai</a> <a href="/tags/gmx/" style="font-size: 16px;">gmx</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/moe/" style="font-size: 12px;">moe</a> <a href="/tags/summer-intern/" style="font-size: 10px;">summer intern</a> <a href="/tags/web/" style="font-size: 10px;">web</a> <a href="/tags/%E4%BD%9C%E6%9B%B2/" style="font-size: 10px;">作曲</a> <a href="/tags/%E5%8D%9A%E5%AE%A2%E5%BB%BA%E7%AB%8B/" style="font-size: 10px;">博客建立</a> <a href="/tags/%E5%91%A8%E6%8A%A5/" style="font-size: 20px;">周报</a> <a href="/tags/%E7%94%9F%E6%B4%BB%E5%8F%8D%E6%80%9D/" style="font-size: 14px;">生活反思</a> <a href="/tags/%E8%BD%AF%E4%BB%B6%E4%BD%BF%E7%94%A8/" style="font-size: 10px;">软件使用</a>
+      <a href="/tags/AMBER/" style="font-size: 18px;">AMBER</a> <a href="/tags/Gaussian/" style="font-size: 10px;">Gaussian</a> <a href="/tags/ai/" style="font-size: 12px;">ai</a> <a href="/tags/gmx/" style="font-size: 16px;">gmx</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/moe/" style="font-size: 12px;">moe</a> <a href="/tags/summer-intern/" style="font-size: 10px;">summer intern</a> <a href="/tags/web/" style="font-size: 10px;">web</a> <a href="/tags/%E4%BD%9C%E6%9B%B2/" style="font-size: 10px;">作曲</a> <a href="/tags/%E5%8D%9A%E5%AE%A2%E5%BB%BA%E7%AB%8B/" style="font-size: 10px;">博客建立</a> <a href="/tags/%E5%91%A8%E6%8A%A5/" style="font-size: 20px;">周报</a> <a href="/tags/%E6%8A%80%E6%9C%AF%E6%9D%82%E8%B0%88/" style="font-size: 10px;">技术杂谈</a> <a href="/tags/%E7%94%9F%E6%B4%BB%E5%8F%8D%E6%80%9D/" style="font-size: 14px;">生活反思</a> <a href="/tags/%E8%BD%AF%E4%BB%B6%E4%BD%BF%E7%94%A8/" style="font-size: 10px;">软件使用</a>
     </div>
   </div>
 
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Archives</h3>
+    <h3 class="widget-title">Archiv</h3>
     <div class="widget">
       <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/09/">September 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/08/">August 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/07/">July 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/06/">June 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/05/">May 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">April 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a></li></ul>
     </div>
@@ -586,9 +641,13 @@ mscl docking glide(autodock), online programme()
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Articles récents</h3>
+    <h3 class="widget-title">letzter Beitrag</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/blog/2021/9/23/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%8A%80%E6%9C%AF-%E6%8A%80%E6%9C%AF%E6%9D%82%E8%B0%88-2021-9-23-markdown%E8%AF%AD%E6%B3%95%E5%AD%A6%E4%B9%A0%E5%A4%A7%E5%85%A8/">markdown语法学习大全</a>
+          </li>
         
           <li>
             <a href="/blog/2021/9/22/2021%E5%91%A8%E6%8A%A5-3%E5%AD%A3%E5%BA%A6-2021-9-22-%E7%AC%AC30%E5%91%A8%E8%87%B39-26/">第30周至9.26</a>
@@ -606,10 +665,6 @@ mscl docking glide(autodock), online programme()
             <a href="/blog/2021/9/7/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%8A%80%E6%9C%AF-ai-2021-9-7-AI-%E7%AC%AC%E4%BA%8C%E8%8A%82%EF%BC%88%E7%BB%98%E5%9B%BE%EF%BC%89/">AI 第二节（绘图）</a>
           </li>
         
-          <li>
-            <a href="/blog/2021/9/4/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%8A%80%E6%9C%AF-web-develop-HTML5-CSS3-first-html/">(no title)</a>
-          </li>
-        
       </ul>
     </div>
   </div>
@@ -624,7 +679,7 @@ mscl docking glide(autodock), online programme()
     <div id="footer-info" class="inner">
       
       &copy; 2021 FY-Han<br>
-      Propulsé par <a href="https://hexo.io/" target="_blank">Hexo</a>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
     </div>
   </div>
 </footer>
