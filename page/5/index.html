@@ -1,0 +1,1267 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="https://fy-han.github.io.git/page/5/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:locale">
+<meta property="article:author" content="FY-Han">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Suche"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Suche"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://FY-Han.github.io.git"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main">
+  
+    <article id="post-科研学习-分子模拟-GAUSSIAN-2021-3-27-Gaussian-入门-2021-3-27-Gaussian-入门" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/blog/2021/3/27/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%88%86%E5%AD%90%E6%A8%A1%E6%8B%9F-GAUSSIAN-2021-3-27-Gaussian-%E5%85%A5%E9%97%A8-2021-3-27-Gaussian-%E5%85%A5%E9%97%A8/" class="article-date">
+  <time class="dt-published" datetime="2021-03-27T06:19:43.000Z" itemprop="datePublished">2021-03-27</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/blog/2021/3/27/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%88%86%E5%AD%90%E6%A8%A1%E6%8B%9F-GAUSSIAN-2021-3-27-Gaussian-%E5%85%A5%E9%97%A8-2021-3-27-Gaussian-%E5%85%A5%E9%97%A8/">Gaussian 入门</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="Gaussian入门流程"><a href="#Gaussian入门流程" class="headerlink" title="Gaussian入门流程"></a>Gaussian入门流程</h2><ol>
+<li><p>装软件可以用su -命令获取管理员身份<br> path里/home表示根目录，最开始要有/<br> 绝对路径 ~/.bashrc打开<br> <strong>.bashrc修改完后 source ~/.bashrc 而不必重新进终端，或者断开连接 但记得要重启一下</strong></p>
+<p> 没装Gaussian 只装了view submit是灰的，可以点击edit导出保存<br>有机分子建构</p>
+</li>
+<li>水分子频率流程<ul>
+<li>用win里的view建立gjf输入文件<ul>
+<li>view里画好在紫框左键点一下</li>
+<li>右键calculate 然后setup<ul>
+<li>Jobtype：opt 能量优化 可以再加一个freq</li>
+<li>方法基态 hartree-fock </li>
+<li>基组3-21G</li>
+</ul>
+</li>
+<li>弹出窗口改linux路径</li>
+</ul>
+</li>
+<li>导入linux  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">g09 file.gjf</span><br></pre></td></tr></table></figure>
+<ul>
+<li>之前不改路径就报错<br>  ntrex1: Bad file descriptor<br>不是大小写问题，打开文件看看，可能是路径问题，保留了win路径<br>也有可能因为是win生成的文本文件，需要把unix格式转为dos格式，使用dos2unix命令<br>  dos2unix file1 file2</li>
+</ul>
+</li>
+<li>生成二进制chk和log文件<br>  用命令生成fchk文本文件，chk是二进制文件<pre><code>  formchk xxx.chk
+</code></pre></li>
+<li>可以把log导入view然后在result选项选frequency</li>
+</ul>
+</li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://fy-han.github.io.git/blog/2021/3/27/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%88%86%E5%AD%90%E6%A8%A1%E6%8B%9F-GAUSSIAN-2021-3-27-Gaussian-%E5%85%A5%E9%97%A8-2021-3-27-Gaussian-%E5%85%A5%E9%97%A8/" data-id="ckv9qu27o002l5cu54lh51m1s" data-title="Gaussian 入门" class="article-share-link">Teilen</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Gaussian/" rel="tag">Gaussian</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-2021周报-1季度-2021-3-22-至3-28周报-2021-3-22-至3-28周报" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/blog/2021/3/22/2021%E5%91%A8%E6%8A%A5-1%E5%AD%A3%E5%BA%A6-2021-3-22-%E8%87%B33-28%E5%91%A8%E6%8A%A5-2021-3-22-%E8%87%B33-28%E5%91%A8%E6%8A%A5/" class="article-date">
+  <time class="dt-published" datetime="2021-03-22T15:24:45.000Z" itemprop="datePublished">2021-03-22</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/blog/2021/3/22/2021%E5%91%A8%E6%8A%A5-1%E5%AD%A3%E5%BA%A6-2021-3-22-%E8%87%B33-28%E5%91%A8%E6%8A%A5-2021-3-22-%E8%87%B33-28%E5%91%A8%E6%8A%A5/">至3.28周报</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        Here's something encrypted, password is required to continue reading.
+        
+          <p class="article-more-link">
+            <a href="/blog/2021/3/22/2021%E5%91%A8%E6%8A%A5-1%E5%AD%A3%E5%BA%A6-2021-3-22-%E8%87%B33-28%E5%91%A8%E6%8A%A5-2021-3-22-%E8%87%B33-28%E5%91%A8%E6%8A%A5/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://fy-han.github.io.git/blog/2021/3/22/2021%E5%91%A8%E6%8A%A5-1%E5%AD%A3%E5%BA%A6-2021-3-22-%E8%87%B33-28%E5%91%A8%E6%8A%A5-2021-3-22-%E8%87%B33-28%E5%91%A8%E6%8A%A5/" data-id="ckv9qu274000v5cu5cqns6bi3" data-title="至3.28周报" class="article-share-link">Teilen</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%91%A8%E6%8A%A5/" rel="tag">周报</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-科研学习-分子模拟-GMX-2021-3-22-gmx入门-1-类比amber-2021-3-22-gmx入门-1-类比amber" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/blog/2021/3/22/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%88%86%E5%AD%90%E6%A8%A1%E6%8B%9F-GMX-2021-3-22-gmx%E5%85%A5%E9%97%A8-1-%E7%B1%BB%E6%AF%94amber-2021-3-22-gmx%E5%85%A5%E9%97%A8-1-%E7%B1%BB%E6%AF%94amber/" class="article-date">
+  <time class="dt-published" datetime="2021-03-22T05:49:31.000Z" itemprop="datePublished">2021-03-22</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/blog/2021/3/22/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%88%86%E5%AD%90%E6%A8%A1%E6%8B%9F-GMX-2021-3-22-gmx%E5%85%A5%E9%97%A8-1-%E7%B1%BB%E6%AF%94amber-2021-3-22-gmx%E5%85%A5%E9%97%A8-1-%E7%B1%BB%E6%AF%94amber/">gmx入门-1.类比amber</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <ul>
+<li>GROMACS流程（使用GMX-5.0）</li>
+</ul>
+<p>gmx help (module) 或 gmx (module) -h</p>
+<p>学了AMBER之后来理解GROMACS更舒服了，而且中文讲解更清晰，AMBER在核酸领域比GROMACS更强，蛋白质差不多，材料领域用LAMMPS<br>本来想学gaussian的，但是gaussian还没弄到win版，先学gromacs吧<br><img src='https://img.imgdb.cn/item/60583dd98322e6675c704344.png' width="450"><br>pdb文件——gmx=tleap 产生gro和top两个文件——gro处理后用于溶剂化+坐标文件mdp写复合文件tpr </p>
+<ul>
+<li><p>预平衡（以毒素肽为例）<br>  不是必需的，看初始结构是否平衡。包括：</p>
+<ol>
+<li>能量最小化：使得MD时快速达到平衡，也可以补充需要的离子然后min</li>
+<li>蛋白质位置限制性模拟：限制重原子维持蛋白质结构，放开蛋白质分子的位置限制进行模拟</li>
+<li><p>NVT预平衡：先做NVT减小盒子内压力，防NPT时体系崩溃，再做NPT<br>综上：min-NVT-NPT</p>
+<h4 id="处理pdb"><a href="#处理pdb" class="headerlink" title="处理pdb"></a>处理pdb</h4></li>
+</ol>
+<ul>
+<li>上网下载：wget <a target="_blank" rel="noopener" href="http://www.rcsb.org/pdb/files/1OMB.pdb">http://www.rcsb.org/pdb/files/1OMB.pdb</a></li>
+<li><p>需要处理的方面包括但不限于:<br>  · 氢原子<br>  · C端氧原子<br>  · 结晶水<br>  · 缺失原子/残基/侧链<br>  · 二硫键<br>  · 带电残基</p>
+</li>
+<li><p>对于1OMB：去氢加上末尾C端结束的氧原子及其类型OXT<strong>使用win上 deepview转换，并去掉<em>SPDBV</em>开头行，直接到END就好</strong><br>  Build-&gt;Add C-terminal Oxygen (OXT)<br>  File-&gt;Save-&gt;Current Layer</p>
+</li>
+<li><p>注意，优秀的ftp系统能够处理Win-Linux的文本转换，但最好<br>  to_unix filename filename</p>
+<p>  RedHat系统还可以用：dos2unix</p>
+<p><strong>fws.pdb</strong>文件中已经不含氢原子, 删除了SEQRES, SHEET, SSBOND, CONECT信息, 并且添加了OXT原子.</p>
+<h4 id="gmx获取拓扑—-pdb2gmx-module"><a href="#gmx获取拓扑—-pdb2gmx-module" class="headerlink" title="gmx获取拓扑—-pdb2gmx module"></a>gmx获取拓扑—-pdb2gmx module</h4><p>gmx-5.x<br>  gmx pdb2gmx -f fws.pdb -o fws.gro -p fws.top -i fws.itp -ff amber99sb-ildn -water tip3p -ignh<br>忽略氢，力场amber99sb-ILDN file：pdb，输出gromacs文件，输出top文件，水盒子<br>产生结构文件gro，拓扑文件top，位置限制文件itp<br>可以不用ff，会问你用哪个力场</p>
+<p>  -ignh: 忽略氢原子,因本pdb文件来自NMR，含氢。统一使用GROMOS力场的氢原子命名规则, 以免名称不一致.<br>  -ff: 指定使用的力场. 用Amber99SB-ILDN力场. 也可以使用其他力场, 根据体系选择.<br>  -f: 指定预处理的蛋白质结构文件<br>  -o: 指定新生成的GROMACS文件名(也可以是其它的文件类型, 如pdb)<br>  -p: 指定新生成的拓扑文件名, 包含所有原子及原子间的相互作用参数<br>  -water: 指定水模型. 使用TIP3P水模型. 也可以使用如SPC/E.</p>
+<p>  gmx pdb2gmx [-f [&lt;.gro/.g96/…&gt;]] [-o [&lt;.gro/.g96/…&gt;]] [-p [&lt;.top&gt;]]</p>
+<pre><code>  [-i [&lt;.itp&gt;]] [-n [&lt;.ndx&gt;]] [-q [&lt;.gro/.g96/...&gt;]]
+  [-chainsep &lt;enum&gt;] [-merge &lt;enum&gt;] [-ff &lt;string&gt;] [-water &lt;enum&gt;]
+  [-[no]inter] [-[no]ss] [-[no]ter] [-[no]lys] [-[no]arg]
+  [-[no]asp] [-[no]glu] [-[no]gln] [-[no]his] [-angle &lt;real&gt;]
+  [-dist &lt;real&gt;] [-[no]una] [-[no]ignh] [-[no]missing] [-[no]v]
+  [-posrefc &lt;real&gt;] [-vsite &lt;enum&gt;] [-[no]heavyh] [-[no]deuterate]
+  [-[no]chargegrp] [-[no]cmap] [-[no]renum] [-[no]rtpres]
+
+  -o      [&lt;.gro/.g96/...&gt;]  (conf.gro)  Structure file: gro g96 pdb brk ent esp
+  -p      [&lt;.top&gt;]           (topol.top)       Topology file
+  -i      [&lt;.itp&gt;]           (posre.itp)         Include file for topology
+</code></pre><h4 id="建模拟溶剂盒子—-editconf-module-或许可以删除"><a href="#建模拟溶剂盒子—-editconf-module-或许可以删除" class="headerlink" title="建模拟溶剂盒子—-editconf module(或许可以删除)"></a>建模拟溶剂盒子—-editconf module(或许可以删除)</h4><p>gmx-5.x<br>  gmx editconf -f fws.gro -o fws-PB.gro -bt dodecahedron -d 1.2<br>-f: 输入蛋白结构<br>-o: 输出带模拟周期性溶剂盒子信息的结构文件 perodic box PB<br>-bt: 默认使用长方盒子, 可以使用-bt选项改变盒子类型, 如八面体, 十二面体等，菱形十二面体盒子接近球形, 计算效率最高<br>-d: 蛋白与模拟盒子在X, Y, Z方向上的最小距离，不能小于0.9 nm<br>生成一个 xxx-PBC.gro文件,得到了置于周期性菱形盒子中的蛋白质分子</p>
+<p>  gmx editconf [-f [&lt;.gro/.g96/…&gt;]] [-n [&lt;.ndx&gt;]] [-bf [&lt;.dat&gt;]]</p>
+<pre><code>   [-o [&lt;.gro/.g96/...&gt;]] [-mead [&lt;.pqr&gt;]] [-[no]w] [-[no]ndef]
+   [-bt &lt;enum&gt;] [-box &lt;vector&gt;] [-angles &lt;vector&gt;] [-d &lt;real&gt;]
+   [-[no]c] [-center &lt;vector&gt;] [-aligncenter &lt;vector&gt;]
+   [-align &lt;vector&gt;] [-translate &lt;vector&gt;] [-rotate &lt;vector&gt;]
+   [-[no]princ] [-scale &lt;vector&gt;] [-density &lt;real&gt;] [-[no]pbc]
+   [-resnr &lt;int&gt;] [-[no]grasp] [-rvdw &lt;real&gt;] [-[no]sig56]
+   [-[no]vdwread] [-[no]atom] [-[no]legend] [-label &lt;string&gt;]
+   [-[no]conect]
+</code></pre><p>   -bt     <enum>             (triclinic)</p>
+<pre><code> Box type for -box and -d: triclinic, cubic, dodecahedron,
+ octahedron
+</code></pre><p>  -box    <vector>           (0 0 0)</p>
+<pre><code>  Box vector lengths (a,b,c)
+</code></pre><p>  -angles <vector>           (90 90 90)</p>
+<pre><code> Angles between the box vectors (bc,ac,ab)
+</code></pre><p>  -d      <real>             (0)</p>
+<pre><code> Distance between the solute and the box
+
+  可用于转换GROMACS文件(*.gro)和pdb文件(*.pdb) 
+      &#39;&#39;&#39;
+          editconf -f file.gro -o file.pdb 
+      &#39;&#39;&#39;
+</code></pre><p>（添加离子？）gmx genion -s </p>
+<h4 id="真空能量最小化-vac-min-准备—-grompp-module"><a href="#真空能量最小化-vac-min-准备—-grompp-module" class="headerlink" title="真空能量最小化 (vac min)准备—-grompp module"></a>真空能量最小化 (vac min)准备—-grompp module</h4><p>   gmx grompp -f fws-VM.mdp -c fws-PB.gro -p fws.top -o fws-VM.tpr -maxwarn 1</p>
+</li>
+<li><p>参数文件mdp，GROMACS预处理器grompp(即gromacs pre-processor的缩写)进行处理。注：shift/cutoff的单位为nm, UA=united atom, AA=all-atom, DispCorr只能和周期性边界条件一起使用.<br>  vac-min-fws.mdp<br>  ; 传递给预处理器的一些定义<br>  define          = -DFLEXIBLE    ; 使用柔性水模型而非刚性模型, 这样最陡下降法可进一步最小化能量</p>
+<p>  ; 模拟类型, 结束控制, 输出控制参数<br>  integrator      = steep         ; 指定使用最陡下降法进行能量最小化. 若设为<code>cg</code>则使用共轭梯度法<br>  emtol           = 500.0         ; 若力的最大值小于此值则认为能量最小化收敛(单位kJ mol^-1^ nm^-1^)<br>  emstep          = 0.01          ; 初始步长(nm)<br>  nsteps          = 1000          ; 在能量最小化中, 指定最大迭代次数<br>  nstenergy       = 10            ; 能量写出频率<br>  energygrps      = System        ; 要写出的能量组</p>
+<p>  ; 近邻列表, 相互作用计算参数<br>  nstlist         = 1             ; 更新近邻列表的频率. 1表示每步都更新<br>  ns_type         = grid          ; 近邻列表确定方法(simple或grid)<br>  coulombtype     = PME           ; 计算长程静电的方法. PME为粒子网格Ewald方法, 还可以使用cut-off<br>  rlist           = 1.0           ; 短程力近邻列表的截断值<br>  rcoulomb        = 1.0           ; 长程库仑力的截断值<br>  vdwtype         = cut-off       ; 计算范德华作用的方法<br>  rvdw            = 1.0           ; 范德华距离截断值<br>  constraints     = none          ; 设置模型中使用的约束<br>  pbc             = xyz           ; 3维周期性边界条件</p>
+</li>
+<li><p>这里有一个初学者的bug，似乎与top文件电荷未处理有关，论坛指出加一个-maxwarn 1就好了，产生mdout.mdp和运行输入文件fws-VM.tpr（动力学输入文件，包括压缩的初始结构，拓扑，模拟力场信息）</p>
+<p>  gmx grompp [-f [&lt;.mdp&gt;]] [-c [&lt;.gro/.g96/…&gt;]] [-r [&lt;.gro/.g96/…&gt;]]</p>
+<pre><code> [-rb [&lt;.gro/.g96/...&gt;]] [-n [&lt;.ndx&gt;]] [-p [&lt;.top&gt;]]
+ [-t [&lt;.trr/.cpt/...&gt;]] [-e [&lt;.edr&gt;]] [-ref [&lt;.trr/.cpt/...&gt;]]
+ [-po [&lt;.mdp&gt;]] [-pp [&lt;.top&gt;]] [-o [&lt;.tpr&gt;]] [-imd [&lt;.gro&gt;]]
+ [-[no]v] [-time &lt;real&gt;] [-[no]rmvsbds] [-maxwarn &lt;int&gt;]
+ [-[no]zero] [-[no]renum]
+</code></pre><p>  Options to specify input files:<br>  -f      [&lt;.mdp&gt;]           (grompp.mdp)</p>
+<pre><code>      grompp input file with MD parameters
+</code></pre><p>  -c      [&lt;.gro/.g96/…&gt;]  (conf.gro)</p>
+<pre><code>      Structure file: gro g96 pdb brk ent esp tpr
+</code></pre><p>  -r      [&lt;.gro/.g96/…&gt;]  (restraint.gro)  (Opt.)</p>
+<pre><code>      Structure file: gro g96 pdb brk ent esp tpr
+</code></pre><p>  -rb     [&lt;.gro/.g96/…&gt;]  (restraint.gro)  (Opt.)</p>
+<pre><code>      Structure file: gro g96 pdb brk ent esp tpr
+</code></pre><p>  -n      [&lt;.ndx&gt;]           (index.ndx)      (Opt.)</p>
+<pre><code>      Index file
+</code></pre><p>  -p      [&lt;.top&gt;]           (topol.top)</p>
+<pre><code>      Topology file
+</code></pre><p>  -t      [&lt;.trr/.cpt/…&gt;]  (traj.trr)       (Opt.)</p>
+<pre><code>      Full precision trajectory: trr cpt tng
+</code></pre><p>  -e      [&lt;.edr&gt;]           (ener.edr)       (Opt.)</p>
+<pre><code>      Energy file
+</code></pre><p>  Options to specify input/output files:<br>  -ref    [&lt;.trr/.cpt/…&gt;]  (rotref.trr)     (Opt.)</p>
+<pre><code>      Full precision trajectory: trr cpt tng
+</code></pre><p>  Options to specify output files:<br>  -po     [&lt;.mdp&gt;]           (mdout.mdp)</p>
+<pre><code>      grompp input file with MD parameters
+</code></pre><p>  -pp     [&lt;.top&gt;]           (processed.top)  (Opt.)</p>
+<pre><code>      Topology file
+</code></pre><p>  -o      [&lt;.tpr&gt;]           (topol.tpr)</p>
+<pre><code>      Portable xdr run input file
+</code></pre><p>  -imd    [&lt;.gro&gt;]           (imdgroup.gro)   (Opt.)</p>
+<pre><code>      Coordinate file in Gromos-87 format
+</code></pre><p>  Other options:<br>  -[no]v                     (no)</p>
+<pre><code>      Be loud and noisy
+</code></pre><p>  -time   <real>             (-1)</p>
+<pre><code>      Take frame at or first after this time.
+</code></pre><p>  -[no]rmvsbds               (yes)</p>
+<pre><code>      Remove constant bonded interactions with virtual sites
+</code></pre><p>  -maxwarn <int>             (0)</p>
+<pre><code>      Number of allowed warnings during input processing. Not for normal
+      use and may generate unstable systems
+</code></pre><p>  -[no]zero                  (no)</p>
+<pre><code>      Set parameters for bonded interactions without defaults to zero
+      instead of generating an error
+</code></pre><p>  -[no]renum                 (yes)</p>
+<pre><code>      Renumber atomtypes and minimize number of atomtypes
+</code></pre><h4 id="跑个动力学能量最小化—-mdrun-值得研究参数"><a href="#跑个动力学能量最小化—-mdrun-值得研究参数" class="headerlink" title="跑个动力学能量最小化—-mdrun(值得研究参数)"></a>跑个动力学能量最小化—-mdrun(值得研究参数)</h4><p>  gmx mdrun -v -deffnm fws-VM</p>
+</li>
+<li>用tpr文件做md能量最小化</li>
+<li>-deffnm指定默认的文件名称, -v显示模拟过程中的信息</li>
+<li>注：我们得到了日志文件fws-VM.log, 全精度轨迹文件fws-VM.trr, 能量文件fws-VM.edr, 能量最小化后的结构文件fws-VM.gro.</li>
+<li>说明: 如果最小化不收敛, 可以将nsteps的数值增大再重新提交一次. 要重新提交作业的话, 你需要重新运行grompp.   </li>
+<li><p>对能量最小化的讨论 <a target="_blank" rel="noopener" href="http://mdbbs.org/thread-22150-1-1.html">http://mdbbs.org/thread-22150-1-1.html</a></p>
+<pre><code>  gmx mdrun [-s [&lt;.tpr&gt;]] [-cpi [&lt;.cpt&gt;]] [-table [&lt;.xvg&gt;]] [-tablep [&lt;.xvg&gt;]]
+  [-tableb [&lt;.xvg&gt; [...]]] [-rerun [&lt;.xtc/.trr/...&gt;]] [-ei [&lt;.edi&gt;]]
+  [-multidir [&lt;dir&gt; [...]]] [-awh [&lt;.xvg&gt;]] [-membed [&lt;.dat&gt;]]
+  [-mp [&lt;.top&gt;]] [-mn [&lt;.ndx&gt;]] [-o [&lt;.trr/.cpt/...&gt;]]
+  [-x [&lt;.xtc/.tng&gt;]] [-cpo [&lt;.cpt&gt;]] [-c [&lt;.gro/.g96/...&gt;]]
+  [-e [&lt;.edr&gt;]] [-g [&lt;.log&gt;]] [-dhdl [&lt;.xvg&gt;]] [-field [&lt;.xvg&gt;]]
+  [-tpi [&lt;.xvg&gt;]] [-tpid [&lt;.xvg&gt;]] [-eo [&lt;.xvg&gt;]] [-devout [&lt;.xvg&gt;]]
+  [-runav [&lt;.xvg&gt;]] [-px [&lt;.xvg&gt;]] [-pf [&lt;.xvg&gt;]] [-ro [&lt;.xvg&gt;]]
+  [-ra [&lt;.log&gt;]] [-rs [&lt;.log&gt;]] [-rt [&lt;.log&gt;]] [-mtx [&lt;.mtx&gt;]]
+  [-if [&lt;.xvg&gt;]] [-swap [&lt;.xvg&gt;]] [-deffnm &lt;string&gt;] [-xvg &lt;enum&gt;]
+  [-dd &lt;vector&gt;] [-ddorder &lt;enum&gt;] [-npme &lt;int&gt;] [-nt &lt;int&gt;]
+  [-ntmpi &lt;int&gt;] [-ntomp &lt;int&gt;] [-ntomp_pme &lt;int&gt;] [-pin &lt;enum&gt;]
+  [-pinoffset &lt;int&gt;] [-pinstride &lt;int&gt;] [-gpu_id &lt;string&gt;]
+  [-gputasks &lt;string&gt;] [-[no]ddcheck] [-rdd &lt;real&gt;] [-rcon &lt;real&gt;]
+  [-dlb &lt;enum&gt;] [-dds &lt;real&gt;] [-gcom &lt;int&gt;] [-nb &lt;enum&gt;]
+  [-nstlist &lt;int&gt;] [-[no]tunepme] [-pme &lt;enum&gt;] [-pmefft &lt;enum&gt;]
+  [-bonded &lt;enum&gt;] [-[no]v] [-pforce &lt;real&gt;] [-[no]reprod]
+  [-cpt &lt;real&gt;] [-[no]cpnum] [-[no]append] [-nsteps &lt;int&gt;]
+  [-maxh &lt;real&gt;] [-replex &lt;int&gt;] [-nex &lt;int&gt;] [-reseed &lt;int&gt;]
+</code></pre><p>  -deffnm 统一所有文件名称<br>  -x 可以将所有文件压缩进xtc或者是tng文件<br>  -mtx 导出hessian matrix</p>
+<pre><code>  -s      [&lt;.tpr&gt;]           (topol.tpr)
+  Portable xdr run input file
+  -cpi    [&lt;.cpt&gt;]           (state.cpt)      (Opt.)
+          Checkpoint file
+  -table  [&lt;.xvg&gt;]           (table.xvg)      (Opt.)
+          xvgr/xmgr file
+  -tablep [&lt;.xvg&gt;]           (tablep.xvg)     (Opt.)
+          xvgr/xmgr file
+  -tableb [&lt;.xvg&gt; [...]]     (table.xvg)      (Opt.)
+          xvgr/xmgr file
+  -rerun  [&lt;.xtc/.trr/...&gt;]  (rerun.xtc)      (Opt.)
+          Trajectory: xtc trr cpt gro g96 pdb tng
+  -ei     [&lt;.edi&gt;]           (sam.edi)        (Opt.)
+          ED sampling input
+  -multidir [&lt;dir&gt; [...]]    (rundir)         (Opt.)
+          Run directory
+  -awh    [&lt;.xvg&gt;]           (awhinit.xvg)    (Opt.)
+          xvgr/xmgr file
+  -membed [&lt;.dat&gt;]           (membed.dat)     (Opt.)
+          Generic data file
+  -mp     [&lt;.top&gt;]           (membed.top)     (Opt.)
+          Topology file
+  -mn     [&lt;.ndx&gt;]           (membed.ndx)     (Opt.)
+          Index file
+
+  Options to specify output files:
+  -o      [&lt;.trr/.cpt/...&gt;]  (traj.trr)
+          Full precision trajectory: trr cpt tng
+  -x      [&lt;.xtc/.tng&gt;]      (traj_comp.xtc)  (Opt.)
+          Compressed trajectory (tng format or portable xdr format)
+  -cpo    [&lt;.cpt&gt;]           (state.cpt)      (Opt.)
+          Checkpoint file
+  -c      [&lt;.gro/.g96/...&gt;]  (confout.gro)
+          Structure file: gro g96 pdb brk ent esp
+  -e      [&lt;.edr&gt;]           (ener.edr)
+          Energy file
+  -g      [&lt;.log&gt;]           (md.log)
+          Log file
+  -dhdl   [&lt;.xvg&gt;]           (dhdl.xvg)       (Opt.)
+          xvgr/xmgr file
+  -field  [&lt;.xvg&gt;]           (field.xvg)      (Opt.)
+          xvgr/xmgr file
+  -tpi    [&lt;.xvg&gt;]           (tpi.xvg)        (Opt.)
+          xvgr/xmgr file
+  -tpid   [&lt;.xvg&gt;]           (tpidist.xvg)    (Opt.)
+          xvgr/xmgr file
+  -eo     [&lt;.xvg&gt;]           (edsam.xvg)      (Opt.)
+          xvgr/xmgr file
+  -devout [&lt;.xvg&gt;]           (deviatie.xvg)   (Opt.)
+          xvgr/xmgr file
+  -runav  [&lt;.xvg&gt;]           (runaver.xvg)    (Opt.)
+          xvgr/xmgr file
+  -px     [&lt;.xvg&gt;]           (pullx.xvg)      (Opt.)
+          xvgr/xmgr file
+  -pf     [&lt;.xvg&gt;]           (pullf.xvg)      (Opt.)
+          xvgr/xmgr file
+  -ro     [&lt;.xvg&gt;]           (rotation.xvg)   (Opt.)
+          xvgr/xmgr file
+  -ra     [&lt;.log&gt;]           (rotangles.log)  (Opt.)
+          Log file
+  -rs     [&lt;.log&gt;]           (rotslabs.log)   (Opt.)
+          Log file
+  -rt     [&lt;.log&gt;]           (rottorque.log)  (Opt.)
+          Log file
+  -mtx    [&lt;.mtx&gt;]           (nm.mtx)         (Opt.)
+          Hessian matrix
+  -if     [&lt;.xvg&gt;]           (imdforces.xvg)  (Opt.)
+          xvgr/xmgr file
+  -swap   [&lt;.xvg&gt;]           (swapions.xvg)   (Opt.)
+          xvgr/xmgr file
+
+  Other options:
+
+  -deffnm &lt;string&gt;
+          Set the default filename for all file options
+  -xvg    &lt;enum&gt;             (xmgrace)
+          xvg plot formatting: xmgrace, xmgr, none
+  -dd     &lt;vector&gt;           (0 0 0)
+          Domain decomposition grid, 0 is optimize
+  -ddorder &lt;enum&gt;            (interleave)
+          DD rank order: interleave, pp_pme, cartesian
+  -npme   &lt;int&gt;              (-1)
+          Number of separate ranks to be used for PME, -1 is guess
+  -nt     &lt;int&gt;              (0)
+          Total number of threads to start (0 is guess)
+  -ntmpi  &lt;int&gt;              (0)
+          Number of thread-MPI ranks to start (0 is guess)
+  -ntomp  &lt;int&gt;              (0)
+          Number of OpenMP threads per MPI rank to start (0 is guess)
+  -ntomp_pme &lt;int&gt;           (0)
+          Number of OpenMP threads per MPI rank to start (0 is -ntomp)
+  -pin    &lt;enum&gt;             (auto)
+          Whether mdrun should try to set thread affinities: auto, on, off
+  -pinoffset &lt;int&gt;           (0)
+          The lowest logical core number to which mdrun should pin the first
+          thread
+  -pinstride &lt;int&gt;           (0)
+          Pinning distance in logical cores for threads, use 0 to minimize
+          the number of threads per physical core
+  -gpu_id &lt;string&gt;
+          List of unique GPU device IDs available to use
+  -gputasks &lt;string&gt;
+          List of GPU device IDs, mapping each PP task on each node to a
+          device
+  -[no]ddcheck               (yes)
+          Check for all bonded interactions with DD
+  -rdd    &lt;real&gt;             (0)
+          The maximum distance for bonded interactions with DD (nm), 0 is
+          determine from initial coordinates
+  -rcon   &lt;real&gt;             (0)
+          Maximum distance for P-LINCS (nm), 0 is estimate
+  -dlb    &lt;enum&gt;             (auto)
+          Dynamic load balancing (with DD): auto, no, yes
+  -dds    &lt;real&gt;             (0.8)
+          Fraction in (0,1) by whose reciprocal the initial DD cell size will
+          be increased in order to provide a margin in which dynamic load
+          balancing can act while preserving the minimum cell size.
+  -gcom   &lt;int&gt;              (-1)
+          Global communication frequency
+  -nb     &lt;enum&gt;             (auto)
+          Calculate non-bonded interactions on: auto, cpu, gpu
+  -nstlist &lt;int&gt;             (0)
+          Set nstlist when using a Verlet buffer tolerance (0 is guess)
+  -[no]tunepme               (yes)
+          Optimize PME load between PP/PME ranks or GPU/CPU (only with the
+          Verlet cut-off scheme)
+  -pme    &lt;enum&gt;             (auto)
+          Perform PME calculations on: auto, cpu, gpu
+  -pmefft &lt;enum&gt;             (auto)
+          Perform PME FFT calculations on: auto, cpu, gpu
+  -bonded &lt;enum&gt;             (auto)
+          Perform bonded calculations on: auto, cpu, gpu
+  -[no]v                     (no)
+          Be loud and noisy
+  -pforce &lt;real&gt;             (-1)
+          Print all forces larger than this (kJ/mol nm)
+  -[no]reprod                (no)
+          Try to avoid optimizations that affect binary reproducibility
+  -cpt    &lt;real&gt;             (15)
+          Checkpoint interval (minutes)
+  -[no]cpnum                 (no)
+          Keep and number checkpoint files
+  -[no]append                (yes)
+          Append to previous output files when continuing from checkpoint
+          instead of adding the simulation part number to all file names
+  -nsteps &lt;int&gt;              (-2)
+          Run this number of steps (-1 means infinite, -2 means use mdp
+          option, smaller is invalid)
+  -maxh   &lt;real&gt;             (-1)
+          Terminate after 0.99 times this time (hours)
+  -replex &lt;int&gt;              (0)
+          Attempt replica exchange periodically with this period (steps)
+  -nex    &lt;int&gt;              (0)
+          Number of random exchanges to carry out each exchange interval (N^3
+          is one suggestion).  -nex zero or not specified gives neighbor
+          replica exchange.
+  -reseed &lt;int&gt;              (-1)
+          Seed for replica exchange, -1 is generate a seed
+</code></pre><h4 id="溶剂化再最小化"><a href="#溶剂化再最小化" class="headerlink" title="溶剂化再最小化"></a>溶剂化再最小化</h4><p>gmx-5.x<br>  gmx solvate -cp fws-VM.gro -cs spc216.gro -p fws.top -o fws-ion.gro</p>
+</li>
+<li><p>-cp指定需要填充水分子的体系, 带模拟蛋白盒子, -cs指定使用SPC水模型进行填充, spc216是GROMACS统一的三位点水分子结构, -p修改体系的拓扑文件, 加入相应水分子的物理参数 -o指定填充水分子后的输出文件.</p>
+<p>  最小化参数文件</p>
+<pre><code>  fws-VM-sol.mdp
+      define          = -DFLEXIBLE
+
+      integrator      = steep
+      emtol           = 250.0
+      nsteps          = 5000
+      nstenergy       = 10
+      energygrps      = System
+
+      nstlist         = 1
+      ns_type         = grid
+      coulombtype     = PME
+      rlist           = 1.0
+      rcoulomb        = 1.0
+      rvdw            = 1.0
+      constraints     = none
+      pbc             = xyz
+</code></pre><p>准备命令同理<br>  gmx grompp -f fws-VM-sol.mdp -c fws-ion.gro -p fws.top -o ion.tpr -maxwarn 1</p>
+<h4 id="基于tpr文件加离子—-genion"><a href="#基于tpr文件加离子—-genion" class="headerlink" title="基于tpr文件加离子—-genion"></a>基于tpr文件加离子—-genion</h4><p>  gmx genion -s ion.tpr -o fws-b4em.gro -neutral -conc 0.15 -p fws.top</p>
+</li>
+<li>-neutral选项保证体系总的净电荷为零, 体系呈电中性, -conc选项设定需要的离子浓度(这里为0.15 M). -g选项指定输出日志文件的名称. -norandom选项会依据静电势来放置离子而不是随机放置(默认), 但我们在这里使用随机放置方法.</li>
+<li>运行这个命令时, 会提示选择一个连续的溶剂分子组, 选择13 (SOL), 回车, 程序会告知你有两个溶剂分子被氯离子代替. fws.top中会包含NA和CL离子. 注意, 这里出现的分子顺序必须与坐标文件中的一致.</li>
+<li><p>说明: genion默认使用的盐为NaCl. 如果你需要使用不同的阳离子和阴离子, 可使用-pname(阳离子)和-nname(阴离子)分别指定阴阳离子的名称(根据相应力场的ions.itp文件中离子的设定), 还可以使用-pn和-nn分别指定添加的阴离子数目.</p>
+<p>  gmx grompp -f fws-VM-sol.mdp -c fws-b4em.gro -p fws.top -o fws-VM-sol.tpr</p>
+<p>  gmx mdrun -v -deffnm fws-VM-sol</p>
+<h4 id="位置限制"><a href="#位置限制" class="headerlink" title="位置限制"></a>位置限制</h4><p>NVT<br>  gmx grompp -f nvt-pr-md.mdp -c fws-VM-sol.gro -p addoxt.top -o nvt-pr.tpr -r em-sol.gro -nt 8<br>报错：<br>  Cannot find position restraint file restraint.gro (option -r).From GROMACS-2018, you need to specify the position restraint coordinate files explicitly to avoid mistakes, although you can still use the same file as you specify for the -c option.</p>
+<ul>
+<li><p>版本迭代问题，在最新的教程下看到确实是加入了-r em-sol.gro<br>报错：<br>Fatal error:</p>
+<pre><code>There is no domain decomposition for 32 ranks that is compatible with the
+given box and a minimum cell size of 0.95325 nm
+Change the number of ranks or mdrun option -rcon or -dds or your LINCS
+settings
+</code></pre><ul>
+<li><p>与core的thread问题有关 命令后加个 -nt 1<br>  <a target="_blank" rel="noopener" href="https://jerkwin.github.io/GMX/GMXtut-10/#5-%E9%94%99%E8%AF%AF%E4%BF%A1%E6%81%AF">https://jerkwin.github.io/GMX/GMXtut-10/#5-%E9%94%99%E8%AF%AF%E4%BF%A1%E6%81%AF</a> 对问题的探讨<br>  <strong>或者不想那么多，改一个 -nt 2试试，-nt 1 真的太慢了感觉。</strong><br>  改成 -nt 8 线程明显快多了，不知道最高可以多少线程<br>  <strong>On 1 MPI rank, each using 8 OpenMP threads</strong></p>
+<ul>
+<li>并行运算<br>需要把盒子划分成小单元并行计算，使用PME方法计算计算静电相互作用时, 还可以指定一些节点单独用于PME计算, 这些节点被称为PME节点. GROMACS通常会自动进行这些设置, 但当模拟体系具有很高或很低的空间不均匀性时(例如, 模拟真空中的板块), 可能需要自己对这些设置进行调整以达到更好的性能. </li>
+</ul>
+</li>
+</ul>
+<p>位置限制性预平衡模拟，使溶剂和离子弛豫运动，然后等压升温。走一个NVT和一个NPT<br>说明: 当模拟运行时间较长时, 你可以使用后台运行方法, 如<br>gmx-4.x: nohup mdrun -deffnm npt-pr &amp;<br>gmx-5.x: nohup gmx mdrun -deffnm npt-pr &amp;<br>为检查模拟运行进度, 可使用tail命令查看日志文件, 如<br>tail -n 25 npt-pr.log<br>或者<br>tail -f npt-pr.log持续输出</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="这个教程挺好的"><a href="#这个教程挺好的" class="headerlink" title="这个教程挺好的"></a>这个教程挺好的</h2><p><a target="_blank" rel="noopener" href="http://www.mdtutorials.com/gmx/lysozyme/index.htmlhttp://www.mdtutorials.com/gmx/lysozyme/index.html">http://www.mdtutorials.com/gmx/lysozyme/index.htmlhttp://www.mdtutorials.com/gmx/lysozyme/index.html</a></p>
+<h2 id="Screen"><a href="#Screen" class="headerlink" title="Screen"></a>Screen</h2><p>screen -S 文件名<br>比nohup好用 screen ctrl+a +d退出 ctrl+r继续 screen -ls有哪些窗口 screen -r 数字恢复<br>screen -S session_name -X quit</p>
+<p>用top查看正在进行的进程</p>
+<p>screen命令详解，<a target="_blank" rel="noopener" href="https://www.cnblogs.com/mchina/archive/2013/01/30/2880680.html">https://www.cnblogs.com/mchina/archive/2013/01/30/2880680.html</a></p>
+<p>调mdp文件integrator为nm，而不是steep或者md</p>
+<h2 id="Hessian十进制化"><a href="#Hessian十进制化" class="headerlink" title="Hessian十进制化"></a>Hessian十进制化</h2><blockquote>
+<p>近来用GROMACS做简正模式分析（NMA）,做完之后，想做后续工作需要用到Hessian矩阵和特征值和特征向量。但是GMX输出的特征值是十进制格式，输出的Hessian(.mtx)和特征向量(.trr)都是二进制文件，无法直接读出。<br>结果花了好多天的力气，曾试图改GMX底层代码，看了好多天他的c文件，结果头大。无奈又翻了几遍手册，发现居然有专门读取GMX二进制文件的命令~ 具体操作如下<br>    gromacs 4.5版本 gmxdump -f xxx.trr -om xxx.mdp &gt;&gt;xxx.txt<br>    gromacs 5+版本 gmx dump -f xxx.trr -om xxx.mdp &gt;&gt;xxx.txt<br>这里如果不加上&gt;&gt;后边的这段，仅仅是写上xxx.mdp，是不会输出任何文件。我也不清楚为啥，只有将它转化为txt才有输出</p>
+</blockquote>
+<p>双精度文本不支持gpu加速</p>
+<h2 id="Gromacs有Python包gromacs-wrapper，Fl-studio也有python包"><a href="#Gromacs有Python包gromacs-wrapper，Fl-studio也有python包" class="headerlink" title="Gromacs有Python包gromacs wrapper，Fl studio也有python包"></a>Gromacs有Python包gromacs wrapper，Fl studio也有python包</h2><pre><code>数字特征分析：比如主要分布在哪里，（或者可以切片然后整体分析，值得考虑）
+    某个区和某个区配对排序，或者不同正则运动方式配对排序
+    排序后列矩阵，互为音高音强
+    每个音乐的特点
+    数字特征
+音乐
+</code></pre><p>所以能不能用python脚本处理输入的蛋白/分子结构然后输出个中国风音乐或者是电音？<br>    音阶了解一下</p>
+<pre><code>进一步的问题是如何写这个音乐了，如何模块化实现呢？
+
+不过可以先不在python框架下，而是先把流程实现了。
+顺便可以整点web的东西？
+</code></pre><p>（弯曲振动为音高，伸缩振动为音强）<br>eigenfreq.xvg<br>eigenval.xvg<br>eigenvec.trr</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://fy-han.github.io.git/blog/2021/3/22/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%88%86%E5%AD%90%E6%A8%A1%E6%8B%9F-GMX-2021-3-22-gmx%E5%85%A5%E9%97%A8-1-%E7%B1%BB%E6%AF%94amber-2021-3-22-gmx%E5%85%A5%E9%97%A8-1-%E7%B1%BB%E6%AF%94amber/" data-id="ckv9qu27w003f5cu5byzb7lww" data-title="gmx入门-1.类比amber" class="article-share-link">Teilen</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/gmx/" rel="tag">gmx</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-科研学习-分子模拟-AMBER-2021-3-21-A0-MD-2021-3-21-A0-MD" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/blog/2021/3/21/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%88%86%E5%AD%90%E6%A8%A1%E6%8B%9F-AMBER-2021-3-21-A0-MD-2021-3-21-A0-MD/" class="article-date">
+  <time class="dt-published" datetime="2021-03-21T02:44:15.000Z" itemprop="datePublished">2021-03-21</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/blog/2021/3/21/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%88%86%E5%AD%90%E6%A8%A1%E6%8B%9F-AMBER-2021-3-21-A0-MD-2021-3-21-A0-MD/">A0 MD</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="pmemd-跑MD流程"><a href="#pmemd-跑MD流程" class="headerlink" title="pmemd 跑MD流程"></a>pmemd 跑MD流程</h2><ol>
+<li>使用N卡（NVIDA）可以在GPU上跑，并行加速</li>
+<li>此前准备阶段已经生成了top和crd文件，需要进行能量最小化，升温两步达到平衡，然后MD模拟<br>注：溶剂盒子似乎影响电荷以及最小化过程</li>
+</ol>
+<ul>
+<li><p>创建三个文件 01_min.in 02_heat.in 03_MD.in<br><img src="https://img.imgdb.cn/item/6056ba00524f85ce293b31dc.png" width='450'><br><img src="https://img.imgdb.cn/item/6056ba4b524f85ce293b57dc.png" width='450'><br><img src="https://img.imgdb.cn/item/6056ba66524f85ce293b6469.png" width='450'><br><img src="https://img.imgdb.cn/item/6056ba81524f85ce293b7319.png" width='450'><br><img src="https://img.imgdb.cn/item/6056ba94524f85ce293b7c8f.png" width='450'></p>
+</li>
+<li><p>能量最小化<br>命令<br>  $AMBERHOME/bin/sander -O -i 01_min.in -o 01_min.out -p name.top -c name.crd -r 01_min.rst -inf 01_min.mdinfo<br>pmemd似乎做不了<br>拓扑文件（势能函数）不变，crd文件转为输出的rst文件里，包括坐标和速度</p>
+</li>
+<li>升温<br>命令</li>
+</ul>
+<p>利用min的rst和势能，输出升温后的轨迹文件，以及info。速度0.2s一百步，一万步20s</p>
+<ul>
+<li>MD<br>用sander可以实现</li>
+</ul>
+<p>pmemd更好，额外需要一个jobfile.sh跑显卡</p>
+<p>使用命令后台运行md并检查情况<br>    nohup ./Jobfile_production.sh &amp;<br>    nvidia-smi</p>
+<ul>
+<li><p>报错： </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">nohup: ignoring input and appending output to &#39;nohup.out&#39;</span><br><span class="line">nohup: failed to run command &#39;.&#x2F;jobfile_md.sh&#39;: Permission denied</span><br></pre></td></tr></table></figure>
+<p>  原因是nohup会把错误信息输出出来，但还没输出前就发现out文件输出位置没有权限建立文件<br>  使用Linux重定向，2代表错误输出，1代表标准输出，0代表标准输入。 只要让二者都不输出或者重新定向位置就好了。（这里似乎是都不输出）<br>使用<br>  chmod +x jobfile_md.sh<br>  nohup ./jobfile_md.sh 2&gt;log<br>把文本变得可执行，然后把问题输出到log里，报错不平衡，原子解散了，说明还不够平衡；当然也有可能是升温时间太短了？？<br>  ERROR: Calculation halted.  Periodic box dimensions have changed too much from their initial values.<br>  Your system density has likely changed by a large amount, probably from<br>  starting the simulation from a structure a long way from equilibrium.</p>
+<p>  [Although this error can also occur if the simulation has blown up for some reason]</p>
+<p>  The GPU code does not automatically reorganize grid cells and thus you<br>  will need to restart the calculation from the previous restart file.<br>  This will generate new grid cells and allow the calculation to continue.<br>  It may be necessary to repeat this restarting multiple times if your system<br>  is a long way from an equilibrated density.</p>
+<p>  Alternatively you can run with the CPU code until the density has converged<br>  and then switch back to the GPU code.</p>
+</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://fy-han.github.io.git/blog/2021/3/21/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%88%86%E5%AD%90%E6%A8%A1%E6%8B%9F-AMBER-2021-3-21-A0-MD-2021-3-21-A0-MD/" data-id="ckv9qu27m002h5cu5g3j10wvp" data-title="A0 MD" class="article-share-link">Teilen</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/AMBER/" rel="tag">AMBER</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-科研学习-分子模拟-AMBER-2021-3-21-AMBER-入门教程（四）-2021-3-21-AMBER-入门教程（四）" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/blog/2021/3/21/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%88%86%E5%AD%90%E6%A8%A1%E6%8B%9F-AMBER-2021-3-21-AMBER-%E5%85%A5%E9%97%A8%E6%95%99%E7%A8%8B%EF%BC%88%E5%9B%9B%EF%BC%89-2021-3-21-AMBER-%E5%85%A5%E9%97%A8%E6%95%99%E7%A8%8B%EF%BC%88%E5%9B%9B%EF%BC%89/" class="article-date">
+  <time class="dt-published" datetime="2021-03-21T02:29:35.000Z" itemprop="datePublished">2021-03-21</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/blog/2021/3/21/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%88%86%E5%AD%90%E6%A8%A1%E6%8B%9F-AMBER-2021-3-21-AMBER-%E5%85%A5%E9%97%A8%E6%95%99%E7%A8%8B%EF%BC%88%E5%9B%9B%EF%BC%89-2021-3-21-AMBER-%E5%85%A5%E9%97%A8%E6%95%99%E7%A8%8B%EF%BC%88%E5%9B%9B%EF%BC%89/">AMBER-入门教程（四）</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="氢质量重排HMR"><a href="#氢质量重排HMR" class="headerlink" title="氢质量重排HMR"></a>氢质量重排HMR</h2><p>可以进行更长时间的加速分子动力学模拟，降低大分子最高运动频率，避免了氢原子由于高频振动散架如步长可以调到4fs而不是2fs<br>文献原理：<a target="_blank" rel="noopener" href="https://pubs.acs.org/doi/full/10.1021/ct5010406">https://pubs.acs.org/doi/full/10.1021/ct5010406</a></p>
+<h2 id="脂质力场"><a href="#脂质力场" class="headerlink" title="脂质力场"></a>脂质力场</h2><p>（待看）</p>
+<h2 id="蛋白晶体模拟"><a href="#蛋白晶体模拟" class="headerlink" title="蛋白晶体模拟"></a>蛋白晶体模拟</h2><h2 id="室温离子液体模拟"><a href="#室温离子液体模拟" class="headerlink" title="室温离子液体模拟"></a>室温离子液体模拟</h2><h2 id="材料系统模拟"><a href="#材料系统模拟" class="headerlink" title="材料系统模拟"></a>材料系统模拟</h2><h2 id="用3D-RISM替代显式溶剂"><a href="#用3D-RISM替代显式溶剂" class="headerlink" title="用3D-RISM替代显式溶剂"></a>用3D-RISM替代显式溶剂</h2><h2 id="用CHARMM-GUI建立系统"><a href="#用CHARMM-GUI建立系统" class="headerlink" title="用CHARMM-GUI建立系统"></a>用CHARMM-GUI建立系统</h2><h2 id="Antechamber-小分子对接前准备"><a href="#Antechamber-小分子对接前准备" class="headerlink" title="Antechamber 小分子对接前准备"></a>Antechamber 小分子对接前准备</h2><p><a target="_blank" rel="noopener" href="https://xbwang.wordpress.com/2019/04/17/amber%E5%B0%8F%E5%88%86%E5%AD%90%E5%A4%84%E7%90%86/">https://xbwang.wordpress.com/2019/04/17/amber%E5%B0%8F%E5%88%86%E5%AD%90%E5%A4%84%E7%90%86/</a><br>注意mol2里 有连接性问题，可能把ar 变成了2，双键。正常都是可以做的。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://fy-han.github.io.git/blog/2021/3/21/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%88%86%E5%AD%90%E6%A8%A1%E6%8B%9F-AMBER-2021-3-21-AMBER-%E5%85%A5%E9%97%A8%E6%95%99%E7%A8%8B%EF%BC%88%E5%9B%9B%EF%BC%89-2021-3-21-AMBER-%E5%85%A5%E9%97%A8%E6%95%99%E7%A8%8B%EF%BC%88%E5%9B%9B%EF%BC%89/" data-id="ckv9qu27n002k5cu50fch9spl" data-title="AMBER-入门教程（四）" class="article-share-link">Teilen</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/AMBER/" rel="tag">AMBER</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-科研学习-分子模拟-AMBER-2021-3-20-Amber进阶-黑塞矩阵在哪里-2021-3-20-Amber进阶-黑塞矩阵在哪里" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/blog/2021/3/20/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%88%86%E5%AD%90%E6%A8%A1%E6%8B%9F-AMBER-2021-3-20-Amber%E8%BF%9B%E9%98%B6-%E9%BB%91%E5%A1%9E%E7%9F%A9%E9%98%B5%E5%9C%A8%E5%93%AA%E9%87%8C-2021-3-20-Amber%E8%BF%9B%E9%98%B6-%E9%BB%91%E5%A1%9E%E7%9F%A9%E9%98%B5%E5%9C%A8%E5%93%AA%E9%87%8C/" class="article-date">
+  <time class="dt-published" datetime="2021-03-20T08:41:43.000Z" itemprop="datePublished">2021-03-20</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/blog/2021/3/20/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%88%86%E5%AD%90%E6%A8%A1%E6%8B%9F-AMBER-2021-3-20-Amber%E8%BF%9B%E9%98%B6-%E9%BB%91%E5%A1%9E%E7%9F%A9%E9%98%B5%E5%9C%A8%E5%93%AA%E9%87%8C-2021-3-20-Amber%E8%BF%9B%E9%98%B6-%E9%BB%91%E5%A1%9E%E7%9F%A9%E9%98%B5%E5%9C%A8%E5%93%AA%E9%87%8C/">Amber进阶-黑塞矩阵在哪里</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <ol>
+<li><p>找手册</p>
+<ul>
+<li>1-7章提过了</li>
+<li>8章：经验共价键键模拟 计算反应<br>  基函数的概述 单个基函数由一个或多个原始高斯函数构成。例如，s-型基函数 φµ(r)是一个高斯分布型函数称为s-型基函数，一个壳层是一套有共同指数的基函数φµ。Gaussian支持任意角动量的壳层：s，p，d，f，g，h五层。一个s-壳层包含一个单独的s-型基函数。一个p-壳层包含三个基函数pX，pY和pZ。sp-壳层包含四个具有共同高斯指数的基函数：一个s-型函数和三个p-函数pX，pY和pZ。</li>
+<li>AMBER18里搜hessian发现有一个关于second derivative的，但似乎用到mme2，不懂，也没搜到<br>  有一个CartHess2FC.py的模块用了output Hessian 以为是它，实际上利用的是Gaussian输出的fchk文件<br>  小木虫上看到很成熟的利用Gaussian解决hessian乃至找本征频率的做法，<a target="_blank" rel="noopener" href="http://muchong.com/html/201504/8775391_2.html，15年就有了">http://muchong.com/html/201504/8775391_2.html，15年就有了</a></li>
+<li><p>改变搜索思路，找fchk，找到了量子动力学模块<br>  PIMD可以做模拟，一种是PRIMPIMD和NMPIMD（normal mode path-integral），后者是一种更好的方式，解耦谐波项（在谐波项看到了正则化中的频率ω）</p>
+<p>  <strong><em>流泪了好兄弟</em></strong></p>
+<p>实践证明，以hessian为关键词搜一遍，发现，但凡涉及到的都是偷Gaussian的现成文件来用，也太垃圾了amber，呜呜呜，浪费我一个月啊!!!!!!!!!</p>
+<p>hessian的本质是3n-6个振动自由度的频率值，3n个自由度，但去掉3个振动自由度，3个转动自由度，他们的改变不影响体系相对位置，也就不改变体系能量。</p>
+</li>
+</ul>
+</li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://fy-han.github.io.git/blog/2021/3/20/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%88%86%E5%AD%90%E6%A8%A1%E6%8B%9F-AMBER-2021-3-20-Amber%E8%BF%9B%E9%98%B6-%E9%BB%91%E5%A1%9E%E7%9F%A9%E9%98%B5%E5%9C%A8%E5%93%AA%E9%87%8C-2021-3-20-Amber%E8%BF%9B%E9%98%B6-%E9%BB%91%E5%A1%9E%E7%9F%A9%E9%98%B5%E5%9C%A8%E5%93%AA%E9%87%8C/" data-id="ckv9qu27l002e5cu5dwti7w55" data-title="Amber进阶-黑塞矩阵在哪里" class="article-share-link">Teilen</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/AMBER/" rel="tag">AMBER</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-科研学习-分子模拟-AMBER-2021-3-20-Amber-入门教程（三）-2021-3-20-Amber-入门教程（三）" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/blog/2021/3/20/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%88%86%E5%AD%90%E6%A8%A1%E6%8B%9F-AMBER-2021-3-20-Amber-%E5%85%A5%E9%97%A8%E6%95%99%E7%A8%8B%EF%BC%88%E4%B8%89%EF%BC%89-2021-3-20-Amber-%E5%85%A5%E9%97%A8%E6%95%99%E7%A8%8B%EF%BC%88%E4%B8%89%EF%BC%89/" class="article-date">
+  <time class="dt-published" datetime="2021-03-20T07:02:30.000Z" itemprop="datePublished">2021-03-20</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/blog/2021/3/20/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%88%86%E5%AD%90%E6%A8%A1%E6%8B%9F-AMBER-2021-3-20-Amber-%E5%85%A5%E9%97%A8%E6%95%99%E7%A8%8B%EF%BC%88%E4%B8%89%EF%BC%89-2021-3-20-Amber-%E5%85%A5%E9%97%A8%E6%95%99%E7%A8%8B%EF%BC%88%E4%B8%89%EF%BC%89/">Amber--入门教程（三）</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="使用tleap建立显式水蛋白体系"><a href="#使用tleap建立显式水蛋白体系" class="headerlink" title="使用tleap建立显式水蛋白体系"></a>使用tleap建立显式水蛋白体系</h2><ol>
+<li>设立AMBERHOME（系统已经有了）<br>bash下路径设立<br> export AMBERHOME = /usr/local/想设计的路径</li>
+<li><p>显式溶剂体系准备<br>打开tleap模式后<br> source.leaprc.water.<type><br>一般常用TIP3P，适用于含有水的基团，也有甲醇，氯仿等模型。<br>力场文件是与溶剂文件相对应的 这里使用ff14SB（推荐）对应OPC水溶剂（tip3p更常见），并对应加载OPC中的水化自由能HFE的计算。对于初学者建议不要尝试。这与似乎也与配套的GB/SA模型有关，且不是很成熟。 这里涉及第4-7章<br> source leaprc.protein.ff19SB<br> source leaprc.water.opc<br> loadamberparams frcmod.ions1lm_126_hfe_opc</p>
+</li>
+<li><p>处理pdb格式<br>利用上一个教程里的pdb文件<br> name = loadpdb name.pdb<br>根据SSBOND改cys cyx，在tleap中连接二硫键</p>
+</li>
+</ol>
+<ul>
+<li>此前可以在moe里看看，实际上二硫键已经连接了，无需再bond，不知为何教程里还bond；如果再bond一次生成参数文件时会报错<br>  bond ramp.27.SG ramp.82.SG<br>  bond ramp.40.SG ramp.72.SG<br>  bond ramp.57.SG ramp.104.SG<br>保存<br>  saveamberparm<br>tleap值得注意的指令见<strong>附1</strong></li>
+</ul>
+<ol>
+<li><p>电中性与溶剂化<br> addions name Na+ 2<br> solvateoct name OPCBOX 10.0<br>10.0有三层溶剂分子，并一般加入150mM NaCl，对应9.03e22 Cl- atom/L<br>此时获取体积，如2.08e5 A3 = 2.08e-22L，把结果乘以1e-27。 上下相乘得需要加多少个离子<br> 实际结果<em>9.03</em>10e-5<br> addionsrand name Na+ 2 Cl- 2<br><strong>注意：</strong>加入后体系体积会减小，浓度实际大于150mM<br>值得思考，这里为什么是盐溶剂体系，水溶剂体系可以吗？</p>
+</li>
+<li><p>保存检查离子溶剂化后结果<br> saveamberparm  name name.top name.crd   </p>
+</li>
+</ol>
+<p><strong>注：</strong>以上流程可以写入一个脚本in文件 （AMBERHOME用$AMBERHOME即可使用，力场文件直接调用，省的敲一堆字）<br>    使用source tleap.in调用<br>    touch process.in #新建文件 使用rm命令删除 可以用空格建立两个文件 使用dd删除一行，：1,2d删除两行，ZZ保存退出<br>文件为</p>
+<pre><code>#tleap.in           #title
+source leaprc.protein.ff19SB
+source leaprc.water.opc
+loadamberparams frcmod.ions1lm_126_hfe_opc
+ramp=loadpdb RAMP1.pdb
+bond ramp.27.SG ramp.82.SG
+bond ramp.40.SG ramp.72.SG
+bond ramp.57.SG ramp.104.SG
+SaveAmberParm ramp RAMP1_gas.prmtop RAMP1_gas.inpcrd
+addIons ramp Na+ 2
+solvateOct ramp OPCBOX 10.0
+addIonsRand ramp Na+ 19 Cl- 19 
+SaveAmberParm ramp RAMP1_ion.prmtop RAMP1_ion.inpcrd
+</code></pre><p><strong>注：</strong>可以用cpptraj把输出文件写成pdb<br>创立一个输入转换文件pdb.in<br>    trajin RAMP1_ion.inpcrd<br>    trajout RAMP1_wions_water.pdb PDB<br>excute命令<br>    $AMBERHOME/bin/cpptraj -p RAMP1_ion.prmtop -i pdb.in&gt;pdb.out     #没有AMBERHOME直接从cpptraj开始就可以</p>
+<ol>
+<li><p>放松溶剂</p>
+<pre><code> 体系平衡弛豫，使用NVT系综（
+     控制压强，计算晶格常数使用NPT等温等压，或拉伸压缩模拟
+     NVE微正则，用于冲击辐照
+     NPH等压等焓系综
+ 周期性边界（补充跑出去的原子)
+</code></pre></li>
+<li><p>升温平衡</p>
+</li>
+</ol>
+<hr>
+<h2 id="附1"><a href="#附1" class="headerlink" title="附1"></a>附1</h2><p>tleap检查信息使用<br>    desc xxx</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://fy-han.github.io.git/blog/2021/3/20/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%88%86%E5%AD%90%E6%A8%A1%E6%8B%9F-AMBER-2021-3-20-Amber-%E5%85%A5%E9%97%A8%E6%95%99%E7%A8%8B%EF%BC%88%E4%B8%89%EF%BC%89-2021-3-20-Amber-%E5%85%A5%E9%97%A8%E6%95%99%E7%A8%8B%EF%BC%88%E4%B8%89%EF%BC%89/" data-id="ckv9qu27m002g5cu5d5rpcni0" data-title="Amber--入门教程（三）" class="article-share-link">Teilen</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/AMBER/" rel="tag">AMBER</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-科研学习-分子模拟-AMBER-2021-3-19-Amber-入门教程（二）-2021-3-19-Amber-入门教程（二）" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/blog/2021/3/19/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%88%86%E5%AD%90%E6%A8%A1%E6%8B%9F-AMBER-2021-3-19-Amber-%E5%85%A5%E9%97%A8%E6%95%99%E7%A8%8B%EF%BC%88%E4%BA%8C%EF%BC%89-2021-3-19-Amber-%E5%85%A5%E9%97%A8%E6%95%99%E7%A8%8B%EF%BC%88%E4%BA%8C%EF%BC%89/" class="article-date">
+  <time class="dt-published" datetime="2021-03-19T02:49:27.000Z" itemprop="datePublished">2021-03-19</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/blog/2021/3/19/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%88%86%E5%AD%90%E6%A8%A1%E6%8B%9F-AMBER-2021-3-19-Amber-%E5%85%A5%E9%97%A8%E6%95%99%E7%A8%8B%EF%BC%88%E4%BA%8C%EF%BC%89-2021-3-19-Amber-%E5%85%A5%E9%97%A8%E6%95%99%E7%A8%8B%EF%BC%88%E4%BA%8C%EF%BC%89/">Amber--入门教程（二）</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <ol>
+<li><p>pdb4amber准备PDB</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pdb4amber name.pdb &gt; name.mbr.pdb</span><br></pre></td></tr></table></figure>
+<p> 可以做一份拷贝</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cp name.pdb name.process.pdb</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>或者自己建立多肽序列(chignolin e.g.)</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pro &#x3D; sequence&#123; GLY TYR ASP PRO GLU THR GLY THR TRP GLY &#125;</span><br><span class="line">savepdb pro pro.pdb</span><br></pre></td></tr></table></figure>
+<ul>
+<li>非标准化基团如小分子使用 antechamber <a target="_blank" rel="noopener" href="http://ambermd.org/tutorials/basic/tutorial4b/index.php">http://ambermd.org/tutorials/basic/tutorial4b/index.php</a></li>
+<li>涉及金属比较复杂，见Manual 3.1.1 以及王老师文章</li>
+</ul>
+</li>
+<li><p>处理非标准基团<br>  pdb文件在MODRES中标注修饰了标准残基变成非标准残基，替换的开始位置，并把用HETATM表示，需要替换回来，否则MSE氨基酸左右没有相连<br>  例：<img src='https://img.imgdb.cn/item/60556333524f85ce2995a749.png' width='450' ><br>  把HETATM改为ATOM，把MSE改为MET，把SE符号改为SD（代表met中的硫），把末尾的SE改为S，注意对齐</p>
+<p>  SSBOND定义了CYS二硫键位置<br>  HETATM记录标准氨基酸以及核酸以外的化合物, 包括抑制剂, 辅因子, 离子, 溶剂中的原子，默认不与其他残基相连，水分子也在其中<br>对pdb文件的解读，见 <a target="_blank" rel="noopener" href="https://jerkwin.github.io/2015/06/05/PDB文件格式说明/">https://jerkwin.github.io/2015/06/05/PDB文件格式说明/</a></p>
+</li>
+<li>处理溶剂分子<br>  直接删除，若做显式水溶剂系统，可以保留水分子</li>
+<li>（可选）氨基酸电子密度缺失<br>  pdb创建者技术不佳，导致残基缺失 可以用vmd/pymol查看是否有间断，或者直接看基团序号是否连续</li>
+<li>处理二硫键<br>  二硫键在amber中名为CYX，在SSBOND里找到，把对应的CYS改为CYX<br>  在connect里补充</li>
+<li><p>加氢改名问题<br>  因为需要给X晶体衍射结构加氢，但非标准基团自带氢或者没有氢，所以需要重命名以便加氢/不加氢<br>   <img src='https://img.imgdb.cn/item/60557c8c524f85ce29a2e92b.png' width='450'></p>
+<p>  <strong>用H++预测His的质子化位点从而改合适名字</strong><br>  <a target="_blank" rel="noopener" href="http://biophysics.cs.vt.edu/faq.php">http://biophysics.cs.vt.edu/faq.php</a><br>  HID—δ位置N原子被质子化（多一个H）<br>  HIE—ε位置N原子被质子化<br>  HIP—两个位置都被质子化。<br>  具体用哪个名字，根据体系的pH值来确定，用网站预测。   </p>
+</li>
+<li><p>（可选）VMD操作简单教程<a target="_blank" rel="noopener" href="http://course.sdu.edu.cn/Download2/20151113131122124.pdf">http://course.sdu.edu.cn/Download2/20151113131122124.pdf</a><br>  VMD的基本操作：旋转、平移和缩放。</p>
+<ul>
+<li>按下鼠标左键并移动鼠标，围绕平行于屏幕的轴旋转分子（a）</li>
+<li>如果是按下鼠标右键并移动，则可以绕着垂直于屏幕的轴旋转分子（b）</li>
+<li><p>菜单mouse选择translate mode，左键平移<br> 直接在load里下载pdb文件</p>
+<p>感觉还是moe好<br>ribbon里选择bb和sc，atom选择element看，很直观，而且本地跑gui界面不卡，不然要吐了</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>用leap处理结构文件pdb，mol2(使用参数文件lib, prepi, parm.dat, frcmod)</p>
+<ol>
+<li>加载蛋白质力场<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">source leaprc.protein.ff14SB</span><br></pre></td></tr></table></figure></li>
+<li><p>用八面体水盒子溶剂化分子</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">source leaprc.water.tip3p</span><br><span class="line">name &#x3D; loadpdb &quot;name.mbr.pdb&quot;</span><br><span class="line">solvateOct name SPCBOX 14.0</span><br></pre></td></tr></table></figure>
+<p>或使用GB隐式溶剂模型 GBneck2 radii</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">set default PBradii mbondi3</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>原因：由于溶剂分子影响蛋白质结构功能，如静电相互作用降低反应活化能以及疏水作用，以及折叠稳定性，选择特异性，需要表征溶剂化效应(solvation)；由于计算相对复杂，也有使用隐式溶剂模型处理成统计平均效应，降低模拟时间，但也意味着不是万能的。</p>
+</li>
+<li><p>优化：使用GPU图形处理器作为计算平台，以及并行计算，多重网格和快速多极子方法能等计算方法</p>
+</li>
+</ul>
+<p>原理：见附1</p>
+</li>
+<li>中和电荷<ul>
+<li>检测电荷<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">charge name</span><br></pre></td></tr></table></figure></li>
+<li>相应加上正负电荷，保存拓扑力场文件以及坐标文件<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">addIons name Cl- (number) </span><br><span class="line">addIons name Na+ (number)</span><br><span class="line">saveamberparm name svt.name.top svt.name.crd</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ol>
+</li>
+</ol>
+<hr>
+<h3 id="附1"><a href="#附1" class="headerlink" title="附1"></a>附1</h3><ol>
+<li>PB方程（poisson-boltzmann）《生物分子模拟中的静电计算》<a target="_blank" rel="noopener" href="http://lsec.cc.ac.cn/~lubz/Publication/ChinaCP201502.pdf">http://lsec.cc.ac.cn/~lubz/Publication/ChinaCP201502.pdf</a><br> 计算电解质溶液的静电相互作用偏微分方程，把水简化为均匀电解质，即隐式溶剂化处理。在稀溶液中可以使用Debye-Huckel方程近似<ul>
+<li>适用条件：弱耦合（低表面电荷密度，低浓度的单价离子溶液，高温度）</li>
+<li>局限性：溶液中有一定浓度高价离子，导致粒子间相互作用和关联增强则不适用：<br>  带相同电荷的物体在高价盐溶液中相互吸引，以及带电胶体在高价盐溶液中的电泳呈现电荷反转</li>
+</ul>
+</li>
+<li>并行计算<br> CUDA：computer unified device architecture, NVIDA开发，GPU运算，核心是C语言编辑器<br> OpenML，MPI，Cilk Plus，</li>
+<li>结果可视化<br> pymol，VMD</li>
+<li>广义Born模型 GB，对PB的改进，用于构想转变研究，以及大分子大尺度运动</li>
+<li>PB与GB都可结合表面积SA，计算蛋白质复合物结合自由能</li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://fy-han.github.io.git/blog/2021/3/19/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%88%86%E5%AD%90%E6%A8%A1%E6%8B%9F-AMBER-2021-3-19-Amber-%E5%85%A5%E9%97%A8%E6%95%99%E7%A8%8B%EF%BC%88%E4%BA%8C%EF%BC%89-2021-3-19-Amber-%E5%85%A5%E9%97%A8%E6%95%99%E7%A8%8B%EF%BC%88%E4%BA%8C%EF%BC%89/" data-id="ckv9qu27l002c5cu59peg9j57" data-title="Amber--入门教程（二）" class="article-share-link">Teilen</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/AMBER/" rel="tag">AMBER</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-科研学习-分子模拟-AMBER-2021-3-17-Amber-入门教程（一）-2021-3-17-Amber-入门教程（一）" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/blog/2021/3/17/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%88%86%E5%AD%90%E6%A8%A1%E6%8B%9F-AMBER-2021-3-17-Amber-%E5%85%A5%E9%97%A8%E6%95%99%E7%A8%8B%EF%BC%88%E4%B8%80%EF%BC%89-2021-3-17-Amber-%E5%85%A5%E9%97%A8%E6%95%99%E7%A8%8B%EF%BC%88%E4%B8%80%EF%BC%89/" class="article-date">
+  <time class="dt-published" datetime="2021-03-17T05:25:55.000Z" itemprop="datePublished">2021-03-17</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/blog/2021/3/17/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%88%86%E5%AD%90%E6%A8%A1%E6%8B%9F-AMBER-2021-3-17-Amber-%E5%85%A5%E9%97%A8%E6%95%99%E7%A8%8B%EF%BC%88%E4%B8%80%EF%BC%89-2021-3-17-Amber-%E5%85%A5%E9%97%A8%E6%95%99%E7%A8%8B%EF%BC%88%E4%B8%80%EF%BC%89/">Amber--入门教程（一）</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p><em>氨基酸大分子为例</em></p>
+<h2 id="基础知识"><a href="#基础知识" class="headerlink" title="基础知识"></a>基础知识</h2><ol>
+<li>amber基础流程<br> <img src="https://img.imgdb.cn/item/6052183c524f85ce29d6647b.png" width="450" alt="步骤流程图"><ul>
+<li>输入pdb文件</li>
+<li>pdb4amber转换</li>
+<li>leap或antechamber（非标准分子）或MCPB加载力场</li>
+<li>生成prmtop和prmcrd文件</li>
+<li>使用parmed检验并评估上述文件</li>
+<li>进行后续命令处理，利用mdin文件，NAB语言</li>
+</ul>
+</li>
+</ol>
+<ol>
+<li><p>不同名称文件包含不同信息<br> <img src="https://img.imgdb.cn/item/60521051524f85ce29d18b0d.png" width="450" alt =不同文件信息内容 ><br> pdb文件包含笛卡尔坐标<br> prmtop文件，又名parm7，top，包含分子，原子名称、种类，电荷，键关系，键参数和非键参数信息，而inpcrd文件包含初始位置坐标<br> lib文件是系统自带的连接，原子名称文件等，似乎必不可缺。（不太清楚功能）</p>
+</li>
+<li><p>对于标准pdb文件提供的信息，amber根据leaprc中的力场文件计算top和crd（还可以用补充包frcmod，但似乎容易报错？）。以及对于非标准可以用antecamber模块建立自己的力场，见<a target="_blank" rel="noopener" href="http://ambermd.org/tutorials/basic/tutorial4b/">http://ambermd.org/tutorials/basic/tutorial4b/</a></p>
+</li>
+<li><p><em>Amber的各种模块</em></p>
+<h3 id="准备模块"><a href="#准备模块" class="headerlink" title="准备模块"></a>准备模块</h3><ul>
+<li><font color=#ff0000 size =4>LEaP：</font><ul>
+<li>创建新系统或修改现有系统的<strong><em>主要程序</em></strong></li>
+<li>包括命令行程序tleap或GUI xleap<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tleap</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li>pdb4amber：<ul>
+<li>因为pdb不是为amber设计的，先用pdb4amber模块转换一下</li>
+<li>看CYS有没有写成CYX，连接二硫键<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">bond &lt;unit&gt;.&lt;residue #&gt;.&lt;atom name&gt; &lt;unit&gt;.&lt;residue #&gt;.&lt;atom name&gt;</span><br><span class="line">#例：连接1，4二硫键</span><br><span class="line">bond MyUnit.1.SG MyUnit.4.SG</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li>parmed:<ul>
+<li>提取top文件中参数信息</li>
+<li>检查参数拓扑文件对复杂系统是否有效（见checkValidity命令）或简单修改文件</li>
+</ul>
+</li>
+<li>antechamber<ul>
+<li>用通用Amber力场（GAFF）开发类药物分子或modified amino acids力场的<strong><em>主要程序</em></strong>。这些力场可以直接用于LEaP中，也可以作为进一步参数开发的起点</li>
+</ul>
+</li>
+<li>MCPB.py  <ul>
+<li>建立，验证金属蛋白和有机金属化合物MM（分子模拟）模型的方法</li>
+</ul>
+</li>
+<li>IPMach.py<ul>
+<li>离子非键合模型参数化</li>
+<li>化学键合模型：与量子化学相关，见《化学键合模型概念的发展》<a target="_blank" rel="noopener" href="http://d.wanfangdata.com.cn/periodical/hxtb2200808001">http://d.wanfangdata.com.cn/periodical/hxtb2200808001</a></li>
+</ul>
+</li>
+<li>paramfit<ul>
+<li>拟合量子数据，生成分子键合力场参数</li>
+</ul>
+</li>
+<li><p>packmol-memgen</p>
+<ul>
+<li>处理脂质混合物，多层膜系统</li>
+</ul>
+<h3 id="MM，模拟模块"><a href="#MM，模拟模块" class="headerlink" title="MM，模拟模块"></a>MM，模拟模块</h3></li>
+<li>sander<ul>
+<li>能量最小化的<strong><em>主要程序</em></strong>，利用梯度下降法</li>
+<li>分子动力学模块利用牛顿力学</li>
+</ul>
+</li>
+<li>pmemd <ul>
+<li>sander的一个版本，做了运算速度合并行扫描的优化，pmemd.cuda在GPU上运行</li>
+<li>能进行Born模拟</li>
+</ul>
+</li>
+<li>mdgx<ul>
+<li>包含C语言，简化力场计算的信息流</li>
+<li>可以重新设计分子动力学算法和模型</li>
+</ul>
+</li>
+<li><p>NAB 核酸建构</p>
+<ul>
+<li>用于写非周期性模拟的程序语言，用于隐式溶剂力场，替代nmode程序，见37.1节</li>
+</ul>
+<h3 id="分析模块"><a href="#分析模块" class="headerlink" title="分析模块"></a>分析模块</h3></li>
+<li>mdout.analyzer.py<ul>
+<li>提供sander/pmemd输出的信息概要</li>
+</ul>
+</li>
+<li>cpptraj<ul>
+<li>主要的trajectory轨迹分析工具，cpp编写，用于叠加态计算，坐标提取，键/角/二面体值计算，原子位置波动，相关函数（描述函数相关程度），氢键分析，等</li>
+</ul>
+</li>
+<li>pytraj    <ul>
+<li>cpptraj的python包装，结合了numpy，scipy，ipython-notebook模块</li>
+</ul>
+</li>
+<li>pbsa<ul>
+<li>生物分子的溶剂介导能量学的分析，连续计算静电和非静电；支持溶剂介导的静电势可视化</li>
+</ul>
+</li>
+<li>MMPBSA.py<ul>
+<li>分析动力学模拟snapshot的能量</li>
+</ul>
+</li>
+<li>FEW<ul>
+<li>自由能工作流，用TI，MM/PBSA或LIE计算蛋白质与配体结合的自由能</li>
+</ul>
+</li>
+<li>amberlite<ul>
+<li>分析蛋白质配体相互作用，NAB程序，python脚本</li>
+</ul>
+</li>
+<li><p>XtalAnalyze</p>
+<ul>
+<li>分析晶体模拟轨迹</li>
+</ul>
+<h3 id="更多模块"><a href="#更多模块" class="headerlink" title="更多模块"></a>更多模块</h3><p>见1.2的List</p>
+</li>
+</ul>
+</li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://fy-han.github.io.git/blog/2021/3/17/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%88%86%E5%AD%90%E6%A8%A1%E6%8B%9F-AMBER-2021-3-17-Amber-%E5%85%A5%E9%97%A8%E6%95%99%E7%A8%8B%EF%BC%88%E4%B8%80%EF%BC%89-2021-3-17-Amber-%E5%85%A5%E9%97%A8%E6%95%99%E7%A8%8B%EF%BC%88%E4%B8%80%EF%BC%89/" data-id="ckv9qu27k002a5cu590vw7qr2" data-title="Amber--入门教程（一）" class="article-share-link">Teilen</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/AMBER/" rel="tag">AMBER</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-思考-2021-3-15-生活感悟与守则-2021-3-15-生活感悟与守则" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/blog/2021/3/15/%E6%80%9D%E8%80%83-2021-3-15-%E7%94%9F%E6%B4%BB%E6%84%9F%E6%82%9F%E4%B8%8E%E5%AE%88%E5%88%99-2021-3-15-%E7%94%9F%E6%B4%BB%E6%84%9F%E6%82%9F%E4%B8%8E%E5%AE%88%E5%88%99/" class="article-date">
+  <time class="dt-published" datetime="2021-03-15T03:01:40.000Z" itemprop="datePublished">2021-03-15</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/blog/2021/3/15/%E6%80%9D%E8%80%83-2021-3-15-%E7%94%9F%E6%B4%BB%E6%84%9F%E6%82%9F%E4%B8%8E%E5%AE%88%E5%88%99-2021-3-15-%E7%94%9F%E6%B4%BB%E6%84%9F%E6%82%9F%E4%B8%8E%E5%AE%88%E5%88%99/">生活感悟与守则</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        Here's something encrypted, password is required to continue reading.
+        
+          <p class="article-more-link">
+            <a href="/blog/2021/3/15/%E6%80%9D%E8%80%83-2021-3-15-%E7%94%9F%E6%B4%BB%E6%84%9F%E6%82%9F%E4%B8%8E%E5%AE%88%E5%88%99-2021-3-15-%E7%94%9F%E6%B4%BB%E6%84%9F%E6%82%9F%E4%B8%8E%E5%AE%88%E5%88%99/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://fy-han.github.io.git/blog/2021/3/15/%E6%80%9D%E8%80%83-2021-3-15-%E7%94%9F%E6%B4%BB%E6%84%9F%E6%82%9F%E4%B8%8E%E5%AE%88%E5%88%99-2021-3-15-%E7%94%9F%E6%B4%BB%E6%84%9F%E6%82%9F%E4%B8%8E%E5%AE%88%E5%88%99/" data-id="ckv9qu26z000h5cu5dj7pck1z" data-title="生活感悟与守则" class="article-share-link">Teilen</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%94%9F%E6%B4%BB%E5%8F%8D%E6%80%9D/" rel="tag">生活反思</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+
+
+  <nav id="page-nav">
+    
+    <a class="extend prev" rel="prev" href="/page/4/">&laquo; zurück</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/6/">weiter &raquo;</a>
+  </nav>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/AMBER/" rel="tag">AMBER</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Gaussian/" rel="tag">Gaussian</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ai/" rel="tag">ai</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gmx/" rel="tag">gmx</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/" rel="tag">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/moe/" rel="tag">moe</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/summer-intern/" rel="tag">summer intern</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/web/" rel="tag">web</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BD%9C%E6%9B%B2/" rel="tag">作曲</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8D%9A%E5%AE%A2%E5%BB%BA%E7%AB%8B/" rel="tag">博客建立</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%91%A8%E6%8A%A5/" rel="tag">周报</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8A%80%E6%9C%AF%E6%9D%82%E8%B0%88/" rel="tag">技术杂谈</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%94%9F%E6%B4%BB%E5%8F%8D%E6%80%9D/" rel="tag">生活反思</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/AMBER/" style="font-size: 18px;">AMBER</a> <a href="/tags/Gaussian/" style="font-size: 10px;">Gaussian</a> <a href="/tags/ai/" style="font-size: 12px;">ai</a> <a href="/tags/gmx/" style="font-size: 16px;">gmx</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/moe/" style="font-size: 12px;">moe</a> <a href="/tags/summer-intern/" style="font-size: 10px;">summer intern</a> <a href="/tags/web/" style="font-size: 10px;">web</a> <a href="/tags/%E4%BD%9C%E6%9B%B2/" style="font-size: 10px;">作曲</a> <a href="/tags/%E5%8D%9A%E5%AE%A2%E5%BB%BA%E7%AB%8B/" style="font-size: 10px;">博客建立</a> <a href="/tags/%E5%91%A8%E6%8A%A5/" style="font-size: 20px;">周报</a> <a href="/tags/%E6%8A%80%E6%9C%AF%E6%9D%82%E8%B0%88/" style="font-size: 12px;">技术杂谈</a> <a href="/tags/%E7%94%9F%E6%B4%BB%E5%8F%8D%E6%80%9D/" style="font-size: 14px;">生活反思</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archiv</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/10/">October 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/09/">September 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/08/">August 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/07/">July 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/06/">June 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/05/">May 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">April 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">letzter Beitrag</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/blog/2021/10/25/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%8A%80%E6%9C%AF-%E6%8A%80%E6%9C%AF%E6%9D%82%E8%B0%88-2021-10-25-Bash%E6%95%99%E5%AD%A6/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/blog/2021/10/25/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%8A%80%E6%9C%AF-%E9%85%8D%E7%BD%AE%E7%94%B5%E8%84%91-2021-10-25-%E8%A3%85gromacs%E6%9C%89gcc%E9%97%AE%E9%A2%98/">装gromacs有gcc问题</a>
+          </li>
+        
+          <li>
+            <a href="/blog/2021/10/22/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%88%86%E5%AD%90%E6%A8%A1%E6%8B%9F-GMX-2021-10-22-gmx%E6%BA%B6%E5%89%82%E5%8C%96%E8%B7%91md/">gmx溶剂化跑md</a>
+          </li>
+        
+          <li>
+            <a href="/blog/2021/9/23/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%8A%80%E6%9C%AF-%E6%8A%80%E6%9C%AF%E6%9D%82%E8%B0%88-2021-9-23-markdown%E8%AF%AD%E6%B3%95%E5%AD%A6%E4%B9%A0%E5%A4%A7%E5%85%A8/">markdown语法学习大全</a>
+          </li>
+        
+          <li>
+            <a href="/blog/2021/9/22/2021%E5%91%A8%E6%8A%A5-3%E5%AD%A3%E5%BA%A6-2021-9-22-%E7%AC%AC30%E5%91%A8%E8%87%B39-26/">第30周至9.26</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2021 FY-Han<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>
