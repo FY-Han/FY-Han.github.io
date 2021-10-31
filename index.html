@@ -57,12 +57,12 @@
       </nav>
       <nav id="sub-nav">
         
-          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS"></a>
         
-        <a id="nav-search-btn" class="nav-icon" title="Suche"></a>
+        <a id="nav-search-btn" class="nav-icon" title="Buscar"></a>
       </nav>
       <div id="search-form-wrap">
-        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Suche"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://FY-Han.github.io.git"></form>
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Buscar"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://FY-Han.github.io.git"></form>
       </div>
     </div>
   </div>
@@ -70,6 +70,61 @@
 
       <div class="outer">
         <section id="main">
+  
+    <article id="post-科研学习-分子模拟-GMX-2021-10-31-GROMACS-MD-速度调整" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/blog/2021/10/31/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%88%86%E5%AD%90%E6%A8%A1%E6%8B%9F-GMX-2021-10-31-GROMACS-MD-%E9%80%9F%E5%BA%A6%E8%B0%83%E6%95%B4/" class="article-date">
+  <time class="dt-published" datetime="2021-10-31T15:18:34.000Z" itemprop="datePublished">2021-10-31</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/blog/2021/10/31/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%88%86%E5%AD%90%E6%A8%A1%E6%8B%9F-GMX-2021-10-31-GROMACS-MD-%E9%80%9F%E5%BA%A6%E8%B0%83%E6%95%B4/">GROMACS MD 速度调整</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="GROMACS-MD-速度调整"><a href="#GROMACS-MD-速度调整" class="headerlink" title="GROMACS MD 速度调整"></a>GROMACS MD 速度调整</h1><p>根据<a target="_blank" rel="noopener" href="http://bbs.keinsci.com/thread-13861-1-4.html">GROMACS (2019.3 GPU版) 并行效率测试及调试思路 - 分子模拟 (Molecular Modeling) - 计算化学公社 (keinsci.com)</a>文章说法，两块显卡相对于一块显卡的提升非常有限。如果装了两块显卡，想有效的利用这两块显卡，最好的办法是每块显卡跑一个独立gmx任务。问题是，这两个独立的gmx会相互干扰么？经过测试，结论是：<strong>cpu核数足够的情况下两块显卡单独运行两个Gromacs任务完全没有影响</strong>。<a target="_blank" rel="noopener" href="http://bbs.keinsci.com/thread-13910-1-1.html?tdsourcetag=s_pcqq_aiomsg">JCC,2019</a>的那篇文章中也可以看到，N显卡相对于单显卡的速度几乎就是N倍。</p>
+<p><img src="A:\life\blog\source\_posts\科研学习\分子模拟\GMX\forum.php" alt="img"></p>
+<p>单Rank下，随着openmp threads数量增多，显卡计算NB+BF的速度最终超过了NB+PME，这是因为1080性能略差，这样CPU并行数量上去之后，CPU计算PME的速度最终能够超过GPU计算PME的速度。而多节点运行事实上不划算</p>
+<p>==<strong>进程=火车，线程=车厢</strong></p>
+<ul>
+<li>线程在进程下行进（单纯的车厢无法运行）</li>
+<li>一个进程可以包含多个线程（一辆火车可以有多个车厢）</li>
+<li>不同进程间数据很难共享（一辆火车上的乘客很难换到另外一辆火车，比如站点换乘）</li>
+<li>同一进程下不同线程间数据很易共享（A车厢换到B车厢很容易）</li>
+<li>进程要比线程消耗更多的计算机资源（采用多列火车相比多个车厢更耗资源）</li>
+<li>进程间不会相互影响，一个线程挂掉将导致整个进程挂掉（一列火车不会影响到另外一列火车，但是如果一列火车上中间的一节车厢着火了，将影响到所有车厢）</li>
+<li>进程可以拓展到多机，进程最多适合多核（不同火车可以开在多个轨道上，同一火车的车厢不能在行进的不同的轨道上）</li>
+<li>进程使用的内存地址可以上锁，即一个线程使用某些共享内存时，其他线程必须等它结束，才能使用这一块内存。（比如火车上的洗手间）－”互斥锁”</li>
+<li>进程使用的内存地址可以限定使用量（比如火车上的餐厅，最多只允许多少人进入，如果满了需要在门口等，等有人出来了才能进去）－“信号量</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://fy-han.github.io.git/blog/2021/10/31/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%88%86%E5%AD%90%E6%A8%A1%E6%8B%9F-GMX-2021-10-31-GROMACS-MD-%E9%80%9F%E5%BA%A6%E8%B0%83%E6%95%B4/" data-id="ckvfdssgs000mmgu55vqq1esh" data-title="GROMACS MD 速度调整" class="article-share-link">Compartir</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/GMX/" rel="tag">GMX</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
   
     <article id="false-科研学习-计算机技术-技术杂谈-2021-10-25-Bash教学" class="h-entry article article-type-false" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
@@ -607,7 +662,7 @@ h6.md-focus:before {
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://fy-han.github.io.git/blog/2021/10/25/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%8A%80%E6%9C%AF-%E6%8A%80%E6%9C%AF%E6%9D%82%E8%B0%88-2021-10-25-Bash%E6%95%99%E5%AD%A6/" data-id="ckvaecdgt003fssu5aht3hzrq" data-title="" class="article-share-link">Teilen</a>
+      <a data-url="https://fy-han.github.io.git/blog/2021/10/25/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%8A%80%E6%9C%AF-%E6%8A%80%E6%9C%AF%E6%9D%82%E8%B0%88-2021-10-25-Bash%E6%95%99%E5%AD%A6/" data-id="ckvfdsshh003hmgu5af4ygcyw" data-title="" class="article-share-link">Compartir</a>
       
       
       
@@ -673,7 +728,7 @@ h6.md-focus:before {
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://fy-han.github.io.git/blog/2021/10/25/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%8A%80%E6%9C%AF-%E9%85%8D%E7%BD%AE%E7%94%B5%E8%84%91-2021-10-25-%E8%A3%85gromacs%E6%9C%89gcc%E9%97%AE%E9%A2%98/" data-id="ckvaecdga0026ssu551wr2lcm" data-title="装gromacs有gcc问题" class="article-share-link">Teilen</a>
+      <a data-url="https://fy-han.github.io.git/blog/2021/10/25/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%8A%80%E6%9C%AF-%E9%85%8D%E7%BD%AE%E7%94%B5%E8%84%91-2021-10-25-%E8%A3%85gromacs%E6%9C%89gcc%E9%97%AE%E9%A2%98/" data-id="ckvfdssgx000ymgu52x6math9" data-title="装gromacs有gcc问题" class="article-share-link">Compartir</a>
       
       
       
@@ -715,6 +770,8 @@ h6.md-focus:before {
 <li><p>gpu命令<br>  不太懂，用gpu跑，<br>  -nt 32 跑了5486核时，一天能跑62ns，实际跑了171s<br>  -nt 8 则跑了2360核时，一天能跑36.5ns，实际跑了295s<br>  -ntmpi 2 -ntomp 4 跑了3138核时，一天能跑27.5ns,实际跑了392s<br>  -gpu_id 123 利用了三个核，非常快，跑了2200核时，一天能跑176.7ns，实际跑了61s，因为gpu_id 0用于显示</p>
 <p>  一个md任务跑了2700s，45min，3/4hrs，跑了10ns</p>
 </li>
+<li><p>跑长时md用-gpu_id 123，220ns一天，不过根据戚老师说法，这个比较浪费。</p>
+</li>
 </ul>
 </li>
 </ol>
@@ -723,7 +780,7 @@ h6.md-focus:before {
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://fy-han.github.io.git/blog/2021/10/22/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%88%86%E5%AD%90%E6%A8%A1%E6%8B%9F-GMX-2021-10-22-gmx%E6%BA%B6%E5%89%82%E5%8C%96%E8%B7%91md/" data-id="ckvaecdg1001nssu5duzn55vu" data-title="gmx溶剂化跑md" class="article-share-link">Teilen</a>
+      <a data-url="https://fy-han.github.io.git/blog/2021/10/22/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%88%86%E5%AD%90%E6%A8%A1%E6%8B%9F-GMX-2021-10-22-gmx%E6%BA%B6%E5%89%82%E5%8C%96%E8%B7%91md/" data-id="ckvfdssgu000smgu5d2cfh686" data-title="gmx溶剂化跑md" class="article-share-link">Compartir</a>
       
       
       
@@ -834,7 +891,7 @@ x_{ij}^2\quad \sqrt{x}\quad \sqrt[3]{x}</script><script type="math/tex; mode=dis
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://fy-han.github.io.git/blog/2021/9/23/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%8A%80%E6%9C%AF-%E6%8A%80%E6%9C%AF%E6%9D%82%E8%B0%88-2021-9-23-markdown%E8%AF%AD%E6%B3%95%E5%AD%A6%E4%B9%A0%E5%A4%A7%E5%85%A8/" data-id="ckvaecdg90024ssu54kkd5h0v" data-title="markdown语法学习大全" class="article-share-link">Teilen</a>
+      <a data-url="https://fy-han.github.io.git/blog/2021/9/23/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%8A%80%E6%9C%AF-%E6%8A%80%E6%9C%AF%E6%9D%82%E8%B0%88-2021-9-23-markdown%E8%AF%AD%E6%B3%95%E5%AD%A6%E4%B9%A0%E5%A4%A7%E5%85%A8/" data-id="ckvfdssh1001bmgu59od7ejxs" data-title="markdown语法学习大全" class="article-share-link">Compartir</a>
       
       
       
@@ -879,7 +936,7 @@ x_{ij}^2\quad \sqrt{x}\quad \sqrt[3]{x}</script><script type="math/tex; mode=dis
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://fy-han.github.io.git/blog/2021/9/22/2021%E5%91%A8%E6%8A%A5-3%E5%AD%A3%E5%BA%A6-2021-9-22-%E7%AC%AC30%E5%91%A8%E8%87%B39-26/" data-id="ckvaecdf6000cssu56uvq7rk2" data-title="第30周至9.26" class="article-share-link">Teilen</a>
+      <a data-url="https://fy-han.github.io.git/blog/2021/9/22/2021%E5%91%A8%E6%8A%A5-3%E5%AD%A3%E5%BA%A6-2021-9-22-%E7%AC%AC30%E5%91%A8%E8%87%B39-26/" data-id="ckvfdssgr000kmgu56ym1a6yo" data-title="第30周至9.26" class="article-share-link">Compartir</a>
       
       
       
@@ -924,7 +981,7 @@ x_{ij}^2\quad \sqrt{x}\quad \sqrt[3]{x}</script><script type="math/tex; mode=dis
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://fy-han.github.io.git/blog/2021/9/14/2021%E5%91%A8%E6%8A%A5-3%E5%AD%A3%E5%BA%A6-2021-9-14-%E7%AC%AC29%E5%91%A8%E8%87%B39-19/" data-id="ckvaecdf10006ssu5b50sbf4y" data-title="第29周至9.19" class="article-share-link">Teilen</a>
+      <a data-url="https://fy-han.github.io.git/blog/2021/9/14/2021%E5%91%A8%E6%8A%A5-3%E5%AD%A3%E5%BA%A6-2021-9-14-%E7%AC%AC29%E5%91%A8%E8%87%B39-19/" data-id="ckvfdssgr000imgu54o7hhnq6" data-title="第29周至9.19" class="article-share-link">Compartir</a>
       
       
       
@@ -965,7 +1022,7 @@ x_{ij}^2\quad \sqrt{x}\quad \sqrt[3]{x}</script><script type="math/tex; mode=dis
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://fy-han.github.io.git/blog/2021/9/11/2021%E5%91%A8%E6%8A%A5-3%E5%AD%A3%E5%BA%A6-2021-9-11-%E7%94%B3%E8%AF%B7%E8%AF%BE/" data-id="ckvaecdf10007ssu50nx08ypt" data-title="申请课" class="article-share-link">Teilen</a>
+      <a data-url="https://fy-han.github.io.git/blog/2021/9/11/2021%E5%91%A8%E6%8A%A5-3%E5%AD%A3%E5%BA%A6-2021-9-11-%E7%94%B3%E8%AF%B7%E8%AF%BE/" data-id="ckvfdssgp000emgu5032l0qyz" data-title="申请课" class="article-share-link">Compartir</a>
       
       
       
@@ -1008,7 +1065,7 @@ x_{ij}^2\quad \sqrt{x}\quad \sqrt[3]{x}</script><script type="math/tex; mode=dis
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://fy-han.github.io.git/blog/2021/9/7/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%8A%80%E6%9C%AF-ai-2021-9-7-AI-%E7%AC%AC%E4%BA%8C%E8%8A%82%EF%BC%88%E7%BB%98%E5%9B%BE%EF%BC%89/" data-id="ckvaecdg7001zssu5dk6l6fw0" data-title="AI 第二节（绘图）" class="article-share-link">Teilen</a>
+      <a data-url="https://fy-han.github.io.git/blog/2021/9/7/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%8A%80%E6%9C%AF-ai-2021-9-7-AI-%E7%AC%AC%E4%BA%8C%E8%8A%82%EF%BC%88%E7%BB%98%E5%9B%BE%EF%BC%89/" data-id="ckvfdssh1001dmgu5btgf6kfo" data-title="AI 第二节（绘图）" class="article-share-link">Compartir</a>
       
       
       
@@ -1047,50 +1104,10 @@ x_{ij}^2\quad \sqrt{x}\quad \sqrt[3]{x}</script><script type="math/tex; mode=dis
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://fy-han.github.io.git/blog/2021/9/4/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%8A%80%E6%9C%AF-web-develop-HTML5-CSS3-first-html/" data-id="ckvaecdgs003dssu54ab97t9c" data-title="" class="article-share-link">Teilen</a>
+      <a data-url="https://fy-han.github.io.git/blog/2021/9/4/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%8A%80%E6%9C%AF-web-develop-HTML5-CSS3-first-html/" data-id="ckvfdsshb002nmgu5e2owc4g3" data-title="" class="article-share-link">Compartir</a>
       
       
       
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-科研学习-计算机技术-web-develop-HTML5-CSS3-2021-9-4-web开发第一节" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/blog/2021/9/4/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%8A%80%E6%9C%AF-web-develop-HTML5-CSS3-2021-9-4-web%E5%BC%80%E5%8F%91%E7%AC%AC%E4%B8%80%E8%8A%82/" class="article-date">
-  <time class="dt-published" datetime="2021-09-04T02:01:27.000Z" itemprop="datePublished">2021-09-04</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/blog/2021/9/4/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%8A%80%E6%9C%AF-web-develop-HTML5-CSS3-2021-9-4-web%E5%BC%80%E5%8F%91%E7%AC%AC%E4%B8%80%E8%8A%82/">web开发第一节</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h2 id="第一节"><a href="#第一节" class="headerlink" title="第一节"></a>第一节</h2>
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://fy-han.github.io.git/blog/2021/9/4/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%8A%80%E6%9C%AF-web-develop-HTML5-CSS3-2021-9-4-web%E5%BC%80%E5%8F%91%E7%AC%AC%E4%B8%80%E8%8A%82/" data-id="ckvaecdgr003bssu50dqc92v8" data-title="web开发第一节" class="article-share-link">Teilen</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/web/" rel="tag">web</a></li></ul>
-
     </footer>
   </div>
   
@@ -1103,7 +1120,7 @@ x_{ij}^2\quad \sqrt{x}\quad \sqrt[3]{x}</script><script type="math/tex; mode=dis
 
   <nav id="page-nav">
     
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/2/">weiter &raquo;</a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/2/">Siguiente &raquo;</a>
   </nav>
 
 </section>
@@ -1117,7 +1134,7 @@ x_{ij}^2\quad \sqrt{x}\quad \sqrt[3]{x}</script><script type="math/tex; mode=dis
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/AMBER/" rel="tag">AMBER</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Gaussian/" rel="tag">Gaussian</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ai/" rel="tag">ai</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gmx/" rel="tag">gmx</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/" rel="tag">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/moe/" rel="tag">moe</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/summer-intern/" rel="tag">summer intern</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/web/" rel="tag">web</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BD%9C%E6%9B%B2/" rel="tag">作曲</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8D%9A%E5%AE%A2%E5%BB%BA%E7%AB%8B/" rel="tag">博客建立</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%91%A8%E6%8A%A5/" rel="tag">周报</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8A%80%E6%9C%AF%E6%9D%82%E8%B0%88/" rel="tag">技术杂谈</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%94%9F%E6%B4%BB%E5%8F%8D%E6%80%9D/" rel="tag">生活反思</a></li></ul>
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/AMBER/" rel="tag">AMBER</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/GMX/" rel="tag">GMX</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Gaussian/" rel="tag">Gaussian</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ai/" rel="tag">ai</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gmx/" rel="tag">gmx</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/" rel="tag">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/moe/" rel="tag">moe</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/summer-intern/" rel="tag">summer intern</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/web/" rel="tag">web</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BD%9C%E6%9B%B2/" rel="tag">作曲</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8D%9A%E5%AE%A2%E5%BB%BA%E7%AB%8B/" rel="tag">博客建立</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%91%A8%E6%8A%A5/" rel="tag">周报</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8A%80%E6%9C%AF%E6%9D%82%E8%B0%88/" rel="tag">技术杂谈</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%94%9F%E6%B4%BB%E5%8F%8D%E6%80%9D/" rel="tag">生活反思</a></li></ul>
     </div>
   </div>
 
@@ -1125,16 +1142,16 @@ x_{ij}^2\quad \sqrt{x}\quad \sqrt[3]{x}</script><script type="math/tex; mode=dis
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Tag Cloud</h3>
+    <h3 class="widget-title">Nube de Tags</h3>
     <div class="widget tagcloud">
-      <a href="/tags/AMBER/" style="font-size: 17.5px;">AMBER</a> <a href="/tags/Gaussian/" style="font-size: 10px;">Gaussian</a> <a href="/tags/ai/" style="font-size: 12.5px;">ai</a> <a href="/tags/gmx/" style="font-size: 17.5px;">gmx</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/moe/" style="font-size: 12.5px;">moe</a> <a href="/tags/summer-intern/" style="font-size: 10px;">summer intern</a> <a href="/tags/web/" style="font-size: 10px;">web</a> <a href="/tags/%E4%BD%9C%E6%9B%B2/" style="font-size: 10px;">作曲</a> <a href="/tags/%E5%8D%9A%E5%AE%A2%E5%BB%BA%E7%AB%8B/" style="font-size: 10px;">博客建立</a> <a href="/tags/%E5%91%A8%E6%8A%A5/" style="font-size: 20px;">周报</a> <a href="/tags/%E6%8A%80%E6%9C%AF%E6%9D%82%E8%B0%88/" style="font-size: 12.5px;">技术杂谈</a> <a href="/tags/%E7%94%9F%E6%B4%BB%E5%8F%8D%E6%80%9D/" style="font-size: 15px;">生活反思</a>
+      <a href="/tags/AMBER/" style="font-size: 17.5px;">AMBER</a> <a href="/tags/GMX/" style="font-size: 10px;">GMX</a> <a href="/tags/Gaussian/" style="font-size: 10px;">Gaussian</a> <a href="/tags/ai/" style="font-size: 12.5px;">ai</a> <a href="/tags/gmx/" style="font-size: 17.5px;">gmx</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/moe/" style="font-size: 12.5px;">moe</a> <a href="/tags/summer-intern/" style="font-size: 10px;">summer intern</a> <a href="/tags/web/" style="font-size: 10px;">web</a> <a href="/tags/%E4%BD%9C%E6%9B%B2/" style="font-size: 10px;">作曲</a> <a href="/tags/%E5%8D%9A%E5%AE%A2%E5%BB%BA%E7%AB%8B/" style="font-size: 10px;">博客建立</a> <a href="/tags/%E5%91%A8%E6%8A%A5/" style="font-size: 20px;">周报</a> <a href="/tags/%E6%8A%80%E6%9C%AF%E6%9D%82%E8%B0%88/" style="font-size: 12.5px;">技术杂谈</a> <a href="/tags/%E7%94%9F%E6%B4%BB%E5%8F%8D%E6%80%9D/" style="font-size: 15px;">生活反思</a>
     </div>
   </div>
 
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Archiv</h3>
+    <h3 class="widget-title">Archivos</h3>
     <div class="widget">
       <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/10/">October 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/09/">September 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/08/">August 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/07/">July 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/06/">June 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/05/">May 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">April 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a></li></ul>
     </div>
@@ -1144,9 +1161,13 @@ x_{ij}^2\quad \sqrt{x}\quad \sqrt[3]{x}</script><script type="math/tex; mode=dis
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">letzter Beitrag</h3>
+    <h3 class="widget-title">Posts recientes</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/blog/2021/10/31/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%88%86%E5%AD%90%E6%A8%A1%E6%8B%9F-GMX-2021-10-31-GROMACS-MD-%E9%80%9F%E5%BA%A6%E8%B0%83%E6%95%B4/">GROMACS MD 速度调整</a>
+          </li>
         
           <li>
             <a href="/blog/2021/10/25/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%8A%80%E6%9C%AF-%E6%8A%80%E6%9C%AF%E6%9D%82%E8%B0%88-2021-10-25-Bash%E6%95%99%E5%AD%A6/">(no title)</a>
@@ -1164,10 +1185,6 @@ x_{ij}^2\quad \sqrt{x}\quad \sqrt[3]{x}</script><script type="math/tex; mode=dis
             <a href="/blog/2021/9/23/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%8A%80%E6%9C%AF-%E6%8A%80%E6%9C%AF%E6%9D%82%E8%B0%88-2021-9-23-markdown%E8%AF%AD%E6%B3%95%E5%AD%A6%E4%B9%A0%E5%A4%A7%E5%85%A8/">markdown语法学习大全</a>
           </li>
         
-          <li>
-            <a href="/blog/2021/9/22/2021%E5%91%A8%E6%8A%A5-3%E5%AD%A3%E5%BA%A6-2021-9-22-%E7%AC%AC30%E5%91%A8%E8%87%B39-26/">第30周至9.26</a>
-          </li>
-        
       </ul>
     </div>
   </div>
@@ -1182,7 +1199,7 @@ x_{ij}^2\quad \sqrt{x}\quad \sqrt[3]{x}</script><script type="math/tex; mode=dis
     <div id="footer-info" class="inner">
       
       &copy; 2021 FY-Han<br>
-      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+      Construido por <a href="https://hexo.io/" target="_blank">Hexo</a>
     </div>
   </div>
 </footer>
@@ -1215,5 +1232,21 @@ x_{ij}^2\quad \sqrt{x}\quad \sqrt[3]{x}</script><script type="math/tex; mode=dis
 
 
   </div>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="https://cdnsjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
 </body>
 </html>
