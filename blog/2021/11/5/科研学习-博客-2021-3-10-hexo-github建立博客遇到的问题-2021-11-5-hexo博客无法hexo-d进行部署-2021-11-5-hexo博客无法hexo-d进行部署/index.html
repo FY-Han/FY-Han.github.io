@@ -6,18 +6,18 @@
   
   <title>hexo博客无法hexo d进行部署 | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta property="og:type" content="article">
+  <meta name="description" content="执行 hexo d 部署到 GitHub 上的时候总是卡住解决办法1.国内墙对 GitHub 的阻挡影响，导致国内用户在向 GitHub 仓库 pull 或者 push 的时候速度都会受到不同程度的影响。解决办法是 买或者自己搭建个 vpn，然后设置 git 代理。有人说改用手机热点竟然可以了，可以试试，不过我还没有验证其真实性。 2.让GitHub用https的部署链接（即上图中打＃号的链接），">
+<meta property="og:type" content="article">
 <meta property="og:title" content="hexo博客无法hexo d进行部署">
 <meta property="og:url" content="https://fy-han.github.io.git/blog/2021/11/5/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%8D%9A%E5%AE%A2-2021-3-10-hexo-github%E5%BB%BA%E7%AB%8B%E5%8D%9A%E5%AE%A2%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98-2021-11-5-hexo%E5%8D%9A%E5%AE%A2%E6%97%A0%E6%B3%95hexo-d%E8%BF%9B%E8%A1%8C%E9%83%A8%E7%BD%B2-2021-11-5-hexo%E5%8D%9A%E5%AE%A2%E6%97%A0%E6%B3%95hexo-d%E8%BF%9B%E8%A1%8C%E9%83%A8%E7%BD%B2/index.html">
 <meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="执行 hexo d 部署到 GitHub 上的时候总是卡住解决办法1.国内墙对 GitHub 的阻挡影响，导致国内用户在向 GitHub 仓库 pull 或者 push 的时候速度都会受到不同程度的影响。解决办法是 买或者自己搭建个 vpn，然后设置 git 代理。有人说改用手机热点竟然可以了，可以试试，不过我还没有验证其真实性。 2.让GitHub用https的部署链接（即上图中打＃号的链接），">
 <meta property="og:locale">
-<meta property="og:image" content="https://fy-han.github.io.git/blog/2021/11/5/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%8D%9A%E5%AE%A2-2021-3-10-hexo-github%E5%BB%BA%E7%AB%8B%E5%8D%9A%E5%AE%A2%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98-2021-11-5-hexo%E5%8D%9A%E5%AE%A2%E6%97%A0%E6%B3%95hexo-d%E8%BF%9B%E8%A1%8C%E9%83%A8%E7%BD%B2-2021-11-5-hexo%E5%8D%9A%E5%AE%A2%E6%97%A0%E6%B3%95hexo-d%E8%BF%9B%E8%A1%8C%E9%83%A8%E7%BD%B2/life/blog/source/_posts/科研学习/博客/2021.3.10-hexo-github建立博客遇到的问题（1）/2021.11.5-hexo博客无法hexo-d进行部署/tmpCD26.png">
 <meta property="article:published_time" content="2021-11-05T13:16:25.000Z">
-<meta property="article:modified_time" content="2021-11-05T13:41:30.739Z">
+<meta property="article:modified_time" content="2021-11-05T14:13:58.306Z">
 <meta property="article:author" content="FY-Han">
 <meta property="article:tag" content="博客建立">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://fy-han.github.io.git/blog/2021/11/5/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%8D%9A%E5%AE%A2-2021-3-10-hexo-github%E5%BB%BA%E7%AB%8B%E5%8D%9A%E5%AE%A2%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98-2021-11-5-hexo%E5%8D%9A%E5%AE%A2%E6%97%A0%E6%B3%95hexo-d%E8%BF%9B%E8%A1%8C%E9%83%A8%E7%BD%B2-2021-11-5-hexo%E5%8D%9A%E5%AE%A2%E6%97%A0%E6%B3%95hexo-d%E8%BF%9B%E8%A1%8C%E9%83%A8%E7%BD%B2/life/blog/source/_posts/科研学习/博客/2021.3.10-hexo-github建立博客遇到的问题（1）/2021.11.5-hexo博客无法hexo-d进行部署/tmpCD26.png">
   
     <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -96,12 +96,143 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <p><img src="/blog/2021/11/5/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%8D%9A%E5%AE%A2-2021-3-10-hexo-github%E5%BB%BA%E7%AB%8B%E5%8D%9A%E5%AE%A2%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98-2021-11-5-hexo%E5%8D%9A%E5%AE%A2%E6%97%A0%E6%B3%95hexo-d%E8%BF%9B%E8%A1%8C%E9%83%A8%E7%BD%B2-2021-11-5-hexo%E5%8D%9A%E5%AE%A2%E6%97%A0%E6%B3%95hexo-d%E8%BF%9B%E8%A1%8C%E9%83%A8%E7%BD%B2/life\blog\source\_posts\科研学习\博客\2021.3.10-hexo-github建立博客遇到的问题（1）\2021.11.5-hexo博客无法hexo-d进行部署\tmpCD26.png" alt="tmpCD26"></p>
+        <h2 id="执行-hexo-d-部署到-GitHub-上的时候总是卡住解决办法"><a href="#执行-hexo-d-部署到-GitHub-上的时候总是卡住解决办法" class="headerlink" title="执行 hexo d 部署到 GitHub 上的时候总是卡住解决办法"></a><strong><a target="_blank" rel="noopener" href="https://blog.51cto.com/u_15176340/2723833">执行 hexo d 部署到 GitHub 上的时候总是卡住解决办法</a></strong></h2><p>1.国内墙对 GitHub 的阻挡影响，导致国内用户在向 GitHub 仓库 pull 或者 push 的时候速度都会受到不同程度的影响。解决办法是 买或者自己搭建个 vpn，然后设置 git 代理。有人说改用手机热点竟然可以了，可以试试，不过我还没有验证其真实性。</p>
+<p>2.让GitHub用https的部署链接（即上图中打＃号的链接），并让git走代理。代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git config --global http.proxy &#39;socks5:&#x2F;&#x2F;127.0.0.1:1080&#39;git config --global https.proxy &#39;socks5:&#x2F;&#x2F;127.0.0.1:1080&#39;</span><br></pre></td></tr></table></figure>
+<p>执行 hexo d 部署到 GitHub 上的时候总是卡住解决办法</p>
+<h2 id="解决github无法连接错误-OpenSSL-SSL-connect-Connection-was-reset-in-connection-to-github-com-443"><a href="#解决github无法连接错误-OpenSSL-SSL-connect-Connection-was-reset-in-connection-to-github-com-443" class="headerlink" title="解决github无法连接错误 OpenSSL SSL_connect: Connection was reset in connection to github.com:443"></a><a target="_blank" rel="noopener" href="https://www.cnblogs.com/LandWind/p/github_SSL_connect_error_443.html">解决github无法连接错误 OpenSSL SSL_connect: Connection was reset in connection to github.com:443</a></h2><h3 id="错误描述"><a href="#错误描述" class="headerlink" title="错误描述#"></a>错误描述<a target="_blank" rel="noopener" href="https://www.cnblogs.com/LandWind/p/github_SSL_connect_error_443.html#2286060437">#</a></h3><p>OpenSSL SSL_connect: Connection was reset in connection to github.com:443<br>看错误描述就标识ssl连接不到443端口。<br>本机已经挂了小飞机，说明是代理出了问题，所以先检查git的全局配置。</p>
+<h3 id="查看全局配置"><a href="#查看全局配置" class="headerlink" title="查看全局配置#"></a>查看全局配置<a target="_blank" rel="noopener" href="https://www.cnblogs.com/LandWind/p/github_SSL_connect_error_443.html#3249025500">#</a></h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Copygit config --global -l</span><br></pre></td></tr></table></figure>
+<p>检查是否有https.proxy及http.proxy项</p>
+<h3 id="设置全局代理设置"><a href="#设置全局代理设置" class="headerlink" title="设置全局代理设置#"></a>设置全局代理设置<a target="_blank" rel="noopener" href="https://www.cnblogs.com/LandWind/p/github_SSL_connect_error_443.html#1605978880">#</a></h3><p>示例7890端口是代理软件端口，按个人情况修改。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Copygit config --global http.proxy 127.0.0.1:7890</span><br><span class="line">git config --global https.proxy 127.0.0.1:7890</span><br></pre></td></tr></table></figure>
+<h3 id="已有设置情况修改代理项"><a href="#已有设置情况修改代理项" class="headerlink" title="已有设置情况修改代理项#"></a>已有设置情况修改代理项<a target="_blank" rel="noopener" href="https://www.cnblogs.com/LandWind/p/github_SSL_connect_error_443.html#1399694437">#</a></h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Copygit config --global --unset http.proxy</span><br><span class="line">git config --global --unset https.proxy</span><br></pre></td></tr></table></figure>
+<h2 id="git使用socks5代理提示：Unsupported-proxy-syntax-in-127-0-0-1-1080-qq-27006679的博客-CSDN博客"><a href="#git使用socks5代理提示：Unsupported-proxy-syntax-in-127-0-0-1-1080-qq-27006679的博客-CSDN博客" class="headerlink" title="git使用socks5代理提示：Unsupported proxy syntax in 127.0.0.1:1080_qq_27006679的博客-CSDN博客"></a><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_27006679/article/details/118327505">git使用socks5代理提示：Unsupported proxy syntax in 127.0.0.1:1080_qq_27006679的博客-CSDN博客</a></h2><p>提示说是语法错误：</p>
+<p>打开.gitconfig文件查看代理：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[http]</span><br><span class="line">    proxy &#x3D; &#39;socks5:&#x2F;&#x2F;127.0.0.1:1080&#39;</span><br><span class="line">[https]</span><br><span class="line">    proxy &#x3D; &#39;socks5:&#x2F;&#x2F;127.0.0.1:1080&#39;</span><br></pre></td></tr></table></figure>
+<p>去掉前后的单引号，错误消失</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[http]</span><br><span class="line">    proxy &#x3D; socks5:&#x2F;&#x2F;127.0.0.1:1080</span><br><span class="line">[https]</span><br><span class="line">    proxy &#x3D; socks5:&#x2F;&#x2F;127.0.0.1:1080</span><br></pre></td></tr></table></figure>
+<h1 id="Clash使用教程-Lawliet’s-blog"><a href="#Clash使用教程-Lawliet’s-blog" class="headerlink" title="Clash使用教程 - Lawliet’s blog "></a><a target="_blank" rel="noopener" href="http://zhangshen147.online/post/clash-use">Clash使用教程 - Lawliet’s blog </a></h1><p>2020年9月3日<a target="_blank" rel="noopener" href="http://zhangshen147.online/categories/Tech">Tech</a></p>
+<p><code>Clash</code> 是一款用 Go 语言编写的、基于规则的隧道（Tunnel ）程序，它支持多种加密通信协议和跨平台，目前已知 Clash 核心支持的加密协议就有 Vmess、Shadowsocks、Trojan、Snell 等。也就是说，所有运行了这些协议之一，或更多的代理节点（Proxy Node），都能交由 Clash 核心统一管理。</p>
+<p>以下是 Clash 核心的 Github 地址：</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/Dreamacro/clash">https://github.com/Dreamacro/clash</a></p>
+<blockquote>
+<p>注：Clash 的跨平台特性实际上得益于 Go 语言自身良好/优秀的可移植性。</p>
+</blockquote>
+<h2 id="Clash-客户端"><a href="#Clash-客户端" class="headerlink" title="Clash 客户端"></a>Clash 客户端</h2><p>之前我一直称呼它为 Clash 核心，但却没有解释为什么叫它“核心”，实际上这是相对于 Clash 客户端而言的。Clash 核心是隧道（Tunnel ）程序，但我们平时所接触的各种 Clash 客户端，其实应该算作更上一层的代理（Proxy）程序，是对 Clash 核心的一种应用，也是基于 Clash 核心的：</p>
+<p>macOS：<a target="_blank" rel="noopener" href="https://github.com/yichengchen/clashX">clashX</a></p>
+<p>Windows：<a target="_blank" rel="noopener" href="https://github.com/Fndroid/clash_for_windows_pkg">Clash for Windows</a></p>
+<p>Linux：<a target="_blank" rel="noopener" href="https://github.com/uiYzzi/ClashR-Pro">ClashR-Pro</a></p>
+<p>Android：<a target="_blank" rel="noopener" href="https://github.com/Kr328/ClashForAndroid">ClashForAndroid</a></p>
+<p>本篇文章旨在介绍一些 Clash 中的核心概念，以帮助我们更好地理解和使用 Clash 客户端，但由于本人会同时使用多种客户端，因此就不再用具体的用户接口（User Interface）去描述问题了，尽量贴近原生的配置文件，旨在提供一种通用的方法论。</p>
+<h2 id="机场"><a href="#机场" class="headerlink" title="机场"></a>机场</h2><p>我们在使用 Clash 客户端的时候，往往都要和“机场”一起配合使用。所谓机场，其实是一种形象化的说法，因为原本 SS/SSR 的 logo 就是一个好看的纸飞机图案，而作为 SS/SSR 代理服务的提供商，他们往往拥有不只一台纸飞机（Shadowsocks），因此，“机场”作为一种代号就流传下来了，意在说明停靠了好多纸飞机在上面的意思。</p>
+<p>后来，我们发现 Proxy Node 不只可以是 Shadowsocks 的，还可以是 Vmess 等协议的，但习惯已经养成，懒得改称呼了，所以“机场”这一称呼的含义就得到了延伸，变成了现在所有代理服务提供商的统称。</p>
+<h2 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h2><p>Clash 是配置驱动的。通过 Clash 客户端，我们可以进行许多操作，以控制系统代理的行为和走向。但是，这些操作的背后，其实都是在读写/操作一些配置文件。换句话说，配置是 Clash 软件的绳命，只有在导入了配置以后，我们的许多操作才能进行，进行的许多操作才有意义。</p>
+<h3 id="配置文件"><a href="#配置文件" class="headerlink" title="配置文件"></a>配置文件</h3><p>Clash 的配置文件是 <a target="_blank" rel="noopener" href="https://docs.cfw.lbyczf.com/contents/configfile.html">yaml</a> 格式的，以 CFW（Clash for Windows）客户端为例，它使用的两个配置文件分别是：</p>
+<ul>
+<li><code>$&#123;Home&#125;/config.yaml</code></li>
+<li><code>$&#123;Home&#125;/profiles/xxxx.yaml</code></li>
+</ul>
+<p>在这两个配置文件中，第一个 <code>config.yaml</code> 文件是很重要的，它控制着 Clash 核心的启动，如果此文件有错，那么 Clash 核心很可能将无法启动，并在界面上报 Could not run Clash core 错误，一般情况下我们不应该，也没必要去修改它。</p>
+<p>而第 2 种位于 <code>$&#123;Home&#125;/profiles/</code> 目录之下的 <code>xxxx.yaml</code> 配置文件，则须由用户自行导入，平时我们接触更多的配置文件其实还是它们，在它们上面进行的配置也比较多。</p>
+<h3 id="导入配置"><a href="#导入配置" class="headerlink" title="导入配置"></a>导入配置</h3><p>profiles 目录下的配置文件，统一由 Clash 生成，并在一般情况下用时间戳（Timestamp）来命名，但是如何导入呢？主要有以下两种方式：</p>
+<ol>
+<li>本地导入。或手动编辑，或直接下载一份配置文件到本地（代理服务提供商提供），然后拖拽导入到 Clash 客户端中即可。</li>
+<li>订阅链接。依旧是由代理服务商提供配置文件，但不一样的是，这次不再直接交给用户，而是维护一个订阅链接交给用户，用户可以通过该链接不断地检查更新，以持续获得最新、最全的配置文件，相当于是“售后保障”了。</li>
+</ol>
+<blockquote>
+<p>注：Profiles 目录下的配置文件可以有多个，当我们这样做了以后，体现在 Clash 客户端界面上的现象就是，在 Profiles 导航菜单下会有多套“配置”供我们切换选择。</p>
+</blockquote>
+<h3 id="基本配置"><a href="#基本配置" class="headerlink" title="基本配置"></a>基本配置</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># HTTP 端口</span><br><span class="line">port: 7890</span><br><span class="line"></span><br><span class="line"># SOCKS5 端口</span><br><span class="line">socks-port: 7891</span><br><span class="line"></span><br><span class="line"># Linux 及 macOS 的 redir 端口</span><br><span class="line"># redir-port: 7892</span><br></pre></td></tr></table></figure>
+<p>默认情况下，Clash 在本地监听了两个端口，分别是 7890 用作 Http/Https 协议的监听/转发端口，和 7891 用作 Socks5 协议的监听/转发端口。不同的协议（利用回环网卡）转发到对应的端口上，然后再经由这两个端口的判断和修改后，从正常的网卡传出数据即可。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">allow-lan: false</span><br><span class="line"></span><br><span class="line"># 仅适用于设置 allow-lan 为 true 时</span><br><span class="line"></span><br><span class="line"># 1. 绑定所有 IP 地址</span><br><span class="line"># bind-address: &quot;*&quot;</span><br><span class="line"></span><br><span class="line"># 2. 绑定单个 IPv4 地址</span><br><span class="line"># bind-address: &quot;192.168.122.11&quot;</span><br><span class="line"></span><br><span class="line"># 3. 绑定单个 IPv6 地址</span><br><span class="line"># bind-address: &quot;aaaa::a8aa:ff:fe09:57d8&quot;</span><br></pre></td></tr></table></figure>
+<p>是否连局域网也要走代理。一般情况下，我们只是因为要连接🔗的网站走不通了才会使用代理，局域网肯定是能访问的呀，所以一般没必要开（设置为 true）。但是，如果你实在有这个需求的话，可以在将 allow-lan 设置为 true 的前提下，利用下面给出的 3 条设置范例，将你要代理的 local ip 地址设置进去。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># 设置输出日志的等级 (默认为 info)</span><br><span class="line"># silent &#x2F; info &#x2F; warning &#x2F; error &#x2F; debug</span><br><span class="line">log-level: info</span><br></pre></td></tr></table></figure>
+<p>可以设置 Clash 的日志输出级别，按照注释上的顺序，日志级别依次提高。log-level 设置的级别越高，日志的输出量就越大，越倾向于调试，默认设置为 info。</p>
+<blockquote>
+<p>注：此处的日志，指的是能够在 Dashboard（控制台）界面中被看到的日志，而不是指是否记录某个级别的日志。经过测试发现，无论选择何种日志等级，日志条目都是照常记录在 log 文件里的，它控制的只是输出，是否在 Dashboard 中显示给用户审计。</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"># RESTful API for clash</span><br><span class="line">external-controller: 127.0.0.1:9090</span><br><span class="line"></span><br><span class="line"># you can put the static web resource (such as clash-dashboard) to a directory, and clash would serve in &#96;$&#123;API&#125;&#x2F;ui&#96;</span><br><span class="line"># input is a relative path to the configuration directory or an absolute path</span><br><span class="line"># external-ui: folder</span><br><span class="line"></span><br><span class="line"># Secret for RESTful API (Optional)</span><br><span class="line"># secret: &quot;&quot;</span><br></pre></td></tr></table></figure>
+<p>除此之外，Clash 提供了一个 RESTful API，帮助我们从外部或本地前端页面进行访问，如有必要，还可以为其设置密码（Secret）等。默认情况下，我们可以通过以下本地回环地址来访问 Dashboard 前端页面：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http:&#x2F;&#x2F;localhost:9090&#x2F;ui</span><br></pre></td></tr></table></figure>
+<h3 id="配置生效"><a href="#配置生效" class="headerlink" title="配置生效"></a>配置生效</h3><p>前面介绍了许多 Clash 配置项，但实际上，它们不一定是被需要的。Clash 使用配置文件的方式是这样的：允许 Profiles 目录下的 <code>xxxx.yaml</code> 配置文件不完整，一般只需包含最基本的 <code>proxies、proxy-groups、rules</code> 三个字段即可。</p>
+<p>因为当 Clash 启动以后，只对上面提到的有限个字段（还可能包括 dns、hosts 等）进行替换，导入 Clash 使之生效，其它的内容均不会被替换。否则，由于里面设置的监听端口号等，会导致每次修改/切换配置文件以后，都重新设置系统代理，以及其它软件的代理端口，显然太麻烦了。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"># 1. 代理节点</span><br><span class="line">proxies:</span><br><span class="line">- name: &quot;香港中继Q1 Media (HK)&quot;</span><br><span class="line">  type: vmess</span><br><span class="line">  server: q0-slb.jxsstgj.com</span><br><span class="line">  port: 544</span><br><span class="line">- name: &quot;香港中继Q2 Media (HK)&quot;</span><br><span class="line">  type: vmess</span><br><span class="line">  server: q1-slb.jxsstgj.com</span><br><span class="line">  port: 544</span><br><span class="line"># 2. 代理组策略</span><br><span class="line">proxy-groups:</span><br><span class="line">  - name: Proxy</span><br><span class="line">    type: select</span><br><span class="line">    proxies:</span><br><span class="line">      - &quot;香港中继Q1 Media (HK)&quot;</span><br><span class="line">      - &quot;香港中继Q2 Media (HK)&quot;</span><br><span class="line"># 3. 规则</span><br><span class="line">rules:</span><br><span class="line">  - &#39;MATCH,DIRECT&#39;</span><br></pre></td></tr></table></figure>
+<h3 id="代理模式（Mode）"><a href="#代理模式（Mode）" class="headerlink" title="代理模式（Mode）"></a>代理模式（Mode）</h3><p>使用 Clash 客户端的核心在于它的“代理界面”的设置，在这里，我们主要做以下两件事：</p>
+<ul>
+<li>切换代理模式</li>
+<li>切换节点</li>
+</ul>
+<p>首先我们介绍代理模式，在 Clash 中一共有 3 种代理模式，它们分别是：</p>
+<ul>
+<li>全局（Global）：所有的请求都直接发往代理服务器，进行代理。</li>
+<li>规则（Rule）：所有请求根据配置文件中的“规则”进行过滤、分流。</li>
+<li>直连（Direct）：所有请求不经过中间节点，直接发往目的地（也即不使用代理）。</li>
+</ul>
+<p>“代理模式”选项在 Configuration 中的具体体现是 mode 字段：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># Rule &#x2F; Global &#x2F; Direct (默认为 Rule 模式)</span><br><span class="line">mode: Rule</span><br></pre></td></tr></table></figure>
+<p><strong>代理</strong>和<strong>节点列表</strong>本质上是不冲突的，但切换了不同的工作模式以后，对应的策略组和节点列表会发生变化，这是因为我们为不同的代理模式配置了不同的策略组和节点列表。一般情况下，我们都使用 Rule 作为默认代理模式，因为它支持过滤，自定义程度更高，同时还符合中国人“中庸”的思想，不一棒子打死。</p>
+<h3 id="代理节点（Proxies）"><a href="#代理节点（Proxies）" class="headerlink" title="代理节点（Proxies）"></a>代理节点（Proxies）</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"># 代理节点</span><br><span class="line">proxies:</span><br><span class="line">- name: &quot;香港中继Q1 Media (HK)&quot;</span><br><span class="line">  type: vmess</span><br><span class="line">  server: q0-slb.jxsstgj.com</span><br><span class="line">  port: 544</span><br><span class="line">  cipher: auto</span><br><span class="line">- name: &quot;香港中继Q2 Media (HK)&quot;</span><br><span class="line">  type: vmess</span><br><span class="line">  server: q1-slb.jxsstgj.com</span><br><span class="line">  port: 544</span><br><span class="line">  cipher: auto</span><br></pre></td></tr></table></figure>
+<p>代理节点，实际是最核心的 Clash 配置内容，但往往我们又不需要修改它们，因此只简单说一下即可，里面的 type 指的是加密通信协议类型，port 指的是代理服务器/节点通过哪个端口来监听、转发我们的请求，cipher 指的是加密方式，如 AES、RC4 等，这里配置的 auto 是自动选择的意思。</p>
+<p>如果把配置文件比作代码的话，那么这里的 proxies 就是定义了一系列的节点，在后面的策略组中，我们还会引用这些节点，以实现高级功能。</p>
+<h3 id="策略组（Policy-Group）"><a href="#策略组（Policy-Group）" class="headerlink" title="策略组（Policy Group）"></a>策略组（Policy Group）</h3><p>策略组，按照我的理解，就是规定如何使用节点的方式，当我们配置好不同的策略组以后，Clash 根据不同的策略，分发由规则（Rule）过滤、传递过来的请求，其在规则中，会指定某些流量走哪个策略组。</p>
+<p>策略组有如下特性：</p>
+<ul>
+<li>具有多种不同的<strong>策略类型</strong></li>
+<li>可以包含<strong>节点</strong>和其它<strong>策略组</strong></li>
+<li>服务于<strong>规则</strong></li>
+</ul>
+<p>其中第一个很好理解，使用节点的方式可以有很多种，第二个指的是就像二级指针那样，策略（A）中还可以再引用其它策略（B），而不是只能引用一些定义好了的代理节点，第三个指的是策略的主要作用是给规则（Rule）引用的。</p>
+<p>这里我们主要说说如何添加/制定策略组，在 Surge3 中，可定义的策略类型如下：</p>
+<ul>
+<li>select，手动选择，定义一个节点或策略组列表，让用户手动进行选择。</li>
+<li>url-test，延迟测试，选择延迟较低的代理节点。</li>
+<li>ssid，网络类型，根据网络类型或路由器名称选择节点或策略组。</li>
+<li>fallback，回落类型，按照顺序选择第一个可用的代理节点或策略组。</li>
+</ul>
+<p>这些策略类型在配置文件中的体现，是 type 选项，比如说下面这段配置，就定义了一个名为 PROXY、策略类型为 select，且含有 5 个 item 的节点列表（其中 1 个为策略组 4 个为代理节点）的策略组。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"># 代理节点选择</span><br><span class="line">- name: &quot;PROXY&quot;</span><br><span class="line">  type: select</span><br><span class="line">  proxies:</span><br><span class="line">    - &quot;fallback-auto&quot;</span><br><span class="line">    - &quot;香港中继Q1 Media (HK)&quot;</span><br><span class="line">    - &quot;香港中继Q2 Media (HK)&quot;</span><br><span class="line">    - &quot;香港中继Q3 Media (HK)&quot;</span><br><span class="line">    - &quot;中继香港C1 Media (HK)&quot;</span><br></pre></td></tr></table></figure>
+<p>再比如说有些流量需要走白名单模式，或黑名单模式，那我们就为它们制定一个 Final 策略组，通过在指定时间段内切换 PROXY 或 DIRECT 策略，就可以统一规定这些流量走白名单还是黑名单模式了。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"># 白名单模式 PROXY</span><br><span class="line"># 黑名单模式 DIRECT</span><br><span class="line">- name: &quot;Final&quot;</span><br><span class="line">  type: select</span><br><span class="line">  proxies:</span><br><span class="line">    - &quot;PROXY&quot;</span><br><span class="line">    - &quot;DIRECT&quot;</span><br></pre></td></tr></table></figure>
+<p>还有一些大陆媒体面向港澳台提供的独家/本地化服务，如果我们想使用的话，就为这些流量选择一个位置在港澳台的节点即可，可以看到该节点列表中的绝大多数主机都是位置在港澳台的。但如果我们已经身处港澳台当地的话，就可以选择 DIRECT 来使这些流量直连，以避免延时损失。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"># 大陆流媒体面向港澳台限定服务</span><br><span class="line">- name: &quot;HKMTMedia&quot;</span><br><span class="line">  type: select</span><br><span class="line">  proxies:</span><br><span class="line">    - &quot;DIRECT&quot;</span><br><span class="line">    - &quot;香港中继Q1 Media (HK)&quot;</span><br><span class="line">    - &quot;香港中继Q2 Media (HK)&quot;</span><br><span class="line">    - &quot;香港中继Q3 Media (HK)&quot;</span><br><span class="line">    - &quot;中继香港C1 Media (HK)&quot;</span><br></pre></td></tr></table></figure>
+<p>但是，上面这些节点都是 select 模式的，没能体现出太多的差异化，其实还有一个特殊的，那就是 fallback-auto，它会以 interval 指定的间隔，判断网络的通畅情况，如果不可用的话，就自动切换到下一个可用的节点，其中顺序以用户书写的为准，主要使用场景是代理节点鱼龙混杂、网络差的情况下，否则就可能永远只使用位于前面的那两三个节点了。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"># 按照用户书写的服务器顺序，在确保服务器可用的情况下，自动选择服务器</span><br><span class="line">- name: &quot;fallback-auto&quot;</span><br><span class="line">  type: fallback</span><br><span class="line">  proxies:</span><br><span class="line">    - &quot;香港中继Q1 Media (HK)&quot;</span><br><span class="line">    - &quot;香港中继Q2 Media (HK)&quot;</span><br><span class="line">    - &quot;香港中继Q3 Media (HK)&quot;</span><br><span class="line">    - &quot;中继香港C1 Media (HK)&quot;</span><br><span class="line">    - &quot;中继香港C2 Media (HK)&quot;</span><br><span class="line">  url: &#39;http:&#x2F;&#x2F;www.gstatic.com&#x2F;generate_204&#39;</span><br><span class="line">  interval: 300</span><br></pre></td></tr></table></figure>
+<h3 id="规则（Rule）"><a href="#规则（Rule）" class="headerlink" title="规则（Rule）"></a>规则（Rule）</h3><p>类似 PAC（Proxy auto-config，代理自动配置）一样，Clash 中“规则”的概念就来源于此，也是通过匹配域名、ip 段等来选择代理路由的，它实际起到的是“过滤”的作用，通过判断所匹配到的域名或 ip 地址，将流量转发到不同的、合适的策略组。一般来说，绝大多数流量最后都会走 PROXY 策略组，因为它又在其它策略组中被大量引用了。</p>
+<p>接下来说说如何制定规则。在 Clash 中，一条代理规则主要由 3 部分组成：</p>
+<ol>
+<li><p>选择应用对象的方式，它可以是：</p>
+<ul>
+<li>域名匹配（DOMAIN）</li>
+<li>域名后缀（DOMAIN-SUFFIX）</li>
+<li>域名关键字（DOMAIN-KEYWORD）</li>
+<li>无类别域间路由（IP-CIDR）</li>
+<li>GeoIP数据库（GEOIP）</li>
+<li><p>全匹配（MATCH）</p>
+<p>无论选择使用哪种方式来指定，它们的目的都是一样的：选择一个或多个应用对象。其中除了 DOMAIN 方式只能指定一台主机外，其它几种方式都是可以同时匹配到多台主机。其中比较特殊的要属 GEOIP 了，它能通过查询相应的数据库，根据地理位置匹配/选择主机。</p>
+</li>
+</ul>
+</li>
+<li><p>具体的选择应用对象的规则。</p>
+</li>
+<li><p>采取的规则，包括直连（DIRECT）、拒绝（REJECT），指定某个要走的策略组，如 PROXY、Apple 等。</p>
+</li>
+</ol>
+<p>按照以上顺序，给出它们的几条规则范例分别为：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">- DOMAIN,api.viu.now.com,GlobalMedia</span><br><span class="line">- DOMAIN-SUFFIX,byteoversea.com,GlobalMedia</span><br><span class="line">- DOMAIN-KEYWORD,google,PROXY</span><br><span class="line">- IP-CIDR,61.160.200.242&#x2F;32,Hijacking,no-resolve</span><br><span class="line">- GEOIP,CN,DIRECT</span><br><span class="line">- MATCH,Final</span><br></pre></td></tr></table></figure>
+<p>规则最后一行是 <code>MATCH,Final</code>，表示当客户端运行在规则（Rule）模式时，如果匹配到以上的规则，就按照规则中定义的（策略组）路由走，否则走 Final 这个策略组。但实际上，我们前面也看到过 Final 策略组的定义，其背后依旧是依赖于 PROXY 的，因此我们平时在配置时，最应该重视的还是 PROXY 策略组。</p>
+<h3 id="绕过系统代理"><a href="#绕过系统代理" class="headerlink" title="绕过系统代理"></a>绕过系统代理</h3><p>最后，如果你压根不想让某些网站走代理的话，也可以通过在 cfw-bypass 选项下添加 ip 或域名来绕过系统代理，不过该功能只在 Windows 平台下生效，想必是因为 macOS 等平台没有提供现成的 API 所致。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"># Clash for Windows</span><br><span class="line">cfw-bypass:</span><br><span class="line">  - qq.com</span><br><span class="line">  - music.163.com</span><br><span class="line">  - &#39;*.music.126.net&#39;</span><br><span class="line">  - localhost</span><br><span class="line">  - 127.*</span><br><span class="line">  - 10.*</span><br><span class="line">  - 172.16.*</span><br><span class="line">  - 172.17.*</span><br><span class="line">  - 172.18.*</span><br><span class="line">  - &lt;local&gt;</span><br><span class="line">cfw-latency-timeout: 5000</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>Reference：</p>
+<p><a target="_blank" rel="noopener" href="https://docs.cfw.lbyczf.com/contents/ui/profiles/rules.html">Clash for Windows 文档</a></p>
+<p><a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/代理自动配置">维基百科: 代理自动配置</a></p>
+<p><a target="_blank" rel="noopener" href="https://zhuangzhuang.cf/2019-03-20/proxygroup/">Surge/Quantumult 策略组</a></p>
+</blockquote>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://fy-han.github.io.git/blog/2021/11/5/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%8D%9A%E5%AE%A2-2021-3-10-hexo-github%E5%BB%BA%E7%AB%8B%E5%8D%9A%E5%AE%A2%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98-2021-11-5-hexo%E5%8D%9A%E5%AE%A2%E6%97%A0%E6%B3%95hexo-d%E8%BF%9B%E8%A1%8C%E9%83%A8%E7%BD%B2-2021-11-5-hexo%E5%8D%9A%E5%AE%A2%E6%97%A0%E6%B3%95hexo-d%E8%BF%9B%E8%A1%8C%E9%83%A8%E7%BD%B2/" data-id="ckvmfhnkv003g70u5a2pe761s" data-title="hexo博客无法hexo d进行部署" class="article-share-link">Teilen</a>
+      <a data-url="https://fy-han.github.io.git/blog/2021/11/5/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%8D%9A%E5%AE%A2-2021-3-10-hexo-github%E5%BB%BA%E7%AB%8B%E5%8D%9A%E5%AE%A2%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98-2021-11-5-hexo%E5%8D%9A%E5%AE%A2%E6%97%A0%E6%B3%95hexo-d%E8%BF%9B%E8%A1%8C%E9%83%A8%E7%BD%B2-2021-11-5-hexo%E5%8D%9A%E5%AE%A2%E6%97%A0%E6%B3%95hexo-d%E8%BF%9B%E8%A1%8C%E9%83%A8%E7%BD%B2/" data-id="ckvmglcg5003owku5exsidhtt" data-title="hexo博客无法hexo d进行部署" class="article-share-link">Teilen</a>
       
       
       
