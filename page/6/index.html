@@ -57,12 +57,12 @@
       </nav>
       <nav id="sub-nav">
         
-          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS"></a>
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
         
-        <a id="nav-search-btn" class="nav-icon" title="Buscar"></a>
+        <a id="nav-search-btn" class="nav-icon" title="Suche"></a>
       </nav>
       <div id="search-form-wrap">
-        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Buscar"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://FY-Han.github.io.git"></form>
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Suche"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://FY-Han.github.io.git"></form>
       </div>
     </div>
   </div>
@@ -70,6 +70,159 @@
 
       <div class="outer">
         <section id="main">
+  
+    <article id="post-科研学习-分子模拟-AMBER-2021-3-17-Amber-入门教程（一）-2021-3-17-Amber-入门教程（一）" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/blog/2021/3/17/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%88%86%E5%AD%90%E6%A8%A1%E6%8B%9F-AMBER-2021-3-17-Amber-%E5%85%A5%E9%97%A8%E6%95%99%E7%A8%8B%EF%BC%88%E4%B8%80%EF%BC%89-2021-3-17-Amber-%E5%85%A5%E9%97%A8%E6%95%99%E7%A8%8B%EF%BC%88%E4%B8%80%EF%BC%89/" class="article-date">
+  <time class="dt-published" datetime="2021-03-17T05:25:55.000Z" itemprop="datePublished">2021-03-17</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/blog/2021/3/17/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%88%86%E5%AD%90%E6%A8%A1%E6%8B%9F-AMBER-2021-3-17-Amber-%E5%85%A5%E9%97%A8%E6%95%99%E7%A8%8B%EF%BC%88%E4%B8%80%EF%BC%89-2021-3-17-Amber-%E5%85%A5%E9%97%A8%E6%95%99%E7%A8%8B%EF%BC%88%E4%B8%80%EF%BC%89/">Amber--入门教程（一）</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p><em>氨基酸大分子为例</em></p>
+<h2 id="基础知识"><a href="#基础知识" class="headerlink" title="基础知识"></a>基础知识</h2><ol>
+<li>amber基础流程<br> <img src="https://img.imgdb.cn/item/6052183c524f85ce29d6647b.png" width="450" alt="步骤流程图"><ul>
+<li>输入pdb文件</li>
+<li>pdb4amber转换</li>
+<li>leap或antechamber（非标准分子）或MCPB加载力场</li>
+<li>生成prmtop和prmcrd文件</li>
+<li>使用parmed检验并评估上述文件</li>
+<li>进行后续命令处理，利用mdin文件，NAB语言</li>
+</ul>
+</li>
+</ol>
+<ol>
+<li><p>不同名称文件包含不同信息<br> <img src="https://img.imgdb.cn/item/60521051524f85ce29d18b0d.png" width="450" alt =不同文件信息内容 ><br> pdb文件包含笛卡尔坐标<br> prmtop文件，又名parm7，top，包含分子，原子名称、种类，电荷，键关系，键参数和非键参数信息，而inpcrd文件包含初始位置坐标<br> lib文件是系统自带的连接，原子名称文件等，似乎必不可缺。（不太清楚功能）</p>
+</li>
+<li><p>对于标准pdb文件提供的信息，amber根据leaprc中的力场文件计算top和crd（还可以用补充包frcmod，但似乎容易报错？）。以及对于非标准可以用antecamber模块建立自己的力场，见<a target="_blank" rel="noopener" href="http://ambermd.org/tutorials/basic/tutorial4b/">http://ambermd.org/tutorials/basic/tutorial4b/</a></p>
+</li>
+<li><p><em>Amber的各种模块</em></p>
+<h3 id="准备模块"><a href="#准备模块" class="headerlink" title="准备模块"></a>准备模块</h3><ul>
+<li><font color=#ff0000 size =4>LEaP：</font><ul>
+<li>创建新系统或修改现有系统的<strong><em>主要程序</em></strong></li>
+<li>包括命令行程序tleap或GUI xleap<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tleap</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li>pdb4amber：<ul>
+<li>因为pdb不是为amber设计的，先用pdb4amber模块转换一下</li>
+<li>看CYS有没有写成CYX，连接二硫键<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">bond &lt;unit&gt;.&lt;residue #&gt;.&lt;atom name&gt; &lt;unit&gt;.&lt;residue #&gt;.&lt;atom name&gt;</span><br><span class="line">#例：连接1，4二硫键</span><br><span class="line">bond MyUnit.1.SG MyUnit.4.SG</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li>parmed:<ul>
+<li>提取top文件中参数信息</li>
+<li>检查参数拓扑文件对复杂系统是否有效（见checkValidity命令）或简单修改文件</li>
+</ul>
+</li>
+<li>antechamber<ul>
+<li>用通用Amber力场（GAFF）开发类药物分子或modified amino acids力场的<strong><em>主要程序</em></strong>。这些力场可以直接用于LEaP中，也可以作为进一步参数开发的起点</li>
+</ul>
+</li>
+<li>MCPB.py  <ul>
+<li>建立，验证金属蛋白和有机金属化合物MM（分子模拟）模型的方法</li>
+</ul>
+</li>
+<li>IPMach.py<ul>
+<li>离子非键合模型参数化</li>
+<li>化学键合模型：与量子化学相关，见《化学键合模型概念的发展》<a target="_blank" rel="noopener" href="http://d.wanfangdata.com.cn/periodical/hxtb2200808001">http://d.wanfangdata.com.cn/periodical/hxtb2200808001</a></li>
+</ul>
+</li>
+<li>paramfit<ul>
+<li>拟合量子数据，生成分子键合力场参数</li>
+</ul>
+</li>
+<li><p>packmol-memgen</p>
+<ul>
+<li>处理脂质混合物，多层膜系统</li>
+</ul>
+<h3 id="MM，模拟模块"><a href="#MM，模拟模块" class="headerlink" title="MM，模拟模块"></a>MM，模拟模块</h3></li>
+<li>sander<ul>
+<li>能量最小化的<strong><em>主要程序</em></strong>，利用梯度下降法</li>
+<li>分子动力学模块利用牛顿力学</li>
+</ul>
+</li>
+<li>pmemd <ul>
+<li>sander的一个版本，做了运算速度合并行扫描的优化，pmemd.cuda在GPU上运行</li>
+<li>能进行Born模拟</li>
+</ul>
+</li>
+<li>mdgx<ul>
+<li>包含C语言，简化力场计算的信息流</li>
+<li>可以重新设计分子动力学算法和模型</li>
+</ul>
+</li>
+<li><p>NAB 核酸建构</p>
+<ul>
+<li>用于写非周期性模拟的程序语言，用于隐式溶剂力场，替代nmode程序，见37.1节</li>
+</ul>
+<h3 id="分析模块"><a href="#分析模块" class="headerlink" title="分析模块"></a>分析模块</h3></li>
+<li>mdout.analyzer.py<ul>
+<li>提供sander/pmemd输出的信息概要</li>
+</ul>
+</li>
+<li>cpptraj<ul>
+<li>主要的trajectory轨迹分析工具，cpp编写，用于叠加态计算，坐标提取，键/角/二面体值计算，原子位置波动，相关函数（描述函数相关程度），氢键分析，等</li>
+</ul>
+</li>
+<li>pytraj    <ul>
+<li>cpptraj的python包装，结合了numpy，scipy，ipython-notebook模块</li>
+</ul>
+</li>
+<li>pbsa<ul>
+<li>生物分子的溶剂介导能量学的分析，连续计算静电和非静电；支持溶剂介导的静电势可视化</li>
+</ul>
+</li>
+<li>MMPBSA.py<ul>
+<li>分析动力学模拟snapshot的能量</li>
+</ul>
+</li>
+<li>FEW<ul>
+<li>自由能工作流，用TI，MM/PBSA或LIE计算蛋白质与配体结合的自由能</li>
+</ul>
+</li>
+<li>amberlite<ul>
+<li>分析蛋白质配体相互作用，NAB程序，python脚本</li>
+</ul>
+</li>
+<li><p>XtalAnalyze</p>
+<ul>
+<li>分析晶体模拟轨迹</li>
+</ul>
+<h3 id="更多模块"><a href="#更多模块" class="headerlink" title="更多模块"></a>更多模块</h3><p>见1.2的List</p>
+</li>
+</ul>
+</li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://fy-han.github.io.git/blog/2021/3/17/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%88%86%E5%AD%90%E6%A8%A1%E6%8B%9F-AMBER-2021-3-17-Amber-%E5%85%A5%E9%97%A8%E6%95%99%E7%A8%8B%EF%BC%88%E4%B8%80%EF%BC%89-2021-3-17-Amber-%E5%85%A5%E9%97%A8%E6%95%99%E7%A8%8B%EF%BC%88%E4%B8%80%EF%BC%89/" data-id="ckvmdu26i002fu4u57xqf7xxq" data-title="Amber--入门教程（一）" class="article-share-link">Teilen</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/AMBER/" rel="tag">AMBER</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
   
     <article id="post-思考-2021-3-15-生活感悟与守则-2021-3-15-生活感悟与守则" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
@@ -102,7 +255,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://fy-han.github.io.git/blog/2021/3/15/%E6%80%9D%E8%80%83-2021-3-15-%E7%94%9F%E6%B4%BB%E6%84%9F%E6%82%9F%E4%B8%8E%E5%AE%88%E5%88%99-2021-3-15-%E7%94%9F%E6%B4%BB%E6%84%9F%E6%82%9F%E4%B8%8E%E5%AE%88%E5%88%99/" data-id="ckvfdssgm0007mgu50mix0ppz" data-title="生活感悟与守则" class="article-share-link">Compartir</a>
+      <a data-url="https://fy-han.github.io.git/blog/2021/3/15/%E6%80%9D%E8%80%83-2021-3-15-%E7%94%9F%E6%B4%BB%E6%84%9F%E6%82%9F%E4%B8%8E%E5%AE%88%E5%88%99-2021-3-15-%E7%94%9F%E6%B4%BB%E6%84%9F%E6%82%9F%E4%B8%8E%E5%AE%88%E5%88%99/" data-id="ckvmdu25y000hu4u56it5gmac" data-title="生活感悟与守则" class="article-share-link">Teilen</a>
       
       
       
@@ -147,7 +300,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://fy-han.github.io.git/blog/2021/3/15/2021%E5%91%A8%E6%8A%A5-1%E5%AD%A3%E5%BA%A6-2021-3-15-%E8%87%B33-21-%E5%91%A8%E6%8A%A5-2021-3-15-%E8%87%B33-21-%E5%91%A8%E6%8A%A5/" data-id="ckvfdssh1001fmgu5eb93a8wn" data-title="至3.21 周报" class="article-share-link">Compartir</a>
+      <a data-url="https://fy-han.github.io.git/blog/2021/3/15/2021%E5%91%A8%E6%8A%A5-1%E5%AD%A3%E5%BA%A6-2021-3-15-%E8%87%B33-21-%E5%91%A8%E6%8A%A5-2021-3-15-%E8%87%B33-21-%E5%91%A8%E6%8A%A5/" data-id="ckvmdu261000qu4u59fhabdyn" data-title="至3.21 周报" class="article-share-link">Teilen</a>
       
       
       
@@ -192,7 +345,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://fy-han.github.io.git/blog/2021/3/12/2021%E5%91%A8%E6%8A%A5-1%E5%AD%A3%E5%BA%A6-2021-3-12-3-14%E5%91%A8%E6%8A%A5-2021-3-12-%E8%87%B33-14%E5%91%A8%E6%8A%A5/" data-id="ckvfdssgz0016mgu5gk2l1j3z" data-title="至3.14周报" class="article-share-link">Compartir</a>
+      <a data-url="https://fy-han.github.io.git/blog/2021/3/12/2021%E5%91%A8%E6%8A%A5-1%E5%AD%A3%E5%BA%A6-2021-3-12-3-14%E5%91%A8%E6%8A%A5-2021-3-12-%E8%87%B33-14%E5%91%A8%E6%8A%A5/" data-id="ckvmdu261000ou4u5ghmxdq3p" data-title="至3.14周报" class="article-share-link">Teilen</a>
       
       
       
@@ -248,7 +401,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://fy-han.github.io.git/blog/2021/3/10/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%8D%9A%E5%AE%A2-2021-3-10-hexo-github%E5%BB%BA%E7%AB%8B%E5%8D%9A%E5%AE%A2%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98%EF%BC%881%EF%BC%89-2021-3-10-hexo-github%E5%BB%BA%E7%AB%8B%E5%8D%9A%E5%AE%A2%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98%EF%BC%881%EF%BC%89/" data-id="ckvfdssgv000umgu5dhdr06rh" data-title="hexo+github建立博客遇到的问题" class="article-share-link">Compartir</a>
+      <a data-url="https://fy-han.github.io.git/blog/2021/3/10/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%8D%9A%E5%AE%A2-2021-3-10-hexo-github%E5%BB%BA%E7%AB%8B%E5%8D%9A%E5%AE%A2%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98%EF%BC%881%EF%BC%89-2021-3-10-hexo-github%E5%BB%BA%E7%AB%8B%E5%8D%9A%E5%AE%A2%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98%EF%BC%881%EF%BC%89/" data-id="ckvmdu26e001zu4u5ejighd6s" data-title="hexo+github建立博客遇到的问题" class="article-share-link">Teilen</a>
       
       
       
@@ -293,7 +446,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://fy-han.github.io.git/blog/2021/3/10/%E6%80%9D%E8%80%83-2021-3-10-%E7%94%9F%E6%B4%BB%E3%80%81%E5%AD%A6%E4%B9%A0%E4%B8%8E%E5%A8%B1%E4%B9%90%E8%87%B3%E6%AD%BB%E7%9A%84%E5%8F%8D%E6%80%9D-1-2021-3-10-%E7%94%9F%E6%B4%BB%E3%80%81%E5%AD%A6%E4%B9%A0%E4%B8%8E%E5%A8%B1%E4%B9%90%E8%87%B3%E6%AD%BB%E7%9A%84%E5%8F%8D%E6%80%9D-1/" data-id="ckvfdssgj0002mgu5gf5r4uwv" data-title="生活、学习与娱乐至死的哲思(1)" class="article-share-link">Compartir</a>
+      <a data-url="https://fy-han.github.io.git/blog/2021/3/10/%E6%80%9D%E8%80%83-2021-3-10-%E7%94%9F%E6%B4%BB%E3%80%81%E5%AD%A6%E4%B9%A0%E4%B8%8E%E5%A8%B1%E4%B9%90%E8%87%B3%E6%AD%BB%E7%9A%84%E5%8F%8D%E6%80%9D-1-2021-3-10-%E7%94%9F%E6%B4%BB%E3%80%81%E5%AD%A6%E4%B9%A0%E4%B8%8E%E5%A8%B1%E4%B9%90%E8%87%B3%E6%AD%BB%E7%9A%84%E5%8F%8D%E6%80%9D-1/" data-id="ckvmdu25y000fu4u5hx7x0jhg" data-title="生活、学习与娱乐至死的哲思(1)" class="article-share-link">Teilen</a>
       
       
       
@@ -311,7 +464,7 @@
 
   <nav id="page-nav">
     
-    <a class="extend prev" rel="prev" href="/page/5/">&laquo; Previo</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span>
+    <a class="extend prev" rel="prev" href="/page/5/">&laquo; zurück</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span>
   </nav>
 
 </section>
@@ -333,18 +486,18 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Nube de Tags</h3>
+    <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/AMBER/" style="font-size: 17.5px;">AMBER</a> <a href="/tags/GMX/" style="font-size: 10px;">GMX</a> <a href="/tags/Gaussian/" style="font-size: 10px;">Gaussian</a> <a href="/tags/ai/" style="font-size: 12.5px;">ai</a> <a href="/tags/gmx/" style="font-size: 17.5px;">gmx</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/moe/" style="font-size: 12.5px;">moe</a> <a href="/tags/summer-intern/" style="font-size: 10px;">summer intern</a> <a href="/tags/web/" style="font-size: 10px;">web</a> <a href="/tags/%E4%BD%9C%E6%9B%B2/" style="font-size: 10px;">作曲</a> <a href="/tags/%E5%8D%9A%E5%AE%A2%E5%BB%BA%E7%AB%8B/" style="font-size: 10px;">博客建立</a> <a href="/tags/%E5%91%A8%E6%8A%A5/" style="font-size: 20px;">周报</a> <a href="/tags/%E6%8A%80%E6%9C%AF%E6%9D%82%E8%B0%88/" style="font-size: 12.5px;">技术杂谈</a> <a href="/tags/%E7%94%9F%E6%B4%BB%E5%8F%8D%E6%80%9D/" style="font-size: 15px;">生活反思</a>
+      <a href="/tags/AMBER/" style="font-size: 17.5px;">AMBER</a> <a href="/tags/GMX/" style="font-size: 10px;">GMX</a> <a href="/tags/Gaussian/" style="font-size: 10px;">Gaussian</a> <a href="/tags/ai/" style="font-size: 12.5px;">ai</a> <a href="/tags/gmx/" style="font-size: 17.5px;">gmx</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/moe/" style="font-size: 12.5px;">moe</a> <a href="/tags/summer-intern/" style="font-size: 10px;">summer intern</a> <a href="/tags/web/" style="font-size: 10px;">web</a> <a href="/tags/%E4%BD%9C%E6%9B%B2/" style="font-size: 10px;">作曲</a> <a href="/tags/%E5%8D%9A%E5%AE%A2%E5%BB%BA%E7%AB%8B/" style="font-size: 12.5px;">博客建立</a> <a href="/tags/%E5%91%A8%E6%8A%A5/" style="font-size: 20px;">周报</a> <a href="/tags/%E6%8A%80%E6%9C%AF%E6%9D%82%E8%B0%88/" style="font-size: 12.5px;">技术杂谈</a> <a href="/tags/%E7%94%9F%E6%B4%BB%E5%8F%8D%E6%80%9D/" style="font-size: 15px;">生活反思</a>
     </div>
   </div>
 
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Archivos</h3>
+    <h3 class="widget-title">Archiv</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/10/">October 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/09/">September 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/08/">August 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/07/">July 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/06/">June 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/05/">May 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">April 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/11/">November 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/10/">October 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/09/">September 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/08/">August 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/07/">July 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/06/">June 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/05/">May 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">April 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a></li></ul>
     </div>
   </div>
 
@@ -352,9 +505,13 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Posts recientes</h3>
+    <h3 class="widget-title">letzter Beitrag</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/blog/2021/11/5/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%8D%9A%E5%AE%A2-2021-3-10-hexo-github%E5%BB%BA%E7%AB%8B%E5%8D%9A%E5%AE%A2%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98%EF%BC%881%EF%BC%89-2021-11-5-hexo%E5%8D%9A%E5%AE%A2%E4%B8%8D%E8%83%BD%E6%9B%B4%E6%96%B0/">hexo博客不能更新</a>
+          </li>
         
           <li>
             <a href="/blog/2021/10/31/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%88%86%E5%AD%90%E6%A8%A1%E6%8B%9F-GMX-2021-10-31-GROMACS-MD-%E9%80%9F%E5%BA%A6%E8%B0%83%E6%95%B4/">GROMACS MD 速度调整</a>
@@ -372,10 +529,6 @@
             <a href="/blog/2021/10/22/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%88%86%E5%AD%90%E6%A8%A1%E6%8B%9F-GMX-2021-10-22-gmx%E6%BA%B6%E5%89%82%E5%8C%96%E8%B7%91md/">gmx溶剂化跑md</a>
           </li>
         
-          <li>
-            <a href="/blog/2021/9/23/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%8A%80%E6%9C%AF-%E6%8A%80%E6%9C%AF%E6%9D%82%E8%B0%88-2021-9-23-markdown%E8%AF%AD%E6%B3%95%E5%AD%A6%E4%B9%A0%E5%A4%A7%E5%85%A8/">markdown语法学习大全</a>
-          </li>
-        
       </ul>
     </div>
   </div>
@@ -390,7 +543,7 @@
     <div id="footer-info" class="inner">
       
       &copy; 2021 FY-Han<br>
-      Construido por <a href="https://hexo.io/" target="_blank">Hexo</a>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
     </div>
   </div>
 </footer>
