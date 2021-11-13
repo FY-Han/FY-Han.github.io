@@ -6,7 +6,7 @@
   <link href="https://fy-han.github.io.git/atom.xml" rel="self"/>
   
   <link href="https://fy-han.github.io.git/"/>
-  <updated>2021-11-13T06:35:46.323Z</updated>
+  <updated>2021-11-13T07:10:40.069Z</updated>
   <id>https://fy-han.github.io.git/</id>
   
   <author>
@@ -15,6 +15,28 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>hexo图片配置</title>
+    <link href="https://fy-han.github.io.git/blog/2021/11/13/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%8D%9A%E5%AE%A2-2021-3-10-hexo-github%E5%BB%BA%E7%AB%8B%E5%8D%9A%E5%AE%A2%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98-2021-11-13-hexo%E5%9B%BE%E7%89%87%E9%85%8D%E7%BD%AE/"/>
+    <id>https://fy-han.github.io.git/blog/2021/11/13/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%8D%9A%E5%AE%A2-2021-3-10-hexo-github%E5%BB%BA%E7%AB%8B%E5%8D%9A%E5%AE%A2%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98-2021-11-13-hexo%E5%9B%BE%E7%89%87%E9%85%8D%E7%BD%AE/</id>
+    <published>2021-11-13T06:44:36.000Z</published>
+    <updated>2021-11-13T07:10:40.069Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="生成图片文件夹（不知是否可以自己生成？）"><a href="#生成图片文件夹（不知是否可以自己生成？）" class="headerlink" title="生成图片文件夹（不知是否可以自己生成？）"></a>生成图片文件夹（不知是否可以自己生成？）</h2><p>修改 <strong>hexo 目录下</strong>的 .config.yml 文件，将 <code>post_asset_folder: false</code> 修改为 <code>post_asset_folder: true</code>。</p><p>安装图片路径转换的hexo插件（用git bash在hexo根目录中）：</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install https://github.com/FY-Han/hexo-asset-image --save</span><br></pre></td></tr></table></figure><p>别用codefalling那一套</p><p>注意将md和文件夹放在同一级，然后就直接导入picture就行。可以用hexo s预览一下。</p><p>这里我们给出两种办法来引用图片。</p><ol><li>直接使用代码 <img src="/blog/2021/11/13/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%8D%9A%E5%AE%A2-2021-3-10-hexo-github%E5%BB%BA%E7%AB%8B%E5%8D%9A%E5%AE%A2%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98-2021-11-13-hexo%E5%9B%BE%E7%89%87%E9%85%8D%E7%BD%AE/hexo.png" alt> （虽然没有写文件夹的名字，但是可以的)，hexo.png 是我们存在 new article 文件夹内的图片。这时你会发现markdown预览中无法显示这张图片，但是当你将博客上传到网站时，网站上是可以正常显示的。</li><li>使用代码 <img src="/blog/2021/11/13/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%8D%9A%E5%AE%A2-2021-3-10-hexo-github%E5%BB%BA%E7%AB%8B%E5%8D%9A%E5%AE%A2%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98-2021-11-13-hexo%E5%9B%BE%E7%89%87%E9%85%8D%E7%BD%AE/hexo.png" alt>不仅可以本地预览，上传到网站也可以正常显示。</li><li>本地无法预览也是件很不舒服的事情，其实我们还可以另外创建一个文件夹 pictures ，里面专门存放所有文章的图片，代码 <img src="/blog/2021/11/13/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%8D%9A%E5%AE%A2-2021-3-10-hexo-github%E5%BB%BA%E7%AB%8B%E5%8D%9A%E5%AE%A2%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98-2021-11-13-hexo%E5%9B%BE%E7%89%87%E9%85%8D%E7%BD%AE/hexo.png" alt> 不仅可以本地预览，上传到网站也可以正常显示。<br> <strong>注意</strong>： 不管采取哪种办法，都要创建一个和md文件同名的文件夹，里面放上需要的图片。<br> 如果 2和3 中代码无法实现网站上的正常显示，那就使用 1 中的代码。因为 2和3 中代码我无法保证每个人都成功。</li></ol><hr><p>版权声明：本文为CSDN博主「神奇小海螺」的原创文章，遵循CC 4.0 BY-SA版权协议，转载请附上原文出处链接及本声明。<br>原文链接：<a href="https://blog.csdn.net/qq_36408085/article/details/104117319">https://blog.csdn.net/qq_36408085/article/details/104117319</a></p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h2 id=&quot;生成图片文件夹（不知是否可以自己生成？）&quot;&gt;&lt;a href=&quot;#生成图片文件夹（不知是否可以自己生成？）&quot; class=&quot;headerlink&quot; title=&quot;生成图片文件夹（不知是否可以自己生成？）&quot;&gt;&lt;/a&gt;生成图片文件夹（不知是否可以自己生成？）&lt;/h2&gt;&lt;</summary>
+      
+    
+    
+    
+    
+    <category term="博客建立" scheme="https://fy-han.github.io.git/tags/%E5%8D%9A%E5%AE%A2%E5%BB%BA%E7%AB%8B/"/>
+    
+  </entry>
   
   <entry>
     <title>GROMACS PCA</title>
@@ -102,21 +124,6 @@
       
     <summary type="html">&lt;h2 id=&quot;执行-hexo-d-部署到-GitHub-上的时候总是卡住解决办法&quot;&gt;&lt;a href=&quot;#执行-hexo-d-部署到-GitHub-上的时候总是卡住解决办法&quot; class=&quot;headerlink&quot; title=&quot;执行 hexo d 部署到 GitHub 上的时候总</summary>
       
-    
-    
-    
-    
-    <category term="博客建立" scheme="https://fy-han.github.io.git/tags/%E5%8D%9A%E5%AE%A2%E5%BB%BA%E7%AB%8B/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>hexo博客不能更新</title>
-    <link href="https://fy-han.github.io.git/blog/2021/11/5/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%8D%9A%E5%AE%A2-2021-3-10-hexo-github%E5%BB%BA%E7%AB%8B%E5%8D%9A%E5%AE%A2%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98-2021-11-5-hexo%E5%8D%9A%E5%AE%A2%E4%B8%8D%E8%83%BD%E6%9B%B4%E6%96%B0/"/>
-    <id>https://fy-han.github.io.git/blog/2021/11/5/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%8D%9A%E5%AE%A2-2021-3-10-hexo-github%E5%BB%BA%E7%AB%8B%E5%8D%9A%E5%AE%A2%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98-2021-11-5-hexo%E5%8D%9A%E5%AE%A2%E4%B8%8D%E8%83%BD%E6%9B%B4%E6%96%B0/</id>
-    <published>2021-11-05T11:50:30.000Z</published>
-    <updated>2021-11-05T11:56:34.304Z</updated>
-    
     
     
     

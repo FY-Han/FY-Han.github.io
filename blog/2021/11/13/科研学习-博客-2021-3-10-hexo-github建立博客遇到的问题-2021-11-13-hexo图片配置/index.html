@@ -4,18 +4,24 @@
   <meta charset="utf-8">
   
   
-  <title>hexo博客不能更新 | Hexo</title>
+  <title>hexo图片配置 | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta property="og:type" content="article">
-<meta property="og:title" content="hexo博客不能更新">
-<meta property="og:url" content="https://fy-han.github.io.git/blog/2021/11/5/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%8D%9A%E5%AE%A2-2021-3-10-hexo-github%E5%BB%BA%E7%AB%8B%E5%8D%9A%E5%AE%A2%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98-2021-11-5-hexo%E5%8D%9A%E5%AE%A2%E4%B8%8D%E8%83%BD%E6%9B%B4%E6%96%B0/index.html">
+  <meta name="description" content="生成图片文件夹（不知是否可以自己生成？）修改 hexo 目录下的 .config.yml 文件，将 post_asset_folder: false 修改为 post_asset_folder: true。 安装图片路径转换的hexo插件（用git bash在hexo根目录中）： 1npm install https:&#x2F;&#x2F;github.com&#x2F;FY-Han&#x2F;hexo-asset-image --s">
+<meta property="og:type" content="article">
+<meta property="og:title" content="hexo图片配置">
+<meta property="og:url" content="https://fy-han.github.io.git/blog/2021/11/13/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%8D%9A%E5%AE%A2-2021-3-10-hexo-github%E5%BB%BA%E7%AB%8B%E5%8D%9A%E5%AE%A2%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98-2021-11-13-hexo%E5%9B%BE%E7%89%87%E9%85%8D%E7%BD%AE/index.html">
 <meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="生成图片文件夹（不知是否可以自己生成？）修改 hexo 目录下的 .config.yml 文件，将 post_asset_folder: false 修改为 post_asset_folder: true。 安装图片路径转换的hexo插件（用git bash在hexo根目录中）： 1npm install https:&#x2F;&#x2F;github.com&#x2F;FY-Han&#x2F;hexo-asset-image --s">
 <meta property="og:locale">
-<meta property="article:published_time" content="2021-11-05T11:50:30.000Z">
-<meta property="article:modified_time" content="2021-11-05T11:56:34.304Z">
+<meta property="og:image" content="https://fy-han.github.io.git/blog/2021/11/13/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%8D%9A%E5%AE%A2-2021-3-10-hexo-github%E5%BB%BA%E7%AB%8B%E5%8D%9A%E5%AE%A2%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98-2021-11-13-hexo%E5%9B%BE%E7%89%87%E9%85%8D%E7%BD%AE/hexo.png">
+<meta property="og:image" content="https://fy-han.github.io.git/blog/2021/11/13/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%8D%9A%E5%AE%A2-2021-3-10-hexo-github%E5%BB%BA%E7%AB%8B%E5%8D%9A%E5%AE%A2%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98-2021-11-13-hexo%E5%9B%BE%E7%89%87%E9%85%8D%E7%BD%AE/hexo.png">
+<meta property="og:image" content="https://fy-han.github.io.git/blog/2021/11/13/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%8D%9A%E5%AE%A2-2021-3-10-hexo-github%E5%BB%BA%E7%AB%8B%E5%8D%9A%E5%AE%A2%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98-2021-11-13-hexo%E5%9B%BE%E7%89%87%E9%85%8D%E7%BD%AE/hexo.png">
+<meta property="article:published_time" content="2021-11-13T06:44:36.000Z">
+<meta property="article:modified_time" content="2021-11-13T07:10:40.069Z">
 <meta property="article:author" content="FY-Han">
 <meta property="article:tag" content="博客建立">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://fy-han.github.io.git/blog/2021/11/13/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%8D%9A%E5%AE%A2-2021-3-10-hexo-github%E5%BB%BA%E7%AB%8B%E5%8D%9A%E5%AE%A2%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98-2021-11-13-hexo%E5%9B%BE%E7%89%87%E9%85%8D%E7%BD%AE/hexo.png">
   
     <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -72,10 +78,10 @@
 </header>
 
       <div class="outer">
-        <section id="main"><article id="post-科研学习-博客-2021-3-10-hexo-github建立博客遇到的问题-2021-11-5-hexo博客不能更新" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+        <section id="main"><article id="post-科研学习-博客-2021-3-10-hexo-github建立博客遇到的问题-2021-11-13-hexo图片配置" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <a href="/blog/2021/11/5/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%8D%9A%E5%AE%A2-2021-3-10-hexo-github%E5%BB%BA%E7%AB%8B%E5%8D%9A%E5%AE%A2%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98-2021-11-5-hexo%E5%8D%9A%E5%AE%A2%E4%B8%8D%E8%83%BD%E6%9B%B4%E6%96%B0/" class="article-date">
-  <time class="dt-published" datetime="2021-11-05T11:50:30.000Z" itemprop="datePublished">2021-11-05</time>
+    <a href="/blog/2021/11/13/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%8D%9A%E5%AE%A2-2021-3-10-hexo-github%E5%BB%BA%E7%AB%8B%E5%8D%9A%E5%AE%A2%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98-2021-11-13-hexo%E5%9B%BE%E7%89%87%E9%85%8D%E7%BD%AE/" class="article-date">
+  <time class="dt-published" datetime="2021-11-13T06:44:36.000Z" itemprop="datePublished">2021-11-13</time>
 </a>
     
   </div>
@@ -86,7 +92,7 @@
         
   
     <h1 class="p-name article-title" itemprop="headline name">
-      hexo博客不能更新
+      hexo图片配置
     </h1>
   
 
@@ -94,11 +100,24 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        
+        <h2 id="生成图片文件夹（不知是否可以自己生成？）"><a href="#生成图片文件夹（不知是否可以自己生成？）" class="headerlink" title="生成图片文件夹（不知是否可以自己生成？）"></a>生成图片文件夹（不知是否可以自己生成？）</h2><p>修改 <strong>hexo 目录下</strong>的 .config.yml 文件，将 <code>post_asset_folder: false</code> 修改为 <code>post_asset_folder: true</code>。</p>
+<p>安装图片路径转换的hexo插件（用git bash在hexo根目录中）：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install https://github.com/FY-Han/hexo-asset-image --save</span><br></pre></td></tr></table></figure>
+<p>别用codefalling那一套</p>
+<p>注意将md和文件夹放在同一级，然后就直接导入picture就行。可以用hexo s预览一下。</p>
+<p>这里我们给出两种办法来引用图片。</p>
+<ol>
+<li>直接使用代码 <img src="/blog/2021/11/13/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%8D%9A%E5%AE%A2-2021-3-10-hexo-github%E5%BB%BA%E7%AB%8B%E5%8D%9A%E5%AE%A2%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98-2021-11-13-hexo%E5%9B%BE%E7%89%87%E9%85%8D%E7%BD%AE/hexo.png" alt> （虽然没有写文件夹的名字，但是可以的)，hexo.png 是我们存在 new article 文件夹内的图片。这时你会发现markdown预览中无法显示这张图片，但是当你将博客上传到网站时，网站上是可以正常显示的。</li>
+<li>使用代码 <img src="/blog/2021/11/13/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%8D%9A%E5%AE%A2-2021-3-10-hexo-github%E5%BB%BA%E7%AB%8B%E5%8D%9A%E5%AE%A2%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98-2021-11-13-hexo%E5%9B%BE%E7%89%87%E9%85%8D%E7%BD%AE/hexo.png" alt>不仅可以本地预览，上传到网站也可以正常显示。</li>
+<li>本地无法预览也是件很不舒服的事情，其实我们还可以另外创建一个文件夹 pictures ，里面专门存放所有文章的图片，代码 <img src="/blog/2021/11/13/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%8D%9A%E5%AE%A2-2021-3-10-hexo-github%E5%BB%BA%E7%AB%8B%E5%8D%9A%E5%AE%A2%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98-2021-11-13-hexo%E5%9B%BE%E7%89%87%E9%85%8D%E7%BD%AE/hexo.png" alt> 不仅可以本地预览，上传到网站也可以正常显示。<br> <strong>注意</strong>： 不管采取哪种办法，都要创建一个和md文件同名的文件夹，里面放上需要的图片。<br> 如果 2和3 中代码无法实现网站上的正常显示，那就使用 1 中的代码。因为 2和3 中代码我无法保证每个人都成功。</li>
+</ol>
+<hr>
+<p>版权声明：本文为CSDN博主「神奇小海螺」的原创文章，遵循CC 4.0 BY-SA版权协议，转载请附上原文出处链接及本声明。<br>原文链接：<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_36408085/article/details/104117319">https://blog.csdn.net/qq_36408085/article/details/104117319</a></p>
+
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://fy-han.github.io.git/blog/2021/11/5/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%8D%9A%E5%AE%A2-2021-3-10-hexo-github%E5%BB%BA%E7%AB%8B%E5%8D%9A%E5%AE%A2%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98-2021-11-5-hexo%E5%8D%9A%E5%AE%A2%E4%B8%8D%E8%83%BD%E6%9B%B4%E6%96%B0/" data-id="ckvxfqitk001xxku59p7fbri1" data-title="hexo博客不能更新" class="article-share-link">Teilen</a>
+      <a data-url="https://fy-han.github.io.git/blog/2021/11/13/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%8D%9A%E5%AE%A2-2021-3-10-hexo-github%E5%BB%BA%E7%AB%8B%E5%8D%9A%E5%AE%A2%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98-2021-11-13-hexo%E5%9B%BE%E7%89%87%E9%85%8D%E7%BD%AE/" data-id="ckvxgzfaa001wwsu5e0ayaqo3" data-title="hexo图片配置" class="article-share-link">Teilen</a>
       
       
       
@@ -110,19 +129,10 @@
     
 <nav id="article-nav">
   
-    <a href="/blog/2021/11/5/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%8D%9A%E5%AE%A2-2021-3-10-hexo-github%E5%BB%BA%E7%AB%8B%E5%8D%9A%E5%AE%A2%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98-2021-11-5-hexo%E5%8D%9A%E5%AE%A2%E6%97%A0%E6%B3%95hexo-d%E8%BF%9B%E8%A1%8C%E9%83%A8%E7%BD%B2-2021-11-5-hexo%E5%8D%9A%E5%AE%A2%E6%97%A0%E6%B3%95hexo-d%E8%BF%9B%E8%A1%8C%E9%83%A8%E7%BD%B2/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Neuer</strong>
-      <div class="article-nav-title">
-        
-          hexo博客无法hexo d进行部署
-        
-      </div>
-    </a>
   
-  
-    <a href="/blog/2021/10/31/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%88%86%E5%AD%90%E6%A8%A1%E6%8B%9F-GMX-2021-10-31-GROMACS-MD-%E9%80%9F%E5%BA%A6%E8%B0%83%E6%95%B4/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/blog/2021/11/13/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%88%86%E5%AD%90%E6%A8%A1%E6%8B%9F-GMX-2021-11-13-GROMACS-PCA-2021-11-13-GROMACS-PCA/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Älter</strong>
-      <div class="article-nav-title">GROMACS MD 速度调整</div>
+      <div class="article-nav-title">GROMACS PCA</div>
     </a>
   
 </nav>
@@ -174,6 +184,10 @@
       <ul>
         
           <li>
+            <a href="/blog/2021/11/13/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%8D%9A%E5%AE%A2-2021-3-10-hexo-github%E5%BB%BA%E7%AB%8B%E5%8D%9A%E5%AE%A2%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98-2021-11-13-hexo%E5%9B%BE%E7%89%87%E9%85%8D%E7%BD%AE/">hexo图片配置</a>
+          </li>
+        
+          <li>
             <a href="/blog/2021/11/13/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%88%86%E5%AD%90%E6%A8%A1%E6%8B%9F-GMX-2021-11-13-GROMACS-PCA-2021-11-13-GROMACS-PCA/">GROMACS PCA</a>
           </li>
         
@@ -187,10 +201,6 @@
         
           <li>
             <a href="/blog/2021/11/5/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%8D%9A%E5%AE%A2-2021-3-10-hexo-github%E5%BB%BA%E7%AB%8B%E5%8D%9A%E5%AE%A2%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98-2021-11-5-hexo%E5%8D%9A%E5%AE%A2%E6%97%A0%E6%B3%95hexo-d%E8%BF%9B%E8%A1%8C%E9%83%A8%E7%BD%B2-2021-11-5-hexo%E5%8D%9A%E5%AE%A2%E6%97%A0%E6%B3%95hexo-d%E8%BF%9B%E8%A1%8C%E9%83%A8%E7%BD%B2/">hexo博客无法hexo d进行部署</a>
-          </li>
-        
-          <li>
-            <a href="/blog/2021/11/5/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%8D%9A%E5%AE%A2-2021-3-10-hexo-github%E5%BB%BA%E7%AB%8B%E5%8D%9A%E5%AE%A2%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98-2021-11-5-hexo%E5%8D%9A%E5%AE%A2%E4%B8%8D%E8%83%BD%E6%9B%B4%E6%96%B0/">hexo博客不能更新</a>
           </li>
         
       </ul>
@@ -240,5 +250,21 @@
 
 
   </div>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="https://cdnsjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
 </body>
 </html>
