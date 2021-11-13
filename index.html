@@ -71,6 +71,157 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-科研学习-分子模拟-GMX-2021-11-13-GROMACS-并行效率测试与调试" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/blog/2021/11/13/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%88%86%E5%AD%90%E6%A8%A1%E6%8B%9F-GMX-2021-11-13-GROMACS-%E5%B9%B6%E8%A1%8C%E6%95%88%E7%8E%87%E6%B5%8B%E8%AF%95%E4%B8%8E%E8%B0%83%E8%AF%95/" class="article-date">
+  <time class="dt-published" datetime="2021-11-13T08:27:13.000Z" itemprop="datePublished">2021-11-13</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/blog/2021/11/13/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%88%86%E5%AD%90%E6%A8%A1%E6%8B%9F-GMX-2021-11-13-GROMACS-%E5%B9%B6%E8%A1%8C%E6%95%88%E7%8E%87%E6%B5%8B%E8%AF%95%E4%B8%8E%E8%B0%83%E8%AF%95/">GROMACS 并行效率测试与调试</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>GROMACS的并行相比Gaussian等量化软件要复杂的多。GMX手册上有一章<a target="_blank" rel="noopener" href="http://manual.gromacs.org/documentation/current/user-guide/mdrun-performance.html">Getting good performance from mdrun</a>，介绍了很多基本概念和例子。不过看完后还是一头雾水，不知道怎么才能获得最佳的运行效率。本文对这些信息进行整理和测试，给出一个基本的调试思路。<br>另外：<a target="_blank" rel="noopener" href="http://bbs.keinsci.com/thread-13910-1-1.html?tdsourcetag=s_pcqq_aiomsg">GROMACS GPU加速性能测试文章(JCC,2019)</a>，这篇文章为了主要目的是比较显卡的性价比，所有的测试都是aggregate performance，也就是所有的GMX任务都用1个Rank，一块显卡跑。如果有N个显卡，就跑N个任务，然后把总的ns/day数加起来。这样其实无从知道Gromacs的并行效率。不过这篇文章也说了：“On single-socket nodes with one GPU, using a single rank with as many OpenMP threads as available cores (or hardware threads) is usually fastest”。那么其他情况下gromacs的并行情况如何呢？<br>最后，这篇文章长而且复杂，<br><strong>没有耐心的同学可以直接看第四部分：结论——简单粗暴版，然后可以用第五部分的实用测试命令测试你将要跑的体系，选出最优条件，</strong><br><strong>需要购机的同学可以直接看第四部分：结论——给购机同学的建议。</strong><br><strong>使用超算中心同学可以直接看第四部分：结论——给使用超算中心同学的建议。</strong><br>有兴趣知道背后机制的同学可以详细阅读。</p>
+<p><strong>一, 先搞清楚几个概念。</strong><br><strong>a) Rank 和 Thread</strong><br>    Rank大概可以翻译成进程，和Processes等价，Thread就线程。Gromacs可以在线程和进程这两个层面上并行，这两个的区别大家可以参看<a target="_blank" rel="noopener" href="https://www.zhihu.com/question/25532384">线程和进程的区别是什么？</a>。一个Rank可以包含多个thread，在Gromacs并行时，如果使用Rank并行，会使用Domain Decompostion把体系切成小块，每块交给一个Rank去算，而在这个Rank中，多个Thread共同处理这一个小块。<br><strong>b) Gromacs的几种并行方式：</strong><br><strong>1，外部的mpirun并行（rank级别并行）</strong><br>   需要安装openmpi，编译安装的时候加上-DGMX_MPI=on选项，编译产生的运行程序名默认是gmx_mpi，可以跨节点运行。实现方式是</p>
+<ol>
+<li>mpirun -np 4 gmx_mpi mdrun</li>
+</ol>
+<p><em>复制代码</em></p>
+<p><strong>2，内部thread-mpi并行（rank级别并行）</strong><br>   Gromacs源码包含，编译时候默认支持，无法跨节点并行，无法和上面的mpirun并行同时使用，单节点运行时，比mpirun稍快，实现方式是</p>
+<ol>
+<li>gmx mdrun -ntmpi 4</li>
+</ol>
+<p><em>复制代码</em></p>
+<p><strong>3，openmp并行（thread级别并行）</strong><br>   Gromacs源码包含，编译时候默认支持，无法跨节点并行，可以和上面两种MPI并行同时使用，实现方式是</p>
+<ol>
+<li>gmx mdrun -ntomp</li>
+</ol>
+<p><em>复制代码</em></p>
+<p><strong>总结：</strong>单节点运行时，通常采用2+3或者只用3的方式运行，运行方式是：</p>
+<ol>
+<li>gmx mdrun -ntmpi 4 -ntomp 6       #4个MPI rank, 每个rank 使用6个线程，运行时占用24个核</li>
+</ol>
+<p><em>复制代码</em></p>
+<p>跨节点运行时，通常采用1+3的方式运行，运行方式是：</p>
+<ol>
+<li>mpirun -np 2 gmx_mpi mdrun -ntomp 6</li>
+</ol>
+<p><em>复制代码</em></p>
+<p>（2个MPI rank, 每个rank 使用6个线程，运行时占用12个核）<strong><em>这里需要注意的是，不同的并行方式下，GMX对显卡的默认利用方式会不一样，从而带来效率的巨大改变，参见下面的d)-4部分\</em></strong></p>
+<p><strong>c) Gromacs中主要耗时的两类任务</strong><br><strong>1，粒子-粒子相互作用（particle-particle, PP）</strong><br>   在实空间中计算原子之间的两两相互作用力，这些作用主要包括两部分：<strong>非键原子间短程相互作用（NB）</strong>，以及<strong>成键原子之间的相互作用（BF）</strong>。在并行计算时，对于这部分任务采用<strong>Domain Decomposition</strong>的方法，也就是把整个胞像切蛋糕一样切成小块，每块交给一个Rank，在这个Rank中，几个Thread共同计算这个小块中的PP作用力。这里需要注意的的是，如果你的体系本身就比较小，如果使用的Rank太多，或者不合适，会出现no domain decompostion compatible with the given box 的错误。<br><strong>2，粒子网格埃瓦尔德（particle-mesh Ewald，PME)</strong><br>在倒空间中<strong>使用FFT对长程作用力进行计算</strong>，这里的“长程”和上面的“短程”是由mdp参数中的rcoulomb和rvdw参数决定的。这部分计算在倒空间中进行，不能像实空间中的PP那样，可以切成小块，因此Rank并行效率较低。所以如果总Rank数较少，那么这些Rank可以既做PP任务又做PME任务，随着Rank数的增多，更为合适的做法是分出少量的Rank专门做PME任务（当Rank数超过16之后，Gromacs会自动分配PME Rank，在此之前，可以用-npme 选项手动分配PME Rank数），<strong>如果用显卡算PME，目前最多只能分配一个Rank（一块显卡）来做PME计算。</strong></p>
+<p><strong>d) Gromacs的显卡加速</strong><br><strong>1，显卡的并行级别</strong><br>一个Rank进程不能使用多个显卡，但是多个Rank进程可以使用一个显卡。因此如果电脑上有3块显卡，那MPI进程数(thread-mpi,或者openmpi都可以）起码要到3才能使用这3块显卡。<br><strong>2，显卡的加速内容</strong></p>
+<p><img src="/blog/2021/11/13/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%88%86%E5%AD%90%E6%A8%A1%E6%8B%9F-GMX-2021-11-13-GROMACS-%E5%B9%B6%E8%A1%8C%E6%95%88%E7%8E%87%E6%B5%8B%E8%AF%95%E4%B8%8E%E8%B0%83%E8%AF%95/forum-16367926478601.php" alt="img"></p>
+<p>此图修改自Gromacs官网，显卡可以代替CPU计算图中的三部分(offloading)，分别是成键原子间的作用力<strong>(Bonded F，下文简称BF)</strong>，短程非键作用力(<strong>Non-bonded F，下文简称NB</strong>)，以及长程非键作用（<strong>PME，下文简称PME</strong>), 前两者也就是前面介绍的<strong>PP</strong>作用，其中Bonded 目前(2019.3版本)仅支持N卡，其中GPU加速的PME只支持单Rank计算并且mdp参数必须是PME-order=4，还有一些其他限制详见手册。<br><strong>3，**</strong>显卡的加速的开启以及查看<strong>**方法</strong><br>这3个部分手动切换cpu/gpu在mdrun的选项中分别是-bonded -nb  -pme，<br><strong>如果不清楚显卡执行了哪部分任务，可以在md.log中查看</strong>，看到类似下面的描述<br>Using 4 MPI threads                                                                        #使用四个MPI rank<br>Using 10 OpenMP threads per tMPI thread                                                   #每个thread-MPI rank使用10个OpenMP thread</p>
+<p>On host node02 2 GPUs selected for this run.                                                #使用2个显卡计算<br>Mapping of GPU IDs to the 4 GPU tasks in the 4 ranks on this node:<br>  PP:0,PP:0,PP:1,PME:1                                                                     #2个PP任务分配给id=0的显卡，1个PP任务和1个PME任务分配给id=1的显卡<br>PP tasks will do (non-perturbed) short-ranged and most bonded interactions on the GPU        #PP任务包括了计算大部分Bonded和短程Non-bonded作用<br>PME tasks will do all aspects on the GPU                                                     #PME任务全部在GPU上进行<br><strong>4，默认利用显卡加速情况</strong><br>这里单独强调一下默认情况下（就是不额外加控制显卡的参数）显卡会执行哪些任务：<br>单Rank并行下：<br>显卡自动执行NB+PME计算，BF交给GPU，如果使用-pme cpu选项强行把PME分配给CPU，那么显卡会自动执行NB+BF计算。<br>多rank并行下：<br>显卡会自动执行NB+BF计算，PME交给CPU，此时如果要利用显卡计算PME，必须使用-pme gpu -npme 1 单独分配一个rank来进行PME计算<br><strong>5，利用显卡加速的5种情况（以及对应的命令行选项）</strong><br>下面总结一下利用显卡加速的5种情况，<br>0：不用显卡加速（ -nb cpu -pme cpu -bonded cpu ）<br>1：用显卡做NB计算（-nb gpu -pme cpu -bonded cpu ）<br>2：用显卡做NB+PME计算（-nb gpu -pcme gpu -bonded cpu ）多rank并行还需加上 -npme 1<br>3：用显卡做NB+BF计算（-nb gpu -pme cpu -bonded gpu ）<br>4：用显卡做NB+PME+BF计算（-nb gpu -pme gpu -bonded gpu ）多rank并行还需加上 -npme 1<br>注意到这里我们<strong>只有用显卡加速了NB部分，才能进一步加速BF和PME部分</strong>。</p>
+<p><strong>二, 测试条件</strong><br><strong>a) 硬件环境</strong><br>cpu：XEON E5-2699V4 <em> 2，显卡：华硕TURBO-RTX2080-8G X 2 or 耕升GTX-1080 追风 X 2，内存：128G，主板：msi X10dai<br><strong>b) 软件环境</strong><br>操作系统：CentOS7，CUDA版本：10.2， gcc版本：7.3.1，gromacs版本：2019.3安装方法参考：<a target="_blank" rel="noopener" href="http://sobereva.com/457">GROMACS的安装方法</a><br><strong>c) 测试方法</strong><br>测试系统：<a target="_blank" rel="noopener" href="http://www.gromacs.org/GPU_acceleration">Gromacs官网</a>上的<a href="ftp://ftp.gromacs.org/pub/benchmarks/ADH_bench_systems.tar.gz">ADH例子</a>中的adh_cubic<br>体系大小：13.4W个原子，11</em>11*11nm的盒子<br>测试命令：</p>
+<ol>
+<li>gmx mdrun -ntmpi 4 -ntomp 6 -s ADH.tpr -cpt 1440 -nsteps 15000 -resetstep 5000 -v -noconfout -gpu_id 0 -pme gpu -npme 1 -bonded gpu -nb gpu -gputasks 0001</li>
+</ol>
+<p><em>复制代码</em></p>
+<p>下面对用到的mdrun的一些选项进行做说明：<br>-ntmpi X         使用X个rank进行并行<br>-ntomp X        每个rank使用X个openmpi线程<br>-cpt  X          间隔X分钟写入checkpointfile<br>-nsteps X        一共跑X步md<br>-resetstep X      在第X步时开始重新计时（因为头几千步，gromacs会进行自动调试，此时速度还不稳定）<br>-gpu_id  01    使用id为X和Y的显卡计算，比如-gpu_id 0123，说明使用4块显卡进行计算, -gpu_id 12，使用第二块和第三款显卡。<br>-pme cpu/gpu   使用cpu或gpu进行pme计算<br>-nb cpu/gpu     使用cpu或gpu进行nb计算<br>-bonded cpu/gpu 使用cpu或gpu进行bonded force计算<br>-npme X         在多rank并行情况下，使用X个rank进行pme计算<br>-gputasks 0011  在多rank并行情况下，每个rank分配给哪块cpu，比如8 Rank并行时（-ntmpi 8），而我有3块gpu， 那么-gputasks 00001122 表明前4个Rank分给第一块显卡，中间两个Rank分给第二块显卡，最后2个Rank分给第三块显卡，这个选项不能和-gpu_id选项同时出现。至于这些Rank哪些是pme Rank 哪些是pp Rank则可以用-ddorder选项控制，详见手册中-ddorder选项的说明，默认的是pp Rank在前pme Rank 在后。</p>
+<p><strong>三, 测试内容</strong><br><strong>a) 单Rank，单显卡</strong><br>这时候可以调节的参数有openmp的核数-ntomp，以及是否把BF(Bonded F)，NB(Non-bonded F)，PME任务分配给显卡计算。</p>
+<p><img src="/blog/2021/11/13/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%88%86%E5%AD%90%E6%A8%A1%E6%8B%9F-GMX-2021-11-13-GROMACS-%E5%B9%B6%E8%A1%8C%E6%95%88%E7%8E%87%E6%B5%8B%E8%AF%95%E4%B8%8E%E8%B0%83%E8%AF%95/forum-16367926478612.php" alt="img"></p>
+<p>图一：计算速度随openmp线程数的变化情况，图中的5条曲线分别对应于把不同的任务分配给GPU时的情况</p>
+<p><img src="/blog/2021/11/13/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%88%86%E5%AD%90%E6%A8%A1%E6%8B%9F-GMX-2021-11-13-GROMACS-%E5%B9%B6%E8%A1%8C%E6%95%88%E7%8E%87%E6%B5%8B%E8%AF%95%E4%B8%8E%E8%B0%83%E8%AF%95/forum.php" alt="img"></p>
+<p>表一：从md.log中提取出的具体项目的耗时情况，第一行中的Tn表示线程数，红色加粗的是NB+BF部分的耗时，蓝色加粗的是PME部分的耗时。<br><strong>分析：</strong><br>1）BF(bonded force)部分的计算是否分配给GPU影响不大，显卡任务没饱和时，BF分给显卡较快，显卡任务饱和了以后BF分给CPU较快。<br>2）在拥有一个比较好的显卡情况下，把PME部分分配给显卡可以显著提高计算速度。<br>3）PME分配给显卡后，计算速度在10个openmp线程左右达到了上限，这是因为GPU的运算成为瓶颈。原因如下：对比表一中的第一列（T2 NB+PME）和第二列（T40 NB+PME），可以发现随着并行线程数的增加，主要耗时项目由Force（这是CPU计算BF的耗时）变成Wait GPU NB local（这是等待GPU计算NB的耗时）。<br>4）PME分配给CPU的情况下，计算速度在10个线程前快速上升，之后上升速度减慢，到30个线程时达到上限。根据表二中的第三列(T40 NB+BF)我们发现此时CPU计算PME的任务(PME mesh)是计算的瓶颈。<br>5）在不使用GPU的情况下，通过表一的最后第四列可以发现，PP的计算是最耗时的项目（Force），其次是PME的计算（PME mesh），但是计算PP的并行效率高，所以到40核的时候（第五列），PME反而成为最耗时的项目。</p>
+<p><strong>b) tMPI多Rank，单显卡</strong></p>
+<p><img src="/blog/2021/11/13/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%88%86%E5%AD%90%E6%A8%A1%E6%8B%9F-GMX-2021-11-13-GROMACS-%E5%B9%B6%E8%A1%8C%E6%95%88%E7%8E%87%E6%B5%8B%E8%AF%95%E4%B8%8E%E8%B0%83%E8%AF%95/forum-16367926478614.php" alt="img"></p>
+<p>图二：多Rank并行下，计算速度随openmp线程数的变化情况。<br><strong>分析：</strong><br>单线程使用GPU计算NB+PME时，运行速度最快，此时CPU并行在10线程左右达到上限。显卡成为了运算的瓶颈，那么还剩下的34核能否进一步提高计算速度？<br>在显卡成为瓶颈的情况下想要进一步提高运算速度，必须把显卡的PME任务分给CPU（上面说过NB任务不能单独分给CPU）。<br>在上面单线程情况下，用CPU计算PME时，30核就基本达到速度上限，此时运算速度并不能超过GPU计算PME的速度。<br>那么使用多rank的情况下，能否提高CPU计算PME的并行效率呢？<br>答案是否定的，经过我的测试，4 Rank，每Rank10线程和1 Rank，40线程的运行PME mesh的时间是基本相当的。<br>不仅如此，多Rank情况下还会有额外的耗时，包括domain decomposition (DD)的耗时，多Rank共用一块显卡造成的效率下降，PP rank 和PME rank 之间的负载不平衡，DD 造成的负载不平衡。最后结果如图二所示，在一块显卡的情况下使用多Rank并行，并不能带来运算速度的提升。4<em>10=40核的运算速度反而没有1</em>10=10核的运算速度快。<br>因此：<strong>单显卡使用多Rank时，多Rank对PME的运算效率不会提高，同时多Rank并行会带来一堆额外的耗时项目和负载不平衡，最终会带来速度的下降。</strong></p>
+<p><strong>c) tMPI 多Rank，双显卡</strong></p>
+<p><img src="/blog/2021/11/13/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%88%86%E5%AD%90%E6%A8%A1%E6%8B%9F-GMX-2021-11-13-GROMACS-%E5%B9%B6%E8%A1%8C%E6%95%88%E7%8E%87%E6%B5%8B%E8%AF%95%E4%B8%8E%E8%B0%83%E8%AF%95/forum-16367926478615.php" alt="img"></p>
+<p>图三：多Rank并行下，使用2块显卡的计算速度随openmp线程数的变化情况。<br><strong>分析：</strong><br>1）多Rank下，不使用GPU计算PME的情况：  图三中的黄线和深蓝线，这是在运行gmx mdrun时不额外加“-pmp gpu -npme 1”时的默认结果。此时使用cpu计算pme，拿两块显卡去计算NB和BF，可以看到此时cpu计算PME成为了瓶颈，所以两块显卡算NB，反而还没有一块显卡同时计算NB+PME快。不仅如此，更为荒谬的是两块显卡算NB+BF时还没有一块显卡算NB+BF快（对比图三种的黄线最后一个点<50ns 和图一中黄线中间的点>70ns)。这应该是在使用显卡算NB后，CPU计算PME成为了瓶颈，而PME多rank并行的效率并没有提高，加速多Rank运行时各种负载不平衡带来的消耗。<br>2）多Rank下，使用GPU计算PME的情况：<br>  即使加上“-pmp gpu -npme 1”后，在2 Rank情况下使用1块显卡计算PME，1块显卡计算NB，速度竟然没有只使用1块显卡同时算PME和NB快。通过观察md.log中的结果可以发现，耗时项最大的是PME wait for PP <em>，大概意思就是一块显卡PME算好了，等另外一块显卡算NB等了半天。还可以看到log文件中“Average PME mesh/force load: 0.738”这样的描述，也就是PME/PP负载不平衡以及Rank之间通信造成了效率低下。在4 Rank下，<em>*拿出1个Rank做PME，以及3个Rank做PP后，PP/PME负载不平衡的情况情况得到了改善，此时两块显卡的运算速度也终于略微超过一块。</em></em><br>3）多Rank下GPU的任务分配：<br>  默认情况下Rank任务是平均分配给GPU的，比如这里我有4个Rank任务，2个GPU，那么平均一个GPU分到2个Rank，由于3个Rank是PP，一个Rank是PME，最后结果就是一个显卡计算2个PP任务，一个显卡计算1个PME+1个PP任务。此时可以用-gputasks 选项分配如何把这4个rank分给GPU，这4个rank中，前3个是PP rank，最后一个是PME rank，因此如果是”-gputasks 0001” 指定前三个PP rank分给0号gpu，最后一个PME rank分给1号gpu，而”-gputasks 0011”则相当于默认情况。本次测试中两种请</50ns></p>
+<p><strong>d) N任务，N显卡</strong><br>上面的测试表明，两块显卡相对于一块显卡的提升非常有限。如果装了两块显卡，想有效的利用这两块显卡，最好的办法是每块显卡跑一个独立gmx任务。问题是，这两个独立的gmx会相互干扰么？经过测试，结论是：<strong>cpu核数足够的情况下两块显卡单独运行两个Gromacs任务完全没有影响</strong>。<a target="_blank" rel="noopener" href="http://bbs.keinsci.com/thread-13910-1-1.html?tdsourcetag=s_pcqq_aiomsg">JCC,2019</a>的那篇文章中也可以看到，N显卡相对于单显卡的速度几乎就是N倍。<strong>
+</strong><br><strong>e) GTX1080的表现</strong></p>
+<p><img src="http://bbs.keinsci.com/forum.php?mod=attachment&amp;aid=MjA2MDZ8ZTZjMWI5OTl8MTYzNjU2NDM4NXwyNjY4NXwxMzg2MQ%3D%3D&amp;noupdate=yes" alt="img"></p>
+<p>图四：2块1080显卡的测试情况，其中图标R2:NB+PME的意思是使用2个Rank，用GPU算NB和PME。<br><strong>分析：</strong><br>1080和2080相比有下面一些相同和不同点<br>相同点：<br>1）单Rank下，显卡计算NB+PME时，CPU在10核计算速度达到饱和。<br>2）单显卡下，双Rank比单Rank慢<br>3）双显卡下，只有使用4Rank，且用显卡计算NB+PME时，速度才能略微超过单显卡情况<br>不同点：<br>1）单Rank下，随着openmp threads数量增多，显卡计算NB+BF的速度最终超过了NB+PME，这是因为1080性能略差，这样CPU并行数量上去之后，CPU计算PME的速度最终能够超过GPU计算PME的速度。</p>
+<p><strong>f) 关于PME tuning</strong><br>PME部分的计算其实还有很多可以调控的地方，我没有深入研究，这里简单介绍一下：<br>1）tunepme，这是mdrun的选项，默认为开启，在CPU计算NB，GPU计算PME的情况下，为了使两边计算负载平衡，达到同步完成，gromacs采用了PME调控功能，其原理是增大rcoulomb，同时增加Fourierspacing，也就是减少FFT 格点数，使将使得更多的粒子长程作用从PME部分划分给NB部分。从而减少PME的计算量。所有我们在mdp文件中可以将rcoulomb和Fourierspacing 设小一点（比如0.8和1），让mdrun自行调控。</p>
+<p><img src="/blog/2021/11/13/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%88%86%E5%AD%90%E6%A8%A1%E6%8B%9F-GMX-2021-11-13-GROMACS-%E5%B9%B6%E8%A1%8C%E6%95%88%E7%8E%87%E6%B5%8B%E8%AF%95%E4%B8%8E%E8%B0%83%E8%AF%95/forum-16367926478617.php" alt="img"></p>
+<p>2）vdwtype，这是mdp参数，如果设为pme，那么会使用PME计算长程VDW作用，不过如果这样做，无法使用GPU进行PME计算，这就相当于把更多的任务分配给了PME，因此，如果GPU很次，可以尝试这种做法。<br>3）pmefft，这是mdrun的选项，可以把PME的3D FFT单独分配给CPU算，而其他部分任然交给GPU算，据说用比较次的GPU搭配很好的CPU可以用这个选项，但是我尝试之后并没有得到积极的结果。<br>4）gmx tune_pme，这是gmx的一个程序，可以系统的优化PME参数，在给定总的Rank数情况下优化计算PME的rank数，以及rcolulomb和Fourierspacing的参数。比如：</p>
+<ol>
+<li>gmx tune_pme -mdrun ‘gmx mdrun -pme cpu’ -ntmpi 1 -ntomp 44 -rmax 2 -rmin 0 -ntpr 10 -gpu_id 0 -r 2 -fix 0 -s c05.tpr</li>
+</ol>
+<p><em>复制代码</em></p>
+<p>的意思是使用cpu算PME(-pme cpu),一共只使用1个tmpi rank(-ntmpi 1),对10个不同的rcoulomb设置进行测试(-ntpr 10)，其中rcoulomb最大值是2(-rmax 2), 最小值是tpr中的设定值(-rmin 0), 不使用独立的pme rank (-fix 0)，使用1个id为0的gpu加速计算(-gpu_id 0), 每个测试运行两遍(-r 2)</p>
+<ol>
+<li>gmx tune_pme -mdrun ‘gmx_mpi mdrun’ -np 20 -ntomp 2 -min 0.25 -max 0.5 -rmax 1.5 -rmin 0 -ntpr 5 -gpu_id 0 -r 2 -resetstep 3000 -steps 3000 -s c05.tpr</li>
+</ol>
+<p><em>复制代码</em></p>
+<p>使用20个openmpi rank(-np 20), 每个rank使用2个openmp thread, 其中PME 线程数从20<em>0.25=5个(-min 0.25) 测试到 20</em>0.5=10个 (-max 0.5)，每次测试运行3000步之后开始计时（-resetstep 3000), 计时时间为3000步(-steps 3000)。<br>该命令的更多选项见手册.</p>
+<p><strong>g) cpu频率的影响</strong></p>
+<p><img src="/blog/2021/11/13/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%88%86%E5%AD%90%E6%A8%A1%E6%8B%9F-GMX-2021-11-13-GROMACS-%E5%B9%B6%E8%A1%8C%E6%95%88%E7%8E%87%E6%B5%8B%E8%AF%95%E4%B8%8E%E8%B0%83%E8%AF%95/forum-16367926478618.php" alt="img"></p>
+<p>图五：单Rank，使用显卡跑NB+PME任务时，CPU频率对运算速度的影响。<strong>分析：</strong><br>因为我们的结论是单Rank单显卡跑MD任务效率最高，那么剩下的问题就是CPU的频率以及核心数是如何影响运算速度的。<br>根据图五的结果我们可以做以下几点分析：<br>1）cpu高频时，能用更少的核的达到速度上限。<br>2）cpu低频时，10核之前并行效率高，10-20核并行效率低，20核之后并行效率几乎没有。<br>3）cpu频率的高低，会影响到速度上限的高低。</p>
+<p><strong>四, 结论：</strong><br><strong>抽象版：
+</strong>影响Gromacs效率的关键是下面3个平衡：<br>1，PME-NB运算任务之间的平衡。<br>1，CPU-GPU负载平衡。<br>2，多Rank并行时，Rank之间的负载平衡。<br>我们主要通过决定把多少资源（GPU，CPU，Rank）分配给PME和NB任务来实现上面的平衡。<br><strong><br>**</strong>简单粗暴版：<strong>
+</strong>单显卡情况下：<em>*<br>只用1个Rank（运行时单进程多线程并行），如果显卡足够好，把PME任务给显卡，openmp theads 12个左右；命令如下：<br>gmx mdrun -pin on -ntmpi 1 -ntomp 12 -pme gpu XXX.tpr</em>复制代码*如果显卡较差，把PME任务给CPU，openmp theads 越多越好（一般超过20，计算速度达到上限），命令如下：</p>
+<ol>
+<li>gmx mdrun -pin on -ntmpi 1 -ntomp 20 -pme cpu XXX.tpr</li>
+</ol>
+<p><em>复制代码</em></p>
+<p><strong>多显卡情况下：</strong><br>最好是给每个显卡一个Rank，单独跑一个Gromacs任务，命令如下：</p>
+<ol>
+<li>gmx mpirun -ntmpi 1 -ntomp 12 -gpu_id 0 -s abc.tpr #使用0号gpu计算abc.tpr</li>
+<li>gmx mpirun -ntmpi 1 -ntomp 12 -gpu_id 1 -s xyz.tpr #使用1号gpu计算abc.tpr</li>
+</ol>
+<p><em>复制代码</em></p>
+<p>如果非要用多个显卡跑一个MD任务，请把一个PME rank分配给显卡，其他的3个PP Rank分配给其他的显卡，命令如下：</p>
+<ol>
+<li>gmx mdrun -pin on -ntmpi 4 -ntomp 8 -pme gpu -npme 1 XXX.tpr</li>
+</ol>
+<p><em>复制代码</em></p>
+<p><strong>给购机同学的建议：</strong><br>由于最高的效率的资源利用方式是单显卡跑任务，所以一个机器里面装多显卡的目的主要是为了同时跑多个gromacs任务（并且不占地方，便于操作），这时候需要考虑的是cpu核心数/gpu的比例，根据本次测试的结果，在GPU跑PME+NB，对于1080显卡，cpu 8核就能达到速度上限，对于 2080显卡，cpu 10 核就能达到上限，这说明越是好的显卡，也需要更多/更快的cpu核心数与之配套，才能充分发挥这块显卡的功能，另外根据第三部分g）CPU频率的测试可以发现，cpu10核之内thread并行效率高，10-20核并行效率低，20核之后并行效率几乎没有，因此<strong>如果只配一块显卡，我们有一个核心数较少（8-12）频率较高的CPU就够了，比如桌面级别的I7，I9，如果要装多显卡的机器，那么选择cpu的时候最好满足10核左右/1块显卡比例</strong>（如果cpu主频够高，可以适当降低核心数要求）<strong>，</strong>在此基础上，利用公式：cpu频率<em> min(显卡数</em>10，cpu核心数) / price，来计算搭配cpu的性价比。<br><strong><br>**</strong>给使用超算中心同学的建议：<strong>
+</strong>对于slurm系统，你在用sbatch提交任务的时候，不管它的节点上有几块显卡 ，你每次提交任务的时候一律用从0开始，一次用一块显卡算就是-gpu id 0。一次用两块显卡算就是-gpu_id 01,** 这是因为大多数slurm系统都用cgroup管理资源。最大的资源的利用仍然是一次使用一块gpu，一个提交脚本申请一个gpu，提交一个任务即可，至于配合多少cpu，偷懒的话直接设成10，否者用下面一节测试脚本中的多GPU多任务情况的命令测试一下，需要多少CPU核数够。如果GPU节点上有多块显卡而又强制是exclusive模式（独占节点模式），那么应当在一个提交脚本中写入多个任务，或者使用多显卡算一个任务（4 Rank并行，PME分配给GPU）（待补充）</p>
+<p><strong>五, 测试脚本</strong><br>最后附上本次测试用到的脚本：gmxbench.sh<br>安装之后（放到PATH路径下，加可执行权限），运行方法如下：</p>
+<ol>
+<li>gmxbench.sh -r “1 2 4” -T “2 2 10” -g “0 01” -G “0 1 2 3 4” -a “-pin on” -s 20000 -S 10000 XXX.tpr</li>
+</ol>
+<p><em>复制代码</em></p>
+<p>意思是，测试rank 为 1 2 4 时候的情况 (-r “1 2 4”)<br>对于每种rank设置，测试openmp 线程为“2 4 6 8 10”时候的情况(-T “2 2 10”)<br>对于上面每种设置，分别测试只使用0号GPU和同时使用01号GPU的情况(-g “0 01”)<br>对于上面每种设置，分别测试gpu分配任务为“0 1 2 3 4”时候的情况，这里的代号和第一部分中的“显卡加速的5种情况”中的编号对应(-G “0 1 2 3 4”)<br>每次测试运行20000步(-s 20000)，从10000步开始计时(-S 10000)，注意-S如果设置过小（比如小于5000，可能会因为还未完成pme tune 而出错）<br>最后额外添加关键词“-pin on” (-a “-pin on”)另外可以输入gmxbench.sh -h 查看帮助<br><strong>实用测试命令：</strong><br>根据我们的上面的结论，其实不用做那么多测试，下面是实用的测试命令<br><strong>单GPU情况：</strong></p>
+<ol>
+<li>gmxbench.sh -r 1 -g 0 -G “2 3” -a “-pin on” -s 20000 -S 10000 XXX.tpr </li>
+</ol>
+<p><em>复制代码</em></p>
+<p>这里主要区别把PME分给CPU快还是GPU快，这里不设置openmp thread 会默认使用最大thread<br><strong>多GPU单任务情况：</strong></p>
+<ol>
+<li>gmxbench.sh -r “1 4” -g “0 01” -G “2 3” -a “-pin on” -s 20000 -S 10000 XXX.tpr</li>
+</ol>
+<p><em>复制代码</em></p>
+<p>这里主要区别把PME分给CPU还是GPU以及是使用单Rank快还是4 Rank快，以及是用一块gpu快还是2块gpu快。。。这里不设置openmp thread 会默认使用最大thread<br><strong>多GPU多任务情况：</strong></p>
+<ol>
+<li>gmxbench.sh -r “1” -g “0” -G “2” -T “6 2 20” -a “-pin on” -s 20000 -S 10000 XXX.tpr</li>
+</ol>
+<p><em>复制代码</em></p>
+<p>这里主要是看使用一个GPU算一个任务时，用多少CPU能把GPU”喂饱“，因此我们固定其他参数，只扫描openmp线程，从6开始，每次增加2核，扫描到20（-T 2 1 20）<br><strong>测试完成后自动给出耗时统计，如果中途意外中断了可以重新运行相同的命令，会自动续算。
+</strong><br>本人做动力学经验不多，希望各位动力学大佬提出宝贵建议和补充！！</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://fy-han.github.io.git/blog/2021/11/13/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%88%86%E5%AD%90%E6%A8%A1%E6%8B%9F-GMX-2021-11-13-GROMACS-%E5%B9%B6%E8%A1%8C%E6%95%88%E7%8E%87%E6%B5%8B%E8%AF%95%E4%B8%8E%E8%B0%83%E8%AF%95/" data-id="ckvxk40pb003p0ku5ey23h1gz" data-title="GROMACS 并行效率测试与调试" class="article-share-link">Teilen</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/gmx/" rel="tag">gmx</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-科研学习-博客-2021-3-10-hexo-github建立博客遇到的问题-2021-11-13-hexo图片配置" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/blog/2021/11/13/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%8D%9A%E5%AE%A2-2021-3-10-hexo-github%E5%BB%BA%E7%AB%8B%E5%8D%9A%E5%AE%A2%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98-2021-11-13-hexo%E5%9B%BE%E7%89%87%E9%85%8D%E7%BD%AE/" class="article-date">
@@ -115,7 +266,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://fy-han.github.io.git/blog/2021/11/13/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%8D%9A%E5%AE%A2-2021-3-10-hexo-github%E5%BB%BA%E7%AB%8B%E5%8D%9A%E5%AE%A2%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98-2021-11-13-hexo%E5%9B%BE%E7%89%87%E9%85%8D%E7%BD%AE/" data-id="ckvxhta0k001xjgu5akrdchhu" data-title="hexo图片配置与hexo主题" class="article-share-link">Teilen</a>
+      <a data-url="https://fy-han.github.io.git/blog/2021/11/13/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%8D%9A%E5%AE%A2-2021-3-10-hexo-github%E5%BB%BA%E7%AB%8B%E5%8D%9A%E5%AE%A2%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98-2021-11-13-hexo%E5%9B%BE%E7%89%87%E9%85%8D%E7%BD%AE/" data-id="ckvxk40ov00250ku5ax010fl8" data-title="hexo图片配置与hexo主题" class="article-share-link">Teilen</a>
       
       
       
@@ -129,9 +280,9 @@
 
 
   
-    <article id="post-科研学习-分子模拟-GMX-2021-11-13-GROMACS-PCA-2021-11-13-GROMACS-PCA" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+    <article id="post-科研学习-分子模拟-GMX-2021-11-13-GROMACS-PCA" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <a href="/blog/2021/11/13/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%88%86%E5%AD%90%E6%A8%A1%E6%8B%9F-GMX-2021-11-13-GROMACS-PCA-2021-11-13-GROMACS-PCA/" class="article-date">
+    <a href="/blog/2021/11/13/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%88%86%E5%AD%90%E6%A8%A1%E6%8B%9F-GMX-2021-11-13-GROMACS-PCA/" class="article-date">
   <time class="dt-published" datetime="2021-11-13T05:05:29.000Z" itemprop="datePublished">2021-11-13</time>
 </a>
     
@@ -143,7 +294,7 @@
         
   
     <h1 itemprop="name">
-      <a class="p-name article-title" href="/blog/2021/11/13/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%88%86%E5%AD%90%E6%A8%A1%E6%8B%9F-GMX-2021-11-13-GROMACS-PCA-2021-11-13-GROMACS-PCA/">GROMACS PCA</a>
+      <a class="p-name article-title" href="/blog/2021/11/13/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%88%86%E5%AD%90%E6%A8%A1%E6%8B%9F-GMX-2021-11-13-GROMACS-PCA/">GROMACS PCA</a>
     </h1>
   
 
@@ -191,7 +342,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://fy-han.github.io.git/blog/2021/11/13/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%88%86%E5%AD%90%E6%A8%A1%E6%8B%9F-GMX-2021-11-13-GROMACS-PCA-2021-11-13-GROMACS-PCA/" data-id="ckvxhta0t002vjgu56xk20l97" data-title="GROMACS PCA" class="article-share-link">Teilen</a>
+      <a data-url="https://fy-han.github.io.git/blog/2021/11/13/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%88%86%E5%AD%90%E6%A8%A1%E6%8B%9F-GMX-2021-11-13-GROMACS-PCA/" data-id="ckvxk40os001t0ku541n060ku" data-title="GROMACS PCA" class="article-share-link">Teilen</a>
       
       
       
@@ -244,7 +395,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://fy-han.github.io.git/blog/2021/11/13/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%8A%80%E6%9C%AF-%E6%8A%80%E6%9C%AF%E6%9D%82%E8%B0%88-2021-11-13-shell%E8%84%9A%E6%9C%AC%E6%84%8F%E6%80%9D-2021-11-13-shell%E8%84%9A%E6%9C%AC%E6%84%8F%E6%80%9D/" data-id="ckvxhta11003qjgu58q8020ik" data-title="shell脚本意思" class="article-share-link">Teilen</a>
+      <a data-url="https://fy-han.github.io.git/blog/2021/11/13/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%8A%80%E6%9C%AF-%E6%8A%80%E6%9C%AF%E6%9D%82%E8%B0%88-2021-11-13-shell%E8%84%9A%E6%9C%AC%E6%84%8F%E6%80%9D-2021-11-13-shell%E8%84%9A%E6%9C%AC%E6%84%8F%E6%80%9D/" data-id="ckvxk40pb003o0ku5ftf3dvp2" data-title="shell脚本意思" class="article-share-link">Teilen</a>
       
       
       
@@ -285,7 +436,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://fy-han.github.io.git/blog/2021/11/6/2021%E5%91%A8%E6%8A%A5-4%E5%AD%A3%E5%BA%A6-2021-11-6-10-30-11-6%E5%91%A8%E6%8A%A5-2021-11-6-10-30-11-6%E5%91%A8%E6%8A%A5/" data-id="ckvxhta0h001kjgu54swi9mt4" data-title="10.30-11.6周报" class="article-share-link">Teilen</a>
+      <a data-url="https://fy-han.github.io.git/blog/2021/11/6/2021%E5%91%A8%E6%8A%A5-4%E5%AD%A3%E5%BA%A6-2021-11-6-10-30-11-6%E5%91%A8%E6%8A%A5-2021-11-6-10-30-11-6%E5%91%A8%E6%8A%A5/" data-id="ckvxk40oq001k0ku57i6ydkju" data-title="10.30-11.6周报" class="article-share-link">Teilen</a>
       
       
       
@@ -457,7 +608,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://fy-han.github.io.git/blog/2021/11/5/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%8D%9A%E5%AE%A2-2021-3-10-hexo-github%E5%BB%BA%E7%AB%8B%E5%8D%9A%E5%AE%A2%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98-2021-11-5-hexo%E5%8D%9A%E5%AE%A2%E6%97%A0%E6%B3%95hexo-d%E8%BF%9B%E8%A1%8C%E9%83%A8%E7%BD%B2-2021-11-5-hexo%E5%8D%9A%E5%AE%A2%E6%97%A0%E6%B3%95hexo-d%E8%BF%9B%E8%A1%8C%E9%83%A8%E7%BD%B2/" data-id="ckvxhta13003ujgu55mlg9l1u" data-title="hexo博客无法hexo d进行部署" class="article-share-link">Teilen</a>
+      <a data-url="https://fy-han.github.io.git/blog/2021/11/5/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%8D%9A%E5%AE%A2-2021-3-10-hexo-github%E5%BB%BA%E7%AB%8B%E5%8D%9A%E5%AE%A2%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98-2021-11-5-hexo%E5%8D%9A%E5%AE%A2%E6%97%A0%E6%B3%95hexo-d%E8%BF%9B%E8%A1%8C%E9%83%A8%E7%BD%B2-2021-11-5-hexo%E5%8D%9A%E5%AE%A2%E6%97%A0%E6%B3%95hexo-d%E8%BF%9B%E8%A1%8C%E9%83%A8%E7%BD%B2/" data-id="ckvxk40pd003w0ku56xwsf215" data-title="hexo博客无法hexo d进行部署" class="article-share-link">Teilen</a>
       
       
       
@@ -512,7 +663,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://fy-han.github.io.git/blog/2021/10/31/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%88%86%E5%AD%90%E6%A8%A1%E6%8B%9F-GMX-2021-10-31-GROMACS-MD-%E9%80%9F%E5%BA%A6%E8%B0%83%E6%95%B4/" data-id="ckvxhta0i001qjgu5ft948rc6" data-title="GROMACS MD 速度调整" class="article-share-link">Teilen</a>
+      <a data-url="https://fy-han.github.io.git/blog/2021/10/31/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%88%86%E5%AD%90%E6%A8%A1%E6%8B%9F-GMX-2021-10-31-GROMACS-MD-%E9%80%9F%E5%BA%A6%E8%B0%83%E6%95%B4/" data-id="ckvxk40or001q0ku575ki62x1" data-title="GROMACS MD 速度调整" class="article-share-link">Teilen</a>
       
       
       
@@ -1062,7 +1213,7 @@ h6.md-focus:before {
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://fy-han.github.io.git/blog/2021/10/25/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%8A%80%E6%9C%AF-%E6%8A%80%E6%9C%AF%E6%9D%82%E8%B0%88-2021-10-25-Bash%E6%95%99%E5%AD%A6/" data-id="ckvxhta12003rjgu5846f5zu0" data-title="" class="article-share-link">Teilen</a>
+      <a data-url="https://fy-han.github.io.git/blog/2021/10/25/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%8A%80%E6%9C%AF-%E6%8A%80%E6%9C%AF%E6%9D%82%E8%B0%88-2021-10-25-Bash%E6%95%99%E5%AD%A6/" data-id="ckvxk40pc003t0ku5ezwl896x" data-title="" class="article-share-link">Teilen</a>
       
       
       
@@ -1128,7 +1279,7 @@ h6.md-focus:before {
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://fy-han.github.io.git/blog/2021/10/25/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%8A%80%E6%9C%AF-%E9%85%8D%E7%BD%AE%E7%94%B5%E8%84%91-2021-10-25-%E8%A3%85gromacs%E6%9C%89gcc%E9%97%AE%E9%A2%98/" data-id="ckvxhta0o002cjgu52f6ld8hg" data-title="装gromacs有gcc问题" class="article-share-link">Teilen</a>
+      <a data-url="https://fy-han.github.io.git/blog/2021/10/25/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%8A%80%E6%9C%AF-%E9%85%8D%E7%BD%AE%E7%94%B5%E8%84%91-2021-10-25-%E8%A3%85gromacs%E6%9C%89gcc%E9%97%AE%E9%A2%98/" data-id="ckvxk40oy002k0ku5ezprdlbb" data-title="装gromacs有gcc问题" class="article-share-link">Teilen</a>
       
       
       
@@ -1180,122 +1331,11 @@ h6.md-focus:before {
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://fy-han.github.io.git/blog/2021/10/22/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%88%86%E5%AD%90%E6%A8%A1%E6%8B%9F-GMX-2021-10-22-gmx%E6%BA%B6%E5%89%82%E5%8C%96%E8%B7%91md/" data-id="ckvxhta0i001ojgu5bpnkcr3n" data-title="gmx溶剂化跑md" class="article-share-link">Teilen</a>
+      <a data-url="https://fy-han.github.io.git/blog/2021/10/22/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%88%86%E5%AD%90%E6%A8%A1%E6%8B%9F-GMX-2021-10-22-gmx%E6%BA%B6%E5%89%82%E5%8C%96%E8%B7%91md/" data-id="ckvxk40or001o0ku5h0vgb1ar" data-title="gmx溶剂化跑md" class="article-share-link">Teilen</a>
       
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/gmx/" rel="tag">gmx</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-科研学习-计算机技术-技术杂谈-2021-9-23-markdown语法学习大全" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/blog/2021/9/23/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%8A%80%E6%9C%AF-%E6%8A%80%E6%9C%AF%E6%9D%82%E8%B0%88-2021-9-23-markdown%E8%AF%AD%E6%B3%95%E5%AD%A6%E4%B9%A0%E5%A4%A7%E5%85%A8/" class="article-date">
-  <time class="dt-published" datetime="2021-09-22T16:03:50.000Z" itemprop="datePublished">2021-09-23</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/blog/2021/9/23/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%8A%80%E6%9C%AF-%E6%8A%80%E6%9C%AF%E6%9D%82%E8%B0%88-2021-9-23-markdown%E8%AF%AD%E6%B3%95%E5%AD%A6%E4%B9%A0%E5%A4%A7%E5%85%A8/">markdown语法学习大全</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p><strong>说明：</strong><br>markdown编译器各平台支持性不同</p>
-<h2 id="一、概述"><a href="#一、概述" class="headerlink" title="一、概述"></a>一、概述</h2><h3 id="1-1-设计理念"><a href="#1-1-设计理念" class="headerlink" title="1.1 设计理念"></a>1.1 设计理念</h3><ul>
-<li>markdown易于阅读，完全由文本和标点符号组成，由纯文本形式发布，不包含标记标签和格式化指令</li>
-</ul>
-<h3 id="1-2-内联HTML语法"><a href="#1-2-内联HTML语法" class="headerlink" title="1.2 内联HTML语法"></a>1.2 内联HTML语法</h3><ul>
-<li>markdown没有的标签可以使用html，如html的<a>代替markdown连接语法</a></li>
-<li>&lt;与&amp;符号在HTML中需要转义</li>
-</ul>
-<h2 id="二、语法"><a href="#二、语法" class="headerlink" title="二、语法"></a>二、语法</h2><h3 id="2-1-注释"><a href="#2-1-注释" class="headerlink" title="2.1 注释"></a>2.1 注释</h3><ul>
-<li><strong>代码</strong></li>
-</ul>
-<p>用ctrl+shift+`，开启代码块;或者typora本身会自动识别html语法;或者ctrl+shift+K</p>
-<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">div</span> <span class="attr">style</span>=<span class="string">&#x27;display:none&#x27;</span>&gt;</span></span>这里是注释<span class="xml"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br></pre></td></tr></table></figure>
-<ul>
-<li></li>
-<li><p><strong>html注释</strong></p>
-</li>
-</ul>
-<p>html语法，快捷键command+/</p>
-<p>\<!--注释不显示--></p>
-<p>\<!--不显示的多段注释--></p>
-<ul>
-<li><strong>hack方法</strong></li>
-</ul>
-<p>语义化比较差</p>
-<blockquote id="fn__^">
-<sup>_^</sup>. #(注释)<a href="#reffn__^" title="Jump back to footnote [_^] in the text."> &#8617;</a>
-</blockquote>
-<p><a href="#(注释)">//</a>:&lt;&gt;(注释)</p>
-<p>[comment]:&lt;&gt;(注释)</p>
-<h3 id="2-2-分级前缀与文本格式"><a href="#2-2-分级前缀与文本格式" class="headerlink" title="2.2 分级前缀与文本格式"></a>2.2 分级前缀与文本格式</h3><ul>
-<li>分级标题 加# 或者ctrl+数字级别</li>
-<li>任务列表   </li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">- [ ] 文本 </span><br></pre></td></tr></table></figure>
-<p><strong>效果为：</strong></p>
-<ul>
-<li><p>[ ] 文本</p>
-</li>
-<li><p>文本对齐</p>
-</li>
-</ul>
-<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">center</span>&gt;</span></span>中心对齐<span class="xml"><span class="tag">&lt;/<span class="name">center</span>&gt;</span></span></span><br><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">p</span> <span class="attr">align</span>=<span class="string">&quot;left&quot;</span>&gt;</span></span>to the left<span class="xml"><span class="tag">&lt;/<span class="name">p</span>&gt;</span></span></span><br><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">p</span> <span class="attr">align</span>=<span class="string">&quot;right&quot;</span>&gt;</span></span>to the right<span class="xml"><span class="tag">&lt;/<span class="name">p</span>&gt;</span></span></span><br></pre></td></tr></table></figure>
-<ul>
-<li>字体效果</li>
-</ul>
-<p>删除线：两边加~</p>
-<p>下划线：两边加++</p>
-<p>背景高亮：两边加==</p>
-<p>==高亮==</p>
-<h3 id="2-3-链接与注脚"><a href="#2-3-链接与注脚" class="headerlink" title="2.3 链接与注脚"></a>2.3 链接与注脚</h3><ul>
-<li>超链接：选中文本后ctrl+K，后面补上链接，可再加“html中会出现的悬停标题”，如 <a target="_blank" rel="noopener" href="http://fy-han.github.io/">我的博客</a></li>
-<li>前后的引文链接：用[ ]把内容括起来，然后后面跟数字如<a target="_blank" rel="noopener" href="https://www.google.com" title="谷歌">1</a> ：我常用的<a target="_blank" rel="noopener" href="https://www.google.com" title="谷歌">Google</a></li>
-<li>用[^1],即可，文末补引用。丰阳说多读sci论文<sup><a href="#fn_1" id="reffn_1">1</a></sup>,能增长知识。</li>
-</ul>
-<font face="黑体">黑体</font>
-
-<font face="微软雅黑">微软雅黑</font>
-
-<p>[TOC]</p>
-<h3 id="2-4-余下内容"><a href="#2-4-余下内容" class="headerlink" title="2.4 余下内容"></a>2.4 余下内容</h3><p>多级引用&gt;</p>
-<p>Latex公式：ctrl+shift+M</p>
-<script type="math/tex; mode=display">
-E = mc^2</script><script type="math/tex; mode=display">
-\boxed {E=mc^2}</script><script type="math/tex; mode=display">
-\sum_{i=1}^n a_i</script><script type="math/tex; mode=display">
-x_{ij}^2\quad \sqrt{x}\quad \sqrt[3]{x}</script><script type="math/tex; mode=display">
-\frac{1}{2}</script><script type="math/tex; mode=display">
-\pm\; \times\; \div\; \cdot\; \cap\;\cup\;\geq\;\leq\;\neq\;\approx\;\equiv\;</script><script type="math/tex; mode=display">
-\sum\; \prod\; \lim\;\int\;</script><p>test</p>
-<script type="math/tex; mode=display">lim_{1\to+\infty}P(|\frac{1}{n}\sum_i^nX_i-\mu|<\epsilon>)=1,i=1,...,n</script><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/u014630987/article/details/70156489" title="Markdown中Latex数学公式基本语法">详见</a></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://fy-han.github.io.git/blog/2021/9/23/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%8A%80%E6%9C%AF-%E6%8A%80%E6%9C%AF%E6%9D%82%E8%B0%88-2021-9-23-markdown%E8%AF%AD%E6%B3%95%E5%AD%A6%E4%B9%A0%E5%A4%A7%E5%85%A8/" data-id="ckvxhta0o002ajgu5c8ua6ipe" data-title="markdown语法学习大全" class="article-share-link">Teilen</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%8A%80%E6%9C%AF%E6%9D%82%E8%B0%88/" rel="tag">技术杂谈</a></li></ul>
 
     </footer>
   </div>
@@ -1355,11 +1395,15 @@ x_{ij}^2\quad \sqrt{x}\quad \sqrt[3]{x}</script><script type="math/tex; mode=dis
       <ul>
         
           <li>
+            <a href="/blog/2021/11/13/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%88%86%E5%AD%90%E6%A8%A1%E6%8B%9F-GMX-2021-11-13-GROMACS-%E5%B9%B6%E8%A1%8C%E6%95%88%E7%8E%87%E6%B5%8B%E8%AF%95%E4%B8%8E%E8%B0%83%E8%AF%95/">GROMACS 并行效率测试与调试</a>
+          </li>
+        
+          <li>
             <a href="/blog/2021/11/13/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%8D%9A%E5%AE%A2-2021-3-10-hexo-github%E5%BB%BA%E7%AB%8B%E5%8D%9A%E5%AE%A2%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98-2021-11-13-hexo%E5%9B%BE%E7%89%87%E9%85%8D%E7%BD%AE/">hexo图片配置与hexo主题</a>
           </li>
         
           <li>
-            <a href="/blog/2021/11/13/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%88%86%E5%AD%90%E6%A8%A1%E6%8B%9F-GMX-2021-11-13-GROMACS-PCA-2021-11-13-GROMACS-PCA/">GROMACS PCA</a>
+            <a href="/blog/2021/11/13/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%88%86%E5%AD%90%E6%A8%A1%E6%8B%9F-GMX-2021-11-13-GROMACS-PCA/">GROMACS PCA</a>
           </li>
         
           <li>
@@ -1368,10 +1412,6 @@ x_{ij}^2\quad \sqrt{x}\quad \sqrt[3]{x}</script><script type="math/tex; mode=dis
         
           <li>
             <a href="/blog/2021/11/6/2021%E5%91%A8%E6%8A%A5-4%E5%AD%A3%E5%BA%A6-2021-11-6-10-30-11-6%E5%91%A8%E6%8A%A5-2021-11-6-10-30-11-6%E5%91%A8%E6%8A%A5/">10.30-11.6周报</a>
-          </li>
-        
-          <li>
-            <a href="/blog/2021/11/5/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%8D%9A%E5%AE%A2-2021-3-10-hexo-github%E5%BB%BA%E7%AB%8B%E5%8D%9A%E5%AE%A2%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98-2021-11-5-hexo%E5%8D%9A%E5%AE%A2%E6%97%A0%E6%B3%95hexo-d%E8%BF%9B%E8%A1%8C%E9%83%A8%E7%BD%B2-2021-11-5-hexo%E5%8D%9A%E5%AE%A2%E6%97%A0%E6%B3%95hexo-d%E8%BF%9B%E8%A1%8C%E9%83%A8%E7%BD%B2/">hexo博客无法hexo d进行部署</a>
           </li>
         
       </ul>

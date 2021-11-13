@@ -9,17 +9,18 @@
   <meta name="description" content="安装双精度 su -  yum install epel-release yum install cmake3 一路 y cmake3 &#x2F;V     如果显示出了3.x的版本号就说明没问题了   http:&#x2F;&#x2F;www.fftw.org&#x2F;fftw-3.3.8.tar.gz，移到&#x2F;usr&#x2F;local&#x2F;   下，gromacs也在这里 tar -zxf fftw-3.3.8.tar.gz cd fft">
 <meta property="og:type" content="article">
 <meta property="og:title" content="gmx入门-2.探索nm">
-<meta property="og:url" content="https://fy-han.github.io.git/blog/2021/4/30/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%88%86%E5%AD%90%E6%A8%A1%E6%8B%9F-GMX-2021-4-30-gmx%E5%85%A5%E9%97%A8-2-%E6%8E%A2%E7%B4%A2nm-2021-4-30-gmx%E5%85%A5%E9%97%A8-2-%E6%8E%A2%E7%B4%A2nm/index.html">
+<meta property="og:url" content="https://fy-han.github.io.git/blog/2021/4/30/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%88%86%E5%AD%90%E6%A8%A1%E6%8B%9F-GMX-2021-4-30-gmx%E5%85%A5%E9%97%A8-2-%E6%8E%A2%E7%B4%A2nm/index.html">
 <meta property="og:site_name" content="Hexo">
 <meta property="og:description" content="安装双精度 su -  yum install epel-release yum install cmake3 一路 y cmake3 &#x2F;V     如果显示出了3.x的版本号就说明没问题了   http:&#x2F;&#x2F;www.fftw.org&#x2F;fftw-3.3.8.tar.gz，移到&#x2F;usr&#x2F;local&#x2F;   下，gromacs也在这里 tar -zxf fftw-3.3.8.tar.gz cd fft">
 <meta property="og:locale">
-<meta property="og:image" content="https://img.imgdb.cn/item/608bde23d1a9ae528f976e83.png">
+<meta property="og:image" content="https://fy-han.github.io.git/blog/2021/4/30/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%88%86%E5%AD%90%E6%A8%A1%E6%8B%9F-GMX-2021-4-30-gmx%E5%85%A5%E9%97%A8-2-%E6%8E%A2%E7%B4%A2nm/life/blog/source/_posts/科研学习/分子模拟/GMX/2021.4.30-gmx入门-2-探索nm/1.png">
+<meta property="og:image" content="https://fy-han.github.io.git/blog/2021/4/30/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%88%86%E5%AD%90%E6%A8%A1%E6%8B%9F-GMX-2021-4-30-gmx%E5%85%A5%E9%97%A8-2-%E6%8E%A2%E7%B4%A2nm/life/blog/source/_posts/科研学习/分子模拟/GMX/2021.4.30-gmx入门-2-探索nm/零点能和振动频率.png">
 <meta property="article:published_time" content="2021-04-30T10:31:23.000Z">
-<meta property="article:modified_time" content="2021-10-23T07:07:08.452Z">
+<meta property="article:modified_time" content="2021-11-13T08:32:26.938Z">
 <meta property="article:author" content="FY-Han">
 <meta property="article:tag" content="gmx">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://img.imgdb.cn/item/608bde23d1a9ae528f976e83.png">
+<meta name="twitter:image" content="https://fy-han.github.io.git/blog/2021/4/30/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%88%86%E5%AD%90%E6%A8%A1%E6%8B%9F-GMX-2021-4-30-gmx%E5%85%A5%E9%97%A8-2-%E6%8E%A2%E7%B4%A2nm/life/blog/source/_posts/科研学习/分子模拟/GMX/2021.4.30-gmx入门-2-探索nm/1.png">
   
     <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -76,9 +77,9 @@
 </header>
 
       <div class="outer">
-        <section id="main"><article id="post-科研学习-分子模拟-GMX-2021-4-30-gmx入门-2-探索nm-2021-4-30-gmx入门-2-探索nm" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+        <section id="main"><article id="post-科研学习-分子模拟-GMX-2021-4-30-gmx入门-2-探索nm" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <a href="/blog/2021/4/30/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%88%86%E5%AD%90%E6%A8%A1%E6%8B%9F-GMX-2021-4-30-gmx%E5%85%A5%E9%97%A8-2-%E6%8E%A2%E7%B4%A2nm-2021-4-30-gmx%E5%85%A5%E9%97%A8-2-%E6%8E%A2%E7%B4%A2nm/" class="article-date">
+    <a href="/blog/2021/4/30/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%88%86%E5%AD%90%E6%A8%A1%E6%8B%9F-GMX-2021-4-30-gmx%E5%85%A5%E9%97%A8-2-%E6%8E%A2%E7%B4%A2nm/" class="article-date">
   <time class="dt-published" datetime="2021-04-30T10:31:23.000Z" itemprop="datePublished">2021-04-30</time>
 </a>
     
@@ -98,7 +99,7 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <p><img src="https://img.imgdb.cn/item/608bde23d1a9ae528f976e83.png" alt="方向"></p>
+        <p><img src="/blog/2021/4/30/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%88%86%E5%AD%90%E6%A8%A1%E6%8B%9F-GMX-2021-4-30-gmx%E5%85%A5%E9%97%A8-2-%E6%8E%A2%E7%B4%A2nm/life\blog\source\_posts\科研学习\分子模拟\GMX\2021.4.30-gmx入门-2-探索nm\1.png" alt="1"></p>
 <h2 id="安装双精度"><a href="#安装双精度" class="headerlink" title="安装双精度"></a>安装双精度</h2><ol>
 <li>su - </li>
 <li>yum install epel-release<ul>
@@ -236,6 +237,7 @@ gen_vel = no
 </ul>
 </li>
 </ul>
+<p><img src="/blog/2021/4/30/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%88%86%E5%AD%90%E6%A8%A1%E6%8B%9F-GMX-2021-4-30-gmx%E5%85%A5%E9%97%A8-2-%E6%8E%A2%E7%B4%A2nm/life\blog\source\_posts\科研学习\分子模拟\GMX\2021.4.30-gmx入门-2-探索nm\零点能和振动频率.png" alt="零点能和振动频率"></p>
 <h2 id="改进思路"><a href="#改进思路" class="headerlink" title="改进思路"></a>改进思路</h2><p>问题：freq全是0，得不到数值</p>
 <ol>
 <li><p>师兄说可能是蛋白质结构没有能量最小化，也可能是结构异常<br> 1.1 确证有无能量最小化</p>
@@ -259,13 +261,12 @@ gen_vel = no
          gmx nmeig nm.mtx
 </code></pre><p> 1.2 检查结构</p>
 </li>
-<li></li>
 </ol>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://fy-han.github.io.git/blog/2021/4/30/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%88%86%E5%AD%90%E6%A8%A1%E6%8B%9F-GMX-2021-4-30-gmx%E5%85%A5%E9%97%A8-2-%E6%8E%A2%E7%B4%A2nm-2021-4-30-gmx%E5%85%A5%E9%97%A8-2-%E6%8E%A2%E7%B4%A2nm/" data-id="ckvxhta0u002zjgu594t2cv62" data-title="gmx入门-2.探索nm" class="article-share-link">Teilen</a>
+      <a data-url="https://fy-han.github.io.git/blog/2021/4/30/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%88%86%E5%AD%90%E6%A8%A1%E6%8B%9F-GMX-2021-4-30-gmx%E5%85%A5%E9%97%A8-2-%E6%8E%A2%E7%B4%A2nm/" data-id="ckvxk40ot001x0ku5fy674sim" data-title="gmx入门-2.探索nm" class="article-share-link">Teilen</a>
       
       
       
@@ -341,11 +342,15 @@ gen_vel = no
       <ul>
         
           <li>
+            <a href="/blog/2021/11/13/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%88%86%E5%AD%90%E6%A8%A1%E6%8B%9F-GMX-2021-11-13-GROMACS-%E5%B9%B6%E8%A1%8C%E6%95%88%E7%8E%87%E6%B5%8B%E8%AF%95%E4%B8%8E%E8%B0%83%E8%AF%95/">GROMACS 并行效率测试与调试</a>
+          </li>
+        
+          <li>
             <a href="/blog/2021/11/13/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%8D%9A%E5%AE%A2-2021-3-10-hexo-github%E5%BB%BA%E7%AB%8B%E5%8D%9A%E5%AE%A2%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98-2021-11-13-hexo%E5%9B%BE%E7%89%87%E9%85%8D%E7%BD%AE/">hexo图片配置与hexo主题</a>
           </li>
         
           <li>
-            <a href="/blog/2021/11/13/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%88%86%E5%AD%90%E6%A8%A1%E6%8B%9F-GMX-2021-11-13-GROMACS-PCA-2021-11-13-GROMACS-PCA/">GROMACS PCA</a>
+            <a href="/blog/2021/11/13/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%88%86%E5%AD%90%E6%A8%A1%E6%8B%9F-GMX-2021-11-13-GROMACS-PCA/">GROMACS PCA</a>
           </li>
         
           <li>
@@ -354,10 +359,6 @@ gen_vel = no
         
           <li>
             <a href="/blog/2021/11/6/2021%E5%91%A8%E6%8A%A5-4%E5%AD%A3%E5%BA%A6-2021-11-6-10-30-11-6%E5%91%A8%E6%8A%A5-2021-11-6-10-30-11-6%E5%91%A8%E6%8A%A5/">10.30-11.6周报</a>
-          </li>
-        
-          <li>
-            <a href="/blog/2021/11/5/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%8D%9A%E5%AE%A2-2021-3-10-hexo-github%E5%BB%BA%E7%AB%8B%E5%8D%9A%E5%AE%A2%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98-2021-11-5-hexo%E5%8D%9A%E5%AE%A2%E6%97%A0%E6%B3%95hexo-d%E8%BF%9B%E8%A1%8C%E9%83%A8%E7%BD%B2-2021-11-5-hexo%E5%8D%9A%E5%AE%A2%E6%97%A0%E6%B3%95hexo-d%E8%BF%9B%E8%A1%8C%E9%83%A8%E7%BD%B2/">hexo博客无法hexo d进行部署</a>
           </li>
         
       </ul>

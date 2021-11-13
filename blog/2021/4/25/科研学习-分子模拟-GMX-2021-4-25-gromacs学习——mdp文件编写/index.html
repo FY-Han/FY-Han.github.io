@@ -9,12 +9,12 @@
   <meta name="description" content="mdp文件注解小结来源：踏雪无痕简要摘录，详细的去看文件 ; 预处理title&#x3D;      # 最长64字符cpp         # 预处理器（默认cpp）include     # 拓扑文件引用其他文件的路径define&#x3D;     # -DFLEXIBLE（用柔性水模型，共轭梯度必要；或-DPOSRES（用于位置限制md） ; 模拟控制integrator  #">
 <meta property="og:type" content="article">
 <meta property="og:title" content="gromacs学习——mdp文件编写">
-<meta property="og:url" content="https://fy-han.github.io.git/blog/2021/4/25/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%88%86%E5%AD%90%E6%A8%A1%E6%8B%9F-GMX-2021-4-25-gromacs%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94mdp%E6%96%87%E4%BB%B6%E7%BC%96%E5%86%99-2021-4-25-gromacs%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94mdp%E6%96%87%E4%BB%B6%E7%BC%96%E5%86%99/index.html">
+<meta property="og:url" content="https://fy-han.github.io.git/blog/2021/4/25/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%88%86%E5%AD%90%E6%A8%A1%E6%8B%9F-GMX-2021-4-25-gromacs%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94mdp%E6%96%87%E4%BB%B6%E7%BC%96%E5%86%99/index.html">
 <meta property="og:site_name" content="Hexo">
 <meta property="og:description" content="mdp文件注解小结来源：踏雪无痕简要摘录，详细的去看文件 ; 预处理title&#x3D;      # 最长64字符cpp         # 预处理器（默认cpp）include     # 拓扑文件引用其他文件的路径define&#x3D;     # -DFLEXIBLE（用柔性水模型，共轭梯度必要；或-DPOSRES（用于位置限制md） ; 模拟控制integrator  #">
 <meta property="og:locale">
 <meta property="article:published_time" content="2021-04-25T11:03:52.000Z">
-<meta property="article:modified_time" content="2021-04-25T13:55:36.420Z">
+<meta property="article:modified_time" content="2021-11-13T08:33:25.660Z">
 <meta property="article:author" content="FY-Han">
 <meta property="article:tag" content="gmx">
 <meta name="twitter:card" content="summary">
@@ -74,9 +74,9 @@
 </header>
 
       <div class="outer">
-        <section id="main"><article id="post-科研学习-分子模拟-GMX-2021-4-25-gromacs学习——mdp文件编写-2021-4-25-gromacs学习——mdp文件编写" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+        <section id="main"><article id="post-科研学习-分子模拟-GMX-2021-4-25-gromacs学习——mdp文件编写" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <a href="/blog/2021/4/25/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%88%86%E5%AD%90%E6%A8%A1%E6%8B%9F-GMX-2021-4-25-gromacs%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94mdp%E6%96%87%E4%BB%B6%E7%BC%96%E5%86%99-2021-4-25-gromacs%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94mdp%E6%96%87%E4%BB%B6%E7%BC%96%E5%86%99/" class="article-date">
+    <a href="/blog/2021/4/25/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%88%86%E5%AD%90%E6%A8%A1%E6%8B%9F-GMX-2021-4-25-gromacs%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94mdp%E6%96%87%E4%BB%B6%E7%BC%96%E5%86%99/" class="article-date">
   <time class="dt-published" datetime="2021-04-25T11:03:52.000Z" itemprop="datePublished">2021-04-25</time>
 </a>
     
@@ -108,7 +108,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://fy-han.github.io.git/blog/2021/4/25/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%88%86%E5%AD%90%E6%A8%A1%E6%8B%9F-GMX-2021-4-25-gromacs%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94mdp%E6%96%87%E4%BB%B6%E7%BC%96%E5%86%99-2021-4-25-gromacs%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94mdp%E6%96%87%E4%BB%B6%E7%BC%96%E5%86%99/" data-id="ckvxhta0u002wjgu57psd98z3" data-title="gromacs学习——mdp文件编写" class="article-share-link">Teilen</a>
+      <a data-url="https://fy-han.github.io.git/blog/2021/4/25/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%88%86%E5%AD%90%E6%A8%A1%E6%8B%9F-GMX-2021-4-25-gromacs%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94mdp%E6%96%87%E4%BB%B6%E7%BC%96%E5%86%99/" data-id="ckvxk40os001v0ku5b648266a" data-title="gromacs学习——mdp文件编写" class="article-share-link">Teilen</a>
       
       
       
@@ -184,11 +184,15 @@
       <ul>
         
           <li>
+            <a href="/blog/2021/11/13/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%88%86%E5%AD%90%E6%A8%A1%E6%8B%9F-GMX-2021-11-13-GROMACS-%E5%B9%B6%E8%A1%8C%E6%95%88%E7%8E%87%E6%B5%8B%E8%AF%95%E4%B8%8E%E8%B0%83%E8%AF%95/">GROMACS 并行效率测试与调试</a>
+          </li>
+        
+          <li>
             <a href="/blog/2021/11/13/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%8D%9A%E5%AE%A2-2021-3-10-hexo-github%E5%BB%BA%E7%AB%8B%E5%8D%9A%E5%AE%A2%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98-2021-11-13-hexo%E5%9B%BE%E7%89%87%E9%85%8D%E7%BD%AE/">hexo图片配置与hexo主题</a>
           </li>
         
           <li>
-            <a href="/blog/2021/11/13/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%88%86%E5%AD%90%E6%A8%A1%E6%8B%9F-GMX-2021-11-13-GROMACS-PCA-2021-11-13-GROMACS-PCA/">GROMACS PCA</a>
+            <a href="/blog/2021/11/13/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%88%86%E5%AD%90%E6%A8%A1%E6%8B%9F-GMX-2021-11-13-GROMACS-PCA/">GROMACS PCA</a>
           </li>
         
           <li>
@@ -197,10 +201,6 @@
         
           <li>
             <a href="/blog/2021/11/6/2021%E5%91%A8%E6%8A%A5-4%E5%AD%A3%E5%BA%A6-2021-11-6-10-30-11-6%E5%91%A8%E6%8A%A5-2021-11-6-10-30-11-6%E5%91%A8%E6%8A%A5/">10.30-11.6周报</a>
-          </li>
-        
-          <li>
-            <a href="/blog/2021/11/5/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%8D%9A%E5%AE%A2-2021-3-10-hexo-github%E5%BB%BA%E7%AB%8B%E5%8D%9A%E5%AE%A2%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98-2021-11-5-hexo%E5%8D%9A%E5%AE%A2%E6%97%A0%E6%B3%95hexo-d%E8%BF%9B%E8%A1%8C%E9%83%A8%E7%BD%B2-2021-11-5-hexo%E5%8D%9A%E5%AE%A2%E6%97%A0%E6%B3%95hexo-d%E8%BF%9B%E8%A1%8C%E9%83%A8%E7%BD%B2/">hexo博客无法hexo d进行部署</a>
           </li>
         
       </ul>

@@ -6,20 +6,20 @@
   
   <title>gmx入门-1.类比amber | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="GROMACS流程（使用GMX-5.0）  gmx help (module) 或 gmx (module) -h 学了AMBER之后来理解GROMACS更舒服了，而且中文讲解更清晰，AMBER在核酸领域比GROMACS更强，蛋白质差不多，材料领域用LAMMPS本来想学gaussian的，但是gaussian还没弄到win版，先学gromacs吧pdb文件——gmx&#x3D;tleap 产生gro和to">
+  <meta name="description" content="GROMACS流程（使用GMX-5.0）  gmx help (module) 或 gmx (module) -h 学了AMBER之后来理解GROMACS更舒服了，而且中文讲解更清晰，AMBER在核酸领域比GROMACS更强，蛋白质差不多，材料领域用LAMMPS本来想学gaussian的，但是gaussian还没弄到win版，先学gromacs吧  pdb文件——gmx&#x3D;tleap 产生gro和">
 <meta property="og:type" content="article">
 <meta property="og:title" content="gmx入门-1.类比amber">
-<meta property="og:url" content="https://fy-han.github.io.git/blog/2021/3/22/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%88%86%E5%AD%90%E6%A8%A1%E6%8B%9F-GMX-2021-3-22-gmx%E5%85%A5%E9%97%A8-1-%E7%B1%BB%E6%AF%94amber-2021-3-22-gmx%E5%85%A5%E9%97%A8-1-%E7%B1%BB%E6%AF%94amber/index.html">
+<meta property="og:url" content="https://fy-han.github.io.git/blog/2021/3/22/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%88%86%E5%AD%90%E6%A8%A1%E6%8B%9F-GMX-2021-3-22-gmx%E5%85%A5%E9%97%A8-1-%E7%B1%BB%E6%AF%94amber/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="GROMACS流程（使用GMX-5.0）  gmx help (module) 或 gmx (module) -h 学了AMBER之后来理解GROMACS更舒服了，而且中文讲解更清晰，AMBER在核酸领域比GROMACS更强，蛋白质差不多，材料领域用LAMMPS本来想学gaussian的，但是gaussian还没弄到win版，先学gromacs吧pdb文件——gmx&#x3D;tleap 产生gro和to">
+<meta property="og:description" content="GROMACS流程（使用GMX-5.0）  gmx help (module) 或 gmx (module) -h 学了AMBER之后来理解GROMACS更舒服了，而且中文讲解更清晰，AMBER在核酸领域比GROMACS更强，蛋白质差不多，材料领域用LAMMPS本来想学gaussian的，但是gaussian还没弄到win版，先学gromacs吧  pdb文件——gmx&#x3D;tleap 产生gro和">
 <meta property="og:locale">
-<meta property="og:image" content="https://img.imgdb.cn/item/60583dd98322e6675c704344.png">
+<meta property="og:image" content="https://fy-han.github.io.git/blog/2021/3/22/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%88%86%E5%AD%90%E6%A8%A1%E6%8B%9F-GMX-2021-3-22-gmx%E5%85%A5%E9%97%A8-1-%E7%B1%BB%E6%AF%94amber/life/blog/source/_posts/科研学习/分子模拟/GMX/2021.3.22-gmx入门-1-类比amber/gromacs流程.png">
 <meta property="article:published_time" content="2021-03-22T05:49:31.000Z">
-<meta property="article:modified_time" content="2021-10-24T06:06:58.693Z">
+<meta property="article:modified_time" content="2021-11-13T08:35:43.460Z">
 <meta property="article:author" content="FY-Han">
 <meta property="article:tag" content="gmx">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://img.imgdb.cn/item/60583dd98322e6675c704344.png">
+<meta name="twitter:image" content="https://fy-han.github.io.git/blog/2021/3/22/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%88%86%E5%AD%90%E6%A8%A1%E6%8B%9F-GMX-2021-3-22-gmx%E5%85%A5%E9%97%A8-1-%E7%B1%BB%E6%AF%94amber/life/blog/source/_posts/科研学习/分子模拟/GMX/2021.3.22-gmx入门-1-类比amber/gromacs流程.png">
   
     <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -76,9 +76,9 @@
 </header>
 
       <div class="outer">
-        <section id="main"><article id="post-科研学习-分子模拟-GMX-2021-3-22-gmx入门-1-类比amber-2021-3-22-gmx入门-1-类比amber" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+        <section id="main"><article id="post-科研学习-分子模拟-GMX-2021-3-22-gmx入门-1-类比amber" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <a href="/blog/2021/3/22/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%88%86%E5%AD%90%E6%A8%A1%E6%8B%9F-GMX-2021-3-22-gmx%E5%85%A5%E9%97%A8-1-%E7%B1%BB%E6%AF%94amber-2021-3-22-gmx%E5%85%A5%E9%97%A8-1-%E7%B1%BB%E6%AF%94amber/" class="article-date">
+    <a href="/blog/2021/3/22/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%88%86%E5%AD%90%E6%A8%A1%E6%8B%9F-GMX-2021-3-22-gmx%E5%85%A5%E9%97%A8-1-%E7%B1%BB%E6%AF%94amber/" class="article-date">
   <time class="dt-published" datetime="2021-03-22T05:49:31.000Z" itemprop="datePublished">2021-03-22</time>
 </a>
     
@@ -102,7 +102,9 @@
 <li>GROMACS流程（使用GMX-5.0）</li>
 </ul>
 <p>gmx help (module) 或 gmx (module) -h</p>
-<p>学了AMBER之后来理解GROMACS更舒服了，而且中文讲解更清晰，AMBER在核酸领域比GROMACS更强，蛋白质差不多，材料领域用LAMMPS<br>本来想学gaussian的，但是gaussian还没弄到win版，先学gromacs吧<br><img src="https://img.imgdb.cn/item/60583dd98322e6675c704344.png" width="450"><br>pdb文件——gmx=tleap 产生gro和top两个文件——gro处理后用于溶剂化+坐标文件mdp写复合文件tpr </p>
+<p>学了AMBER之后来理解GROMACS更舒服了，而且中文讲解更清晰，AMBER在核酸领域比GROMACS更强，蛋白质差不多，材料领域用LAMMPS<br>本来想学gaussian的，但是gaussian还没弄到win版，先学gromacs吧</p>
+<p><img src="/blog/2021/3/22/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%88%86%E5%AD%90%E6%A8%A1%E6%8B%9F-GMX-2021-3-22-gmx%E5%85%A5%E9%97%A8-1-%E7%B1%BB%E6%AF%94amber/life\blog\source\_posts\科研学习\分子模拟\GMX\2021.3.22-gmx入门-1-类比amber\gromacs流程.png" alt="gromacs流程"></p>
+<p>pdb文件——gmx=tleap 产生gro和top两个文件——gro处理后用于溶剂化+坐标文件mdp写复合文件tpr </p>
 <ul>
 <li><p>预平衡（以毒素肽为例）<br>  不是必需的，看初始结构是否平衡。包括：</p>
 <ol>
@@ -418,36 +420,54 @@
       rvdw            = 1.0
       constraints     = none
       pbc             = xyz
-</code></pre><p>准备命令同理<br>  gmx grompp -f fws-VM-sol.mdp -c fws-ion.gro -p fws.top -o ion.tpr -maxwarn 1</p>
-<h4 id="基于tpr文件加离子—-genion"><a href="#基于tpr文件加离子—-genion" class="headerlink" title="基于tpr文件加离子—-genion"></a>基于tpr文件加离子—-genion</h4><p>  gmx genion -s ion.tpr -o fws-b4em.gro -neutral -conc 0.15 -p fws.top</p>
-</li>
-<li>-neutral选项保证体系总的净电荷为零, 体系呈电中性, -conc选项设定需要的离子浓度(这里为0.15 M). -g选项指定输出日志文件的名称. -norandom选项会依据静电势来放置离子而不是随机放置(默认), 但我们在这里使用随机放置方法.</li>
-<li>运行这个命令时, 会提示选择一个连续的溶剂分子组, 选择13 (SOL), 回车, 程序会告知你有两个溶剂分子被氯离子代替. fws.top中会包含NA和CL离子. 注意, 这里出现的分子顺序必须与坐标文件中的一致.</li>
-<li><p>说明: genion默认使用的盐为NaCl. 如果你需要使用不同的阳离子和阴离子, 可使用-pname(阳离子)和-nname(阴离子)分别指定阴阳离子的名称(根据相应力场的ions.itp文件中离子的设定), 还可以使用-pn和-nn分别指定添加的阴离子数目.</p>
-<p>  gmx grompp -f fws-VM-sol.mdp -c fws-b4em.gro -p fws.top -o fws-VM-sol.tpr</p>
-<p>  gmx mdrun -v -deffnm fws-VM-sol</p>
-<h4 id="位置限制"><a href="#位置限制" class="headerlink" title="位置限制"></a>位置限制</h4><p>NVT<br>  gmx grompp -f nvt-pr-md.mdp -c fws-VM-sol.gro -p addoxt.top -o nvt-pr.tpr -r em-sol.gro -nt 8<br>报错：<br>  Cannot find position restraint file restraint.gro (option -r).From GROMACS-2018, you need to specify the position restraint coordinate files explicitly to avoid mistakes, although you can still use the same file as you specify for the -c option.</p>
-<ul>
-<li><p>版本迭代问题，在最新的教程下看到确实是加入了-r em-sol.gro<br>报错：<br>Fatal error:</p>
-<pre><code>There is no domain decomposition for 32 ranks that is compatible with the
-given box and a minimum cell size of 0.95325 nm
-Change the number of ranks or mdrun option -rcon or -dds or your LINCS
-settings
-</code></pre><ul>
-<li><p>与core的thread问题有关 命令后加个 -nt 1<br>  <a target="_blank" rel="noopener" href="https://jerkwin.github.io/GMX/GMXtut-10/#5-%E9%94%99%E8%AF%AF%E4%BF%A1%E6%81%AF">https://jerkwin.github.io/GMX/GMXtut-10/#5-%E9%94%99%E8%AF%AF%E4%BF%A1%E6%81%AF</a> 对问题的探讨<br>  <strong>或者不想那么多，改一个 -nt 2试试，-nt 1 真的太慢了感觉。</strong><br>  改成 -nt 8 线程明显快多了，不知道最高可以多少线程<br>  <strong>On 1 MPI rank, each using 8 OpenMP threads</strong></p>
-<ul>
-<li>并行运算<br>需要把盒子划分成小单元并行计算，使用PME方法计算计算静电相互作用时, 还可以指定一些节点单独用于PME计算, 这些节点被称为PME节点. GROMACS通常会自动进行这些设置, 但当模拟体系具有很高或很低的空间不均匀性时(例如, 模拟真空中的板块), 可能需要自己对这些设置进行调整以达到更好的性能. </li>
+</code></pre></li>
 </ul>
 </li>
 </ul>
-<p>位置限制性预平衡模拟，使溶剂和离子弛豫运动，然后等压升温。走一个NVT和一个NPT<br>说明: 当模拟运行时间较长时, 你可以使用后台运行方法, 如<br>gmx-4.x: nohup mdrun -deffnm npt-pr &amp;<br>gmx-5.x: nohup gmx mdrun -deffnm npt-pr &amp;<br>为检查模拟运行进度, 可使用tail命令查看日志文件, 如<br>tail -n 25 npt-pr.log<br>或者<br>tail -f npt-pr.log持续输出</p>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<h2 id="这个教程挺好的"><a href="#这个教程挺好的" class="headerlink" title="这个教程挺好的"></a>这个教程挺好的</h2><p><a target="_blank" rel="noopener" href="http://www.mdtutorials.com/gmx/lysozyme/index.htmlhttp://www.mdtutorials.com/gmx/lysozyme/index.html">http://www.mdtutorials.com/gmx/lysozyme/index.htmlhttp://www.mdtutorials.com/gmx/lysozyme/index.html</a></p>
+<pre><code>准备命令同理
+    gmx grompp -f fws-VM-sol.mdp -c fws-ion.gro -p fws.top -o ion.tpr -maxwarn 1
+
+#### 基于tpr文件加离子---genion 
+    gmx genion -s ion.tpr -o fws-b4em.gro -neutral -conc 0.15 -p fws.top
+- -neutral选项保证体系总的净电荷为零, 体系呈电中性, -conc选项设定需要的离子浓度(这里为0.15 M). -g选项指定输出日志文件的名称. -norandom选项会依据静电势来放置离子而不是随机放置(默认), 但我们在这里使用随机放置方法.
+- 运行这个命令时, 会提示选择一个连续的溶剂分子组, 选择13 (SOL), 回车, 程序会告知你有两个溶剂分子被氯离子代替. fws.top中会包含NA和CL离子. 注意, 这里出现的分子顺序必须与坐标文件中的一致.
+- 说明: genion默认使用的盐为NaCl. 如果你需要使用不同的阳离子和阴离子, 可使用-pname(阳离子)和-nname(阴离子)分别指定阴阳离子的名称(根据相应力场的ions.itp文件中离子的设定), 还可以使用-pn和-nn分别指定添加的阴离子数目.
+
+    gmx grompp -f fws-VM-sol.mdp -c fws-b4em.gro -p fws.top -o fws-VM-sol.tpr
+
+    gmx mdrun -v -deffnm fws-VM-sol
+
+#### 位置限制
+NVT
+    gmx grompp -f nvt-pr-md.mdp -c fws-VM-sol.gro -p addoxt.top -o nvt-pr.tpr -r em-sol.gro -nt 8
+报错：
+    Cannot find position restraint file restraint.gro (option -r).From GROMACS-2018, you need to specify the position restraint coordinate files explicitly to avoid mistakes, although you can still use the same file as you specify for the -c option.
+
+ - 版本迭代问题，在最新的教程下看到确实是加入了-r em-sol.gro
+    报错：
+    Fatal error:
+        There is no domain decomposition for 32 ranks that is compatible with the
+        given box and a minimum cell size of 0.95325 nm
+        Change the number of ranks or mdrun option -rcon or -dds or your LINCS
+        settings
+    - 与core的thread问题有关 命令后加个 -nt 1
+        https://jerkwin.github.io/GMX/GMXtut-10/#5-%E9%94%99%E8%AF%AF%E4%BF%A1%E6%81%AF 对问题的探讨
+        **或者不想那么多，改一个 -nt 2试试，-nt 1 真的太慢了感觉。**
+        改成 -nt 8 线程明显快多了，不知道最高可以多少线程
+        **On 1 MPI rank, each using 8 OpenMP threads**
+
+        - 并行运算
+        需要把盒子划分成小单元并行计算，使用PME方法计算计算静电相互作用时, 还可以指定一些节点单独用于PME计算, 这些节点被称为PME节点. GROMACS通常会自动进行这些设置, 但当模拟体系具有很高或很低的空间不均匀性时(例如, 模拟真空中的板块), 可能需要自己对这些设置进行调整以达到更好的性能. 
+
+    位置限制性预平衡模拟，使溶剂和离子弛豫运动，然后等压升温。走一个NVT和一个NPT
+    说明: 当模拟运行时间较长时, 你可以使用后台运行方法, 如
+    gmx-4.x: nohup mdrun -deffnm npt-pr &amp;
+    gmx-5.x: nohup gmx mdrun -deffnm npt-pr &amp;
+    为检查模拟运行进度, 可使用tail命令查看日志文件, 如
+    tail -n 25 npt-pr.log
+    或者
+    tail -f npt-pr.log持续输出
+</code></pre><h2 id="这个教程挺好的"><a href="#这个教程挺好的" class="headerlink" title="这个教程挺好的"></a>这个教程挺好的</h2><p><a target="_blank" rel="noopener" href="http://www.mdtutorials.com/gmx/lysozyme/index.htmlhttp://www.mdtutorials.com/gmx/lysozyme/index.html">http://www.mdtutorials.com/gmx/lysozyme/index.htmlhttp://www.mdtutorials.com/gmx/lysozyme/index.html</a></p>
 <h2 id="Screen"><a href="#Screen" class="headerlink" title="Screen"></a>Screen</h2><p>screen -S 文件名<br>比nohup好用 screen ctrl+a +d退出 ctrl+r继续 screen -ls有哪些窗口 screen -r 数字恢复<br>screen -S session_name -X quit</p>
 <p>用top查看正在进行的进程</p>
 <p>screen命令详解，<a target="_blank" rel="noopener" href="https://www.cnblogs.com/mchina/archive/2013/01/30/2880680.html">https://www.cnblogs.com/mchina/archive/2013/01/30/2880680.html</a></p>
@@ -472,7 +492,7 @@ settings
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://fy-han.github.io.git/blog/2021/3/22/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%88%86%E5%AD%90%E6%A8%A1%E6%8B%9F-GMX-2021-3-22-gmx%E5%85%A5%E9%97%A8-1-%E7%B1%BB%E6%AF%94amber-2021-3-22-gmx%E5%85%A5%E9%97%A8-1-%E7%B1%BB%E6%AF%94amber/" data-id="ckvxhta12003tjgu583wselle" data-title="gmx入门-1.类比amber" class="article-share-link">Teilen</a>
+      <a data-url="https://fy-han.github.io.git/blog/2021/3/22/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%88%86%E5%AD%90%E6%A8%A1%E6%8B%9F-GMX-2021-3-22-gmx%E5%85%A5%E9%97%A8-1-%E7%B1%BB%E6%AF%94amber/" data-id="ckvxk40pc003r0ku59dt22k7n" data-title="gmx入门-1.类比amber" class="article-share-link">Teilen</a>
       
       
       
@@ -548,11 +568,15 @@ settings
       <ul>
         
           <li>
+            <a href="/blog/2021/11/13/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%88%86%E5%AD%90%E6%A8%A1%E6%8B%9F-GMX-2021-11-13-GROMACS-%E5%B9%B6%E8%A1%8C%E6%95%88%E7%8E%87%E6%B5%8B%E8%AF%95%E4%B8%8E%E8%B0%83%E8%AF%95/">GROMACS 并行效率测试与调试</a>
+          </li>
+        
+          <li>
             <a href="/blog/2021/11/13/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%8D%9A%E5%AE%A2-2021-3-10-hexo-github%E5%BB%BA%E7%AB%8B%E5%8D%9A%E5%AE%A2%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98-2021-11-13-hexo%E5%9B%BE%E7%89%87%E9%85%8D%E7%BD%AE/">hexo图片配置与hexo主题</a>
           </li>
         
           <li>
-            <a href="/blog/2021/11/13/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%88%86%E5%AD%90%E6%A8%A1%E6%8B%9F-GMX-2021-11-13-GROMACS-PCA-2021-11-13-GROMACS-PCA/">GROMACS PCA</a>
+            <a href="/blog/2021/11/13/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%88%86%E5%AD%90%E6%A8%A1%E6%8B%9F-GMX-2021-11-13-GROMACS-PCA/">GROMACS PCA</a>
           </li>
         
           <li>
@@ -561,10 +585,6 @@ settings
         
           <li>
             <a href="/blog/2021/11/6/2021%E5%91%A8%E6%8A%A5-4%E5%AD%A3%E5%BA%A6-2021-11-6-10-30-11-6%E5%91%A8%E6%8A%A5-2021-11-6-10-30-11-6%E5%91%A8%E6%8A%A5/">10.30-11.6周报</a>
-          </li>
-        
-          <li>
-            <a href="/blog/2021/11/5/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%8D%9A%E5%AE%A2-2021-3-10-hexo-github%E5%BB%BA%E7%AB%8B%E5%8D%9A%E5%AE%A2%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98-2021-11-5-hexo%E5%8D%9A%E5%AE%A2%E6%97%A0%E6%B3%95hexo-d%E8%BF%9B%E8%A1%8C%E9%83%A8%E7%BD%B2-2021-11-5-hexo%E5%8D%9A%E5%AE%A2%E6%97%A0%E6%B3%95hexo-d%E8%BF%9B%E8%A1%8C%E9%83%A8%E7%BD%B2/">hexo博客无法hexo d进行部署</a>
           </li>
         
       </ul>
