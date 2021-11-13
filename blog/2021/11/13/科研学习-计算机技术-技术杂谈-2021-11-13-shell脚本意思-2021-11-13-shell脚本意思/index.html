@@ -6,15 +6,15 @@
   
   <title>shell脚本意思 | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="$0 当前脚本的执行名字 $n 当前脚本执行命令的第n个参数值，n &#x3D; 1..9 $*‘ 当前脚本执行命令的所有参数，此选项参数可超过9个 ‘$#‘ 当前脚本执行命令的输入参数个数，例如执行 .&#x2F;test.sh aa bb cc ，则test.sh 里 $# 为 3 $$ 当前shell的PID（即脚本运行的当前进程号） $! 上一个执行指令的PID（后台运行的最后一个进程的进程ID号） $-">
+  <meta name="description" content="$0 当前脚本的执行名字 $n 当前脚本执行命令的第n个参数值，n &#x3D; 1..9 $* 当前脚本执行命令的所有参数，此选项参数可超过9个 $# 当前脚本执行命令的输入参数个数，例如执行 .&#x2F;test.sh aa bb cc，则test.sh 里 $# 为 3 $$ 当前shell的PID（即脚本运行的当前进程号） $! 上一个执行指令的PID（后台运行的最后一个进程的进程ID号） $- 显示sh">
 <meta property="og:type" content="article">
 <meta property="og:title" content="shell脚本意思">
 <meta property="og:url" content="https://fy-han.github.io.git/blog/2021/11/13/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%8A%80%E6%9C%AF-%E6%8A%80%E6%9C%AF%E6%9D%82%E8%B0%88-2021-11-13-shell%E8%84%9A%E6%9C%AC%E6%84%8F%E6%80%9D-2021-11-13-shell%E8%84%9A%E6%9C%AC%E6%84%8F%E6%80%9D/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="$0 当前脚本的执行名字 $n 当前脚本执行命令的第n个参数值，n &#x3D; 1..9 $*‘ 当前脚本执行命令的所有参数，此选项参数可超过9个 ‘$#‘ 当前脚本执行命令的输入参数个数，例如执行 .&#x2F;test.sh aa bb cc ，则test.sh 里 $# 为 3 $$ 当前shell的PID（即脚本运行的当前进程号） $! 上一个执行指令的PID（后台运行的最后一个进程的进程ID号） $-">
+<meta property="og:description" content="$0 当前脚本的执行名字 $n 当前脚本执行命令的第n个参数值，n &#x3D; 1..9 $* 当前脚本执行命令的所有参数，此选项参数可超过9个 $# 当前脚本执行命令的输入参数个数，例如执行 .&#x2F;test.sh aa bb cc，则test.sh 里 $# 为 3 $$ 当前shell的PID（即脚本运行的当前进程号） $! 上一个执行指令的PID（后台运行的最后一个进程的进程ID号） $- 显示sh">
 <meta property="og:locale">
 <meta property="article:published_time" content="2021-11-13T04:51:28.000Z">
-<meta property="article:modified_time" content="2021-11-13T05:00:05.330Z">
+<meta property="article:modified_time" content="2021-11-13T05:03:55.453Z">
 <meta property="article:author" content="FY-Han">
 <meta property="article:tag" content="技术杂谈">
 <meta name="twitter:card" content="summary">
@@ -99,8 +99,8 @@
         <ul>
 <li>$0 当前脚本的执行名字</li>
 <li>$n 当前脚本执行命令的第n个参数值，n = 1..9</li>
-<li>$*‘ 当前脚本执行命令的所有参数，此选项参数可超过9个</li>
-<li>‘$#‘ 当前脚本执行命令的输入参数个数，例如执行 ./test.sh aa bb cc ，则test.sh 里 $# 为 3</li>
+<li>$* 当前脚本执行命令的所有参数，此选项参数可超过9个</li>
+<li>$# 当前脚本执行命令的输入参数个数，例如执行 ./test.sh aa bb cc，则test.sh 里 $# 为 3</li>
 <li>$$ 当前shell的PID（即脚本运行的当前进程号）</li>
 <li>$! 上一个执行指令的PID（后台运行的最后一个进程的进程ID号）</li>
 <li>$- 显示shell使用的当前选项，与set命令功能相同</li>
@@ -113,7 +113,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://fy-han.github.io.git/blog/2021/11/13/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%8A%80%E6%9C%AF-%E6%8A%80%E6%9C%AF%E6%9D%82%E8%B0%88-2021-11-13-shell%E8%84%9A%E6%9C%AC%E6%84%8F%E6%80%9D-2021-11-13-shell%E8%84%9A%E6%9C%AC%E6%84%8F%E6%80%9D/" data-id="ckvxcbgui003mk8u5cfdecya1" data-title="shell脚本意思" class="article-share-link">Share</a>
+      <a data-url="https://fy-han.github.io.git/blog/2021/11/13/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%8A%80%E6%9C%AF-%E6%8A%80%E6%9C%AF%E6%9D%82%E8%B0%88-2021-11-13-shell%E8%84%9A%E6%9C%AC%E6%84%8F%E6%80%9D-2021-11-13-shell%E8%84%9A%E6%9C%AC%E6%84%8F%E6%80%9D/" data-id="ckvxchaoc003lk4u56sgxg41d" data-title="shell脚本意思" class="article-share-link">Share</a>
       
       
       
