@@ -22,7 +22,7 @@
 <meta property="og:image" content="https://fy-han.github.io.git/blog/2021/11/13/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%88%86%E5%AD%90%E6%A8%A1%E6%8B%9F-GMX-2021-11-13-GROMACS-%E5%B9%B6%E8%A1%8C%E6%95%88%E7%8E%87%E6%B5%8B%E8%AF%95%E4%B8%8E%E8%B0%83%E8%AF%95/forum-16367926478617.php">
 <meta property="og:image" content="https://fy-han.github.io.git/blog/2021/11/13/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%88%86%E5%AD%90%E6%A8%A1%E6%8B%9F-GMX-2021-11-13-GROMACS-%E5%B9%B6%E8%A1%8C%E6%95%88%E7%8E%87%E6%B5%8B%E8%AF%95%E4%B8%8E%E8%B0%83%E8%AF%95/forum-16367926478618.php">
 <meta property="article:published_time" content="2021-11-13T08:27:13.000Z">
-<meta property="article:modified_time" content="2021-11-13T08:56:10.279Z">
+<meta property="article:modified_time" content="2021-11-13T08:57:38.023Z">
 <meta property="article:author" content="FY-Han">
 <meta property="article:tag" content="gmx">
 <meta name="twitter:card" content="summary">
@@ -73,10 +73,10 @@
         
           <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
         
-        <a id="nav-search-btn" class="nav-icon" title="Suche"></a>
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
       </nav>
       <div id="search-form-wrap">
-        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Suche"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://FY-Han.github.io.git"></form>
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://FY-Han.github.io.git"></form>
       </div>
     </div>
   </div>
@@ -122,10 +122,9 @@
 <h3 id="Gromacs中主要耗时的两类任务"><a href="#Gromacs中主要耗时的两类任务" class="headerlink" title="Gromacs中主要耗时的两类任务"></a><strong>Gromacs中主要耗时的两类任务</strong></h3><p><strong>1，粒子-粒子相互作用（particle-particle, PP）</strong><br>   在实空间中计算原子之间的两两相互作用力，这些作用主要包括两部分：<strong>非键原子间短程相互作用（NB）</strong>，以及<strong>成键原子之间的相互作用（BF）</strong>。在并行计算时，对于这部分任务采用<strong>Domain Decomposition</strong>的方法，也就是把整个胞像切蛋糕一样切成小块，每块交给一个Rank，在这个Rank中，几个Thread共同计算这个小块中的PP作用力。这里需要注意的的是，如果你的体系本身就比较小，如果使用的Rank太多，或者不合适，会出现no domain decompostion compatible with the given box 的错误。<br><strong>2，粒子网格埃瓦尔德（particle-mesh Ewald，PME)</strong><br>在倒空间中<strong>使用FFT对长程作用力进行计算</strong>，这里的“长程”和上面的“短程”是由mdp参数中的rcoulomb和rvdw参数决定的。这部分计算在倒空间中进行，不能像实空间中的PP那样，可以切成小块，因此Rank并行效率较低。所以如果总Rank数较少，那么这些Rank可以既做PP任务又做PME任务，随着Rank数的增多，更为合适的做法是分出少量的Rank专门做PME任务（当Rank数超过16之后，Gromacs会自动分配PME Rank，在此之前，可以用-npme 选项手动分配PME Rank数），<strong>如果用显卡算PME，目前最多只能分配一个Rank（一块显卡）来做PME计算。</strong></p>
 <p><strong>d) Gromacs的显卡加速</strong><br><strong>1，显卡的并行级别</strong><br>一个Rank进程不能使用多个显卡，但是多个Rank进程可以使用一个显卡。因此如果电脑上有3块显卡，那MPI进程数(thread-mpi,或者openmpi都可以）起码要到3才能使用这3块显卡。<br><strong>2，显卡的加速内容</strong></p>
 <p><img src="/blog/2021/11/13/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%88%86%E5%AD%90%E6%A8%A1%E6%8B%9F-GMX-2021-11-13-GROMACS-%E5%B9%B6%E8%A1%8C%E6%95%88%E7%8E%87%E6%B5%8B%E8%AF%95%E4%B8%8E%E8%B0%83%E8%AF%95/forum-16367926478601.php" alt="img" style="zoom:50%;"></p>
-<p>此图修改自Gromacs官网，显卡可以代替CPU计算图中的三部分(offloading)，分别是成键原子间的作用力<strong>(Bonded F，下文简称BF)</strong>，短程非键作用力(<strong>Non-bonded F，下文简称NB</strong>)，以及长程非键作用（<strong>PME，下文简称PME</strong>), 前两者也就是前面介绍的<strong>PP</strong>作用，其中Bonded 目前(2019.3版本)仅支持N卡，其中GPU加速的PME只支持单Rank计算并且mdp参数必须是PME-order=4，还有一些其他限制详见手册。<br><strong>3，**</strong>显卡的加速的开启以及查看<strong>**方法</strong><br>这3个部分手动切换cpu/gpu在mdrun的选项中分别是-bonded -nb  -pme，<br><strong>如果不清楚显卡执行了哪部分任务，可以在md.log中查看</strong>，看到类似下面的描述</p>
-<blockquote>
-<p>Using 4 MPI threads                                                                        #使用四个MPI rank<br>Using 10 OpenMP threads per tMPI thread                                                   #每个thread-MPI rank使用10个OpenMP thread<br>On host node02 2 GPUs selected for this run.                                                #使用2个显卡计算<br>Mapping of GPU IDs to the 4 GPU tasks in the 4 ranks on this node:PP:0,PP:0,PP:1,PME:1                                                                     #2个PP任务分配给id=0的显卡，1个PP任务和1个PME任务分配给id=1的显卡<br>PP tasks will do (non-perturbed) short-ranged and most bonded interactions on the GPU        #PP任务包括了计算大部分Bonded和短程Non-bonded作用<br>PME tasks will do all aspects on the GPU                                                     #PME任务全部在GPU上进行</p>
-</blockquote>
+<p>此图修改自Gromacs官网，显卡可以代替CPU计算图中的三部分(offloading)，分别是成键原子间的作用力<strong>(Bonded F，下文简称BF)</strong>，短程非键作用力(<strong>Non-bonded F，下文简称NB</strong>)，以及长程非键作用（<strong>PME，下文简称PME</strong>), 前两者也就是前面介绍的<strong>PP</strong>作用，其中Bonded 目前(2019.3版本)仅支持N卡，其中GPU加速的PME只支持单Rank计算并且mdp参数必须是PME-order=4，还有一些其他限制详见手册。<br><strong>3，**</strong>显卡的加速的开启以及查看方法<strong><br>这3个部分手动切换cpu/gpu在mdrun的选项中分别是-bonded -nb  -pme，
+</strong>如果不清楚显卡执行了哪部分任务，可以在md.log中查看**，看到类似下面的描述</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Using 4 MPI threads                                                                        #使用四个MPI rank</span><br><span class="line">Using 10 OpenMP threads per tMPI thread                                                   #每个thread-MPI rank使用10个OpenMP thread</span><br><span class="line">On host node02 2 GPUs selected for this run.                                                #使用2个显卡计算</span><br><span class="line">Mapping of GPU IDs to the 4 GPU tasks in the 4 ranks on this node:PP:0,PP:0,PP:1,PME:1                                                                     #2个PP任务分配给id&#x3D;0的显卡，1个PP任务和1个PME任务分配给id&#x3D;1的显卡</span><br><span class="line">PP tasks will do (non-perturbed) short-ranged and most bonded interactions on the GPU        #PP任务包括了计算大部分Bonded和短程Non-bonded作用</span><br><span class="line">PME tasks will do all aspects on the GPU                                                     #PME任务全部在GPU上进行</span><br></pre></td></tr></table></figure>
 <p><strong>4，默认利用显卡加速情况</strong><br>这里单独强调一下默认情况下（就是不额外加控制显卡的参数）显卡会执行哪些任务：<br>单Rank并行下：<br>显卡自动执行NB+PME计算，BF交给GPU，如果使用-pme cpu选项强行把PME分配给CPU，那么显卡会自动执行NB+BF计算。<br>多rank并行下：<br>显卡会自动执行NB+BF计算，PME交给CPU，此时如果要利用显卡计算PME，必须使用-pme gpu -npme 1 单独分配一个rank来进行PME计算<br><strong>5，利用显卡加速的5种情况（以及对应的命令行选项）</strong><br>下面总结一下利用显卡加速的5种情况，<br>0：不用显卡加速（ -nb cpu -pme cpu -bonded cpu ）<br>1：用显卡做NB计算（-nb gpu -pme cpu -bonded cpu ）<br>2：用显卡做NB+PME计算（-nb gpu -pcme gpu -bonded cpu ）多rank并行还需加上 -npme 1<br>3：用显卡做NB+BF计算（-nb gpu -pme cpu -bonded gpu ）<br>4：用显卡做NB+PME+BF计算（-nb gpu -pme gpu -bonded gpu ）多rank并行还需加上 -npme 1<br>注意到这里我们<strong>只有用显卡加速了NB部分，才能进一步加速BF和PME部分</strong>。</p>
 <h2 id="测试条件"><a href="#测试条件" class="headerlink" title="测试条件"></a><strong>测试条件</strong></h2><p><strong>a) 硬件环境</strong><br>cpu：XEON E5-2699V4 <em> 2，显卡：华硕TURBO-RTX2080-8G X 2 or 耕升GTX-1080 追风 X 2，内存：128G，主板：msi X10dai<br><strong>b) 软件环境</strong><br>操作系统：CentOS7，CUDA版本：10.2， gcc版本：7.3.1，gromacs版本：2019.3安装方法参考：<a target="_blank" rel="noopener" href="http://sobereva.com/457">GROMACS的安装方法</a><br><strong>c) 测试方法</strong><br>测试系统：<a target="_blank" rel="noopener" href="http://www.gromacs.org/GPU_acceleration">Gromacs官网</a>上的<a href="ftp://ftp.gromacs.org/pub/benchmarks/ADH_bench_systems.tar.gz">ADH例子</a>中的adh_cubic<br>体系大小：13.4W个原子，11</em>11*11nm的盒子<br>测试命令：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gmx mdrun -ntmpi 4 -ntomp 6 -s ADH.tpr -cpt 1440 -nsteps 15000 -resetstep 5000 -v -noconfout -gpu_id 0 -pme gpu -npme 1 -bonded gpu -nb gpu -gputasks 0001</span><br></pre></td></tr></table></figure>
@@ -191,7 +190,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://fy-han.github.io.git/blog/2021/11/13/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%88%86%E5%AD%90%E6%A8%A1%E6%8B%9F-GMX-2021-11-13-GROMACS-%E5%B9%B6%E8%A1%8C%E6%95%88%E7%8E%87%E6%B5%8B%E8%AF%95%E4%B8%8E%E8%B0%83%E8%AF%95/" data-id="ckvxkr3u6003vq4u566nbbkkc" data-title="GROMACS 并行效率测试与调试" class="article-share-link">Teilen</a>
+      <a data-url="https://fy-han.github.io.git/blog/2021/11/13/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%88%86%E5%AD%90%E6%A8%A1%E6%8B%9F-GMX-2021-11-13-GROMACS-%E5%B9%B6%E8%A1%8C%E6%95%88%E7%8E%87%E6%B5%8B%E8%AF%95%E4%B8%8E%E8%B0%83%E8%AF%95/" data-id="ckvxkt0sx003x2ou534xfgopt" data-title="GROMACS 并行效率测试与调试" class="article-share-link">Share</a>
       
       
       
@@ -205,7 +204,7 @@
   
   
     <a href="/blog/2021/11/13/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%8D%9A%E5%AE%A2-2021-3-10-hexo-github%E5%BB%BA%E7%AB%8B%E5%8D%9A%E5%AE%A2%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98-2021-11-13-hexo%E5%9B%BE%E7%89%87%E9%85%8D%E7%BD%AE/" id="article-nav-older" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Älter</strong>
+      <strong class="article-nav-caption">Older</strong>
       <div class="article-nav-title">hexo图片配置与hexo主题</div>
     </a>
   
@@ -243,7 +242,7 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Archiv</h3>
+    <h3 class="widget-title">Archives</h3>
     <div class="widget">
       <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/11/">November 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/10/">October 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/09/">September 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/08/">August 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/07/">July 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/06/">June 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/05/">May 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">April 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a></li></ul>
     </div>
@@ -253,7 +252,7 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">letzter Beitrag</h3>
+    <h3 class="widget-title">Recent Posts</h3>
     <div class="widget">
       <ul>
         
