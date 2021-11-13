@@ -6,7 +6,7 @@
   <link href="https://fy-han.github.io.git/atom.xml" rel="self"/>
   
   <link href="https://fy-han.github.io.git/"/>
-  <updated>2021-11-05T14:13:58.306Z</updated>
+  <updated>2021-11-13T05:00:05.330Z</updated>
   <id>https://fy-han.github.io.git/</id>
   
   <author>
@@ -15,6 +15,55 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>shell脚本意思</title>
+    <link href="https://fy-han.github.io.git/blog/2021/11/13/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%8A%80%E6%9C%AF-%E6%8A%80%E6%9C%AF%E6%9D%82%E8%B0%88-2021-11-13-shell%E8%84%9A%E6%9C%AC%E6%84%8F%E6%80%9D-2021-11-13-shell%E8%84%9A%E6%9C%AC%E6%84%8F%E6%80%9D/"/>
+    <id>https://fy-han.github.io.git/blog/2021/11/13/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%8A%80%E6%9C%AF-%E6%8A%80%E6%9C%AF%E6%9D%82%E8%B0%88-2021-11-13-shell%E8%84%9A%E6%9C%AC%E6%84%8F%E6%80%9D-2021-11-13-shell%E8%84%9A%E6%9C%AC%E6%84%8F%E6%80%9D/</id>
+    <published>2021-11-13T04:51:28.000Z</published>
+    <updated>2021-11-13T05:00:05.330Z</updated>
+    
+    <content type="html"><![CDATA[<ul><li>$0 当前脚本的执行名字</li><li>$n 当前脚本执行命令的第n个参数值，n = 1..9</li><li>$*‘ 当前脚本执行命令的所有参数，此选项参数可超过9个</li><li>‘$#‘ 当前脚本执行命令的输入参数个数，例如执行 ./test.sh aa bb cc ，则test.sh 里 $# 为 3</li><li>$$ 当前shell的PID（即脚本运行的当前进程号）</li><li>$! 上一个执行指令的PID（后台运行的最后一个进程的进程ID号）</li><li>$- 显示shell使用的当前选项，与set命令功能相同</li><li>$@ 跟$*似，但是可以当作数组用</li><li>$? 上一个执行指令的返回值（显示最后命令的退出状态，0表示没有错误，其他任何值表明有错误），如下所示</li></ul><h3 id="结果输出上一条命令-grep-命令的返回值"><a href="#结果输出上一条命令-grep-命令的返回值" class="headerlink" title="结果输出上一条命令 grep 命令的返回值"></a>结果输出上一条命令 grep 命令的返回值</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">grep xxx a.txt</span><br><span class="line"><span class="built_in">echo</span> $?</span><br></pre></td></tr></table></figure><h3 id="判断打开目录命令是否成功，不成功则输出提醒信息并退出"><a href="#判断打开目录命令是否成功，不成功则输出提醒信息并退出" class="headerlink" title="判断打开目录命令是否成功，不成功则输出提醒信息并退出"></a>判断打开目录命令是否成功，不成功则输出提醒信息并退出</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">dir_exe=../cron</span><br><span class="line"><span class="built_in">cd</span> <span class="variable">$dir_exe</span></span><br><span class="line"><span class="keyword">if</span> [ $? -ne 0 ]; <span class="keyword">then</span> </span><br><span class="line">    <span class="built_in">echo</span> <span class="string">&quot;cannot change dir to <span class="variable">$dir_exe</span>&quot;</span></span><br><span class="line">    <span class="built_in">exit</span> 1  </span><br><span class="line"><span class="keyword">fi</span></span><br></pre></td></tr></table></figure>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;ul&gt;
+&lt;li&gt;$0 当前脚本的执行名字&lt;/li&gt;
+&lt;li&gt;$n 当前脚本执行命令的第n个参数值，n = 1..9&lt;/li&gt;
+&lt;li&gt;$*‘ 当前脚本执行命令的所有参数，此选项参数可超过9个&lt;/li&gt;
+&lt;li&gt;‘$#‘ 当前脚本执行命令的输入参数个数，例如执行 ./test.s</summary>
+      
+    
+    
+    
+    
+    <category term="技术杂谈" scheme="https://fy-han.github.io.git/tags/%E6%8A%80%E6%9C%AF%E6%9D%82%E8%B0%88/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>10.30-11.6周报</title>
+    <link href="https://fy-han.github.io.git/blog/2021/11/6/2021%E5%91%A8%E6%8A%A5-4%E5%AD%A3%E5%BA%A6-2021-11-6-10-30-11-6%E5%91%A8%E6%8A%A5-2021-11-6-10-30-11-6%E5%91%A8%E6%8A%A5/"/>
+    <id>https://fy-han.github.io.git/blog/2021/11/6/2021%E5%91%A8%E6%8A%A5-4%E5%AD%A3%E5%BA%A6-2021-11-6-10-30-11-6%E5%91%A8%E6%8A%A5-2021-11-6-10-30-11-6%E5%91%A8%E6%8A%A5/</id>
+    <published>2021-11-06T06:05:28.000Z</published>
+    <updated>2021-11-06T06:06:27.123Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="11-6"><a href="#11-6" class="headerlink" title="11.6"></a>11.6</h2><p>做缝缝补补的善后工作，给此前的文章打补丁。没有这个水平，就最好写中文后翻译成英文，不然真的是折磨自己。</p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h2 id=&quot;11-6&quot;&gt;&lt;a href=&quot;#11-6&quot; class=&quot;headerlink&quot; title=&quot;11.6&quot;&gt;&lt;/a&gt;11.6&lt;/h2&gt;&lt;p&gt;做缝缝补补的善后工作，给此前的文章打补丁。没有这个水平，就最好写中文后翻译成英文，不然真的是折磨自己。&lt;/p&gt;
+</summary>
+      
+    
+    
+    
+    
+    <category term="周报" scheme="https://fy-han.github.io.git/tags/%E5%91%A8%E6%8A%A5/"/>
+    
+  </entry>
   
   <entry>
     <title>hexo博客无法hexo d进行部署</title>
@@ -403,49 +452,6 @@
     
     
     <category term="周报" scheme="https://fy-han.github.io.git/tags/%E5%91%A8%E6%8A%A5/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Hello World</title>
-    <link href="https://fy-han.github.io.git/blog/2021/7/19/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-hello-world/"/>
-    <id>https://fy-han.github.io.git/blog/2021/7/19/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-hello-world/</id>
-    <published>2021-07-19T08:28:17.893Z</published>
-    <updated>2021-03-10T12:20:16.620Z</updated>
-    
-    <content type="html"><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p><h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p><h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p><h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p><h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>]]></content>
-    
-    
-      
-      
-    <summary type="html">&lt;p&gt;Welcome to &lt;a href=&quot;https://hexo.io/&quot;&gt;Hexo&lt;/a&gt;! This is your very first post. Check &lt;a href=&quot;https://hexo.io/docs/&quot;&gt;documentation&lt;/a&gt; for</summary>
-      
-    
-    
-    
-    
-  </entry>
-  
-  <entry>
-    <title>gmx入门3</title>
-    <link href="https://fy-han.github.io.git/blog/2021/6/30/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%88%86%E5%AD%90%E6%A8%A1%E6%8B%9F-GMX-2021-6-30-gmx%E5%85%A5%E9%97%A83/"/>
-    <id>https://fy-han.github.io.git/blog/2021/6/30/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%88%86%E5%AD%90%E6%A8%A1%E6%8B%9F-GMX-2021-6-30-gmx%E5%85%A5%E9%97%A83/</id>
-    <published>2021-06-30T02:42:08.000Z</published>
-    <updated>2021-10-22T00:48:41.552Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="继续探索"><a href="#继续探索" class="headerlink" title="继续探索"></a>继续探索</h2><p>网上搜索，注意到提示需要full trajectory file<br>结果突然发现80min后出结果了，</p><h2 id="trr分析与结果生成"><a href="#trr分析与结果生成" class="headerlink" title="trr分析与结果生成"></a>trr分析与结果生成</h2><ol><li><p>使用nmeig</p><p> 频率生成基于quasi harmonic approximation</p></li><li><p>进一步可以研究anaeig</p></li></ol><h2 id="标准流程"><a href="#标准流程" class="headerlink" title="标准流程"></a>标准流程</h2><p>SPDBV前处理</p><ol><li><p>pdb转gro文件，生成拓扑以及水盒子</p><p> gmx pdb2gmx -f fws.pdb -o fws.gro -p fws.top -i fws.itp -ff amber99sb-ildn -water tip3p -ignh</p></li><li>生成周期性盒子<br> gmx editconf -f fws.gro -o fws-PB.gro -bt dodecahedron -d 1.2</li><li>真空能量最小化（三步走，先steep EMTOL50 再cg到10 再l-bfgs到10e-6）<ul><li>3W步 steep法到EMTOL 20<br>  gmx grompp -f fws-VM1.mdp -c fws-PB.gro -p fws.top -o fws-VM1.tpr -maxwarn 1<br>  gmx mdrun -v -deffnm fws-VM1</li><li>8w步 cg法到EMTOL 10(可以不用也许)<br>  gmx_d grompp -f fws-VM2.mdp -c fws-VM1.gro -p fws.top -o fws-VM2.tpr -maxwarn 1<br>  gmx_d mdrun -v -deffnm fws-VM2</li><li>10w步 l-bfgs法<br>  gmx_d grompp -f fws-VM3.mdp -c fws-VM2.gro -p fws.top -o fws-VM3.tpr -maxwarn 1<br>  gmx_d mdrun -v -deffnm fws-VM3</li></ul></li><li>跑长时md？<ul><li>后台运行<br>  gmx_d grompp -f npt-nopr-md.mdp -c fws-VM3.gro -p fws.top -o npt-nopr.tpr</li></ul></li><li>跑Hessian<ul><li>  gmx_d grompp -f Hessian.mdp -c fws-VM3.gro -p fws.top -o Hessian.tpr -maxwarn 1<br>  gmx_d mdrun -v -s Hessian.tpr -o H-traj.trr -c confout.gro -e ener.edr -g md.log -mtx nm.mtx</li></ul></li></ol>]]></content>
-    
-    
-      
-      
-    <summary type="html">&lt;h2 id=&quot;继续探索&quot;&gt;&lt;a href=&quot;#继续探索&quot; class=&quot;headerlink&quot; title=&quot;继续探索&quot;&gt;&lt;/a&gt;继续探索&lt;/h2&gt;&lt;p&gt;网上搜索，注意到提示需要full trajectory file&lt;br&gt;结果突然发现80min后出结果了，&lt;/p&gt;
-&lt;h2 </summary>
-      
-    
-    
-    
-    
-    <category term="gmx" scheme="https://fy-han.github.io.git/tags/gmx/"/>
     
   </entry>
   
