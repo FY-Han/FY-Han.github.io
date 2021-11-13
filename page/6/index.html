@@ -59,10 +59,10 @@
         
           <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
         
-        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+        <a id="nav-search-btn" class="nav-icon" title="Suche"></a>
       </nav>
       <div id="search-form-wrap">
-        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://FY-Han.github.io.git"></form>
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Suche"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://FY-Han.github.io.git"></form>
       </div>
     </div>
   </div>
@@ -70,6 +70,60 @@
 
       <div class="outer">
         <section id="main">
+  
+    <article id="post-科研学习-分子模拟-AMBER-2021-3-20-Amber进阶-黑塞矩阵在哪里-2021-3-20-Amber进阶-黑塞矩阵在哪里" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/blog/2021/3/20/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%88%86%E5%AD%90%E6%A8%A1%E6%8B%9F-AMBER-2021-3-20-Amber%E8%BF%9B%E9%98%B6-%E9%BB%91%E5%A1%9E%E7%9F%A9%E9%98%B5%E5%9C%A8%E5%93%AA%E9%87%8C-2021-3-20-Amber%E8%BF%9B%E9%98%B6-%E9%BB%91%E5%A1%9E%E7%9F%A9%E9%98%B5%E5%9C%A8%E5%93%AA%E9%87%8C/" class="article-date">
+  <time class="dt-published" datetime="2021-03-20T08:41:43.000Z" itemprop="datePublished">2021-03-20</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/blog/2021/3/20/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%88%86%E5%AD%90%E6%A8%A1%E6%8B%9F-AMBER-2021-3-20-Amber%E8%BF%9B%E9%98%B6-%E9%BB%91%E5%A1%9E%E7%9F%A9%E9%98%B5%E5%9C%A8%E5%93%AA%E9%87%8C-2021-3-20-Amber%E8%BF%9B%E9%98%B6-%E9%BB%91%E5%A1%9E%E7%9F%A9%E9%98%B5%E5%9C%A8%E5%93%AA%E9%87%8C/">Amber进阶-黑塞矩阵在哪里</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <ol>
+<li><p>找手册</p>
+<ul>
+<li>1-7章提过了</li>
+<li>8章：经验共价键键模拟 计算反应<br>  基函数的概述 单个基函数由一个或多个原始高斯函数构成。例如，s-型基函数 φµ(r)是一个高斯分布型函数称为s-型基函数，一个壳层是一套有共同指数的基函数φµ。Gaussian支持任意角动量的壳层：s，p，d，f，g，h五层。一个s-壳层包含一个单独的s-型基函数。一个p-壳层包含三个基函数pX，pY和pZ。sp-壳层包含四个具有共同高斯指数的基函数：一个s-型函数和三个p-函数pX，pY和pZ。</li>
+<li>AMBER18里搜hessian发现有一个关于second derivative的，但似乎用到mme2，不懂，也没搜到<br>  有一个CartHess2FC.py的模块用了output Hessian 以为是它，实际上利用的是Gaussian输出的fchk文件<br>  小木虫上看到很成熟的利用Gaussian解决hessian乃至找本征频率的做法，<a target="_blank" rel="noopener" href="http://muchong.com/html/201504/8775391_2.html，15年就有了">http://muchong.com/html/201504/8775391_2.html，15年就有了</a></li>
+<li><p>改变搜索思路，找fchk，找到了量子动力学模块<br>  PIMD可以做模拟，一种是PRIMPIMD和NMPIMD（normal mode path-integral），后者是一种更好的方式，解耦谐波项（在谐波项看到了正则化中的频率ω）</p>
+<p>  <strong><em>流泪了好兄弟</em></strong></p>
+<p>实践证明，以hessian为关键词搜一遍，发现，但凡涉及到的都是偷Gaussian的现成文件来用，也太垃圾了amber，呜呜呜，浪费我一个月啊!!!!!!!!!</p>
+<p>hessian的本质是3n-6个振动自由度的频率值，3n个自由度，但去掉3个振动自由度，3个转动自由度，他们的改变不影响体系相对位置，也就不改变体系能量。</p>
+</li>
+</ul>
+</li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://fy-han.github.io.git/blog/2021/3/20/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%88%86%E5%AD%90%E6%A8%A1%E6%8B%9F-AMBER-2021-3-20-Amber%E8%BF%9B%E9%98%B6-%E9%BB%91%E5%A1%9E%E7%9F%A9%E9%98%B5%E5%9C%A8%E5%93%AA%E9%87%8C-2021-3-20-Amber%E8%BF%9B%E9%98%B6-%E9%BB%91%E5%A1%9E%E7%9F%A9%E9%98%B5%E5%9C%A8%E5%93%AA%E9%87%8C/" data-id="ckvxdaw6f002l0su59mou5hi1" data-title="Amber进阶-黑塞矩阵在哪里" class="article-share-link">Teilen</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/AMBER/" rel="tag">AMBER</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
   
     <article id="post-科研学习-分子模拟-AMBER-2021-3-20-Amber-入门教程（三）-2021-3-20-Amber-入门教程（三）" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
@@ -141,7 +195,7 @@ SaveAmberParm ramp RAMP1_ion.prmtop RAMP1_ion.inpcrd
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://fy-han.github.io.git/blog/2021/3/20/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%88%86%E5%AD%90%E6%A8%A1%E6%8B%9F-AMBER-2021-3-20-Amber-%E5%85%A5%E9%97%A8%E6%95%99%E7%A8%8B%EF%BC%88%E4%B8%89%EF%BC%89-2021-3-20-Amber-%E5%85%A5%E9%97%A8%E6%95%99%E7%A8%8B%EF%BC%88%E4%B8%89%EF%BC%89/" data-id="ckvxchao3002jk4u55d0xelui" data-title="Amber--入门教程（三）" class="article-share-link">Share</a>
+      <a data-url="https://fy-han.github.io.git/blog/2021/3/20/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%88%86%E5%AD%90%E6%A8%A1%E6%8B%9F-AMBER-2021-3-20-Amber-%E5%85%A5%E9%97%A8%E6%95%99%E7%A8%8B%EF%BC%88%E4%B8%89%EF%BC%89-2021-3-20-Amber-%E5%85%A5%E9%97%A8%E6%95%99%E7%A8%8B%EF%BC%88%E4%B8%89%EF%BC%89/" data-id="ckvxdaw6f002j0su5hggd3j4y" data-title="Amber--入门教程（三）" class="article-share-link">Teilen</a>
       
       
       
@@ -250,7 +304,7 @@ SaveAmberParm ramp RAMP1_ion.prmtop RAMP1_ion.inpcrd
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://fy-han.github.io.git/blog/2021/3/19/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%88%86%E5%AD%90%E6%A8%A1%E6%8B%9F-AMBER-2021-3-19-Amber-%E5%85%A5%E9%97%A8%E6%95%99%E7%A8%8B%EF%BC%88%E4%BA%8C%EF%BC%89-2021-3-19-Amber-%E5%85%A5%E9%97%A8%E6%95%99%E7%A8%8B%EF%BC%88%E4%BA%8C%EF%BC%89/" data-id="ckvxchao2002hk4u5enqe4dqk" data-title="Amber--入门教程（二）" class="article-share-link">Share</a>
+      <a data-url="https://fy-han.github.io.git/blog/2021/3/19/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%88%86%E5%AD%90%E6%A8%A1%E6%8B%9F-AMBER-2021-3-19-Amber-%E5%85%A5%E9%97%A8%E6%95%99%E7%A8%8B%EF%BC%88%E4%BA%8C%EF%BC%89-2021-3-19-Amber-%E5%85%A5%E9%97%A8%E6%95%99%E7%A8%8B%EF%BC%88%E4%BA%8C%EF%BC%89/" data-id="ckvxdaw6e002h0su5hzysafnw" data-title="Amber--入门教程（二）" class="article-share-link">Teilen</a>
       
       
       
@@ -403,7 +457,7 @@ SaveAmberParm ramp RAMP1_ion.prmtop RAMP1_ion.inpcrd
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://fy-han.github.io.git/blog/2021/3/17/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%88%86%E5%AD%90%E6%A8%A1%E6%8B%9F-AMBER-2021-3-17-Amber-%E5%85%A5%E9%97%A8%E6%95%99%E7%A8%8B%EF%BC%88%E4%B8%80%EF%BC%89-2021-3-17-Amber-%E5%85%A5%E9%97%A8%E6%95%99%E7%A8%8B%EF%BC%88%E4%B8%80%EF%BC%89/" data-id="ckvxchao2002fk4u52fz8dy41" data-title="Amber--入门教程（一）" class="article-share-link">Share</a>
+      <a data-url="https://fy-han.github.io.git/blog/2021/3/17/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%88%86%E5%AD%90%E6%A8%A1%E6%8B%9F-AMBER-2021-3-17-Amber-%E5%85%A5%E9%97%A8%E6%95%99%E7%A8%8B%EF%BC%88%E4%B8%80%EF%BC%89-2021-3-17-Amber-%E5%85%A5%E9%97%A8%E6%95%99%E7%A8%8B%EF%BC%88%E4%B8%80%EF%BC%89/" data-id="ckvxdaw6d002f0su5fhf6ahl8" data-title="Amber--入门教程（一）" class="article-share-link">Teilen</a>
       
       
       
@@ -448,7 +502,7 @@ SaveAmberParm ramp RAMP1_ion.prmtop RAMP1_ion.inpcrd
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://fy-han.github.io.git/blog/2021/3/15/%E6%80%9D%E8%80%83-2021-3-15-%E7%94%9F%E6%B4%BB%E6%84%9F%E6%82%9F%E4%B8%8E%E5%AE%88%E5%88%99-2021-3-15-%E7%94%9F%E6%B4%BB%E6%84%9F%E6%82%9F%E4%B8%8E%E5%AE%88%E5%88%99/" data-id="ckvxchand000ek4u5biif28o4" data-title="生活感悟与守则" class="article-share-link">Share</a>
+      <a data-url="https://fy-han.github.io.git/blog/2021/3/15/%E6%80%9D%E8%80%83-2021-3-15-%E7%94%9F%E6%B4%BB%E6%84%9F%E6%82%9F%E4%B8%8E%E5%AE%88%E5%88%99-2021-3-15-%E7%94%9F%E6%B4%BB%E6%84%9F%E6%82%9F%E4%B8%8E%E5%AE%88%E5%88%99/" data-id="ckvxdaw5r000j0su54smh6976" data-title="生活感悟与守则" class="article-share-link">Teilen</a>
       
       
       
@@ -493,7 +547,7 @@ SaveAmberParm ramp RAMP1_ion.prmtop RAMP1_ion.inpcrd
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://fy-han.github.io.git/blog/2021/3/15/2021%E5%91%A8%E6%8A%A5-1%E5%AD%A3%E5%BA%A6-2021-3-15-%E8%87%B33-21-%E5%91%A8%E6%8A%A5-2021-3-15-%E8%87%B33-21-%E5%91%A8%E6%8A%A5/" data-id="ckvxchani000rk4u5eqxidk9f" data-title="至3.21 周报" class="article-share-link">Share</a>
+      <a data-url="https://fy-han.github.io.git/blog/2021/3/15/2021%E5%91%A8%E6%8A%A5-1%E5%AD%A3%E5%BA%A6-2021-3-15-%E8%87%B33-21-%E5%91%A8%E6%8A%A5-2021-3-15-%E8%87%B33-21-%E5%91%A8%E6%8A%A5/" data-id="ckvxdaw5t000o0su5cwbshpd0" data-title="至3.21 周报" class="article-share-link">Teilen</a>
       
       
       
@@ -538,7 +592,7 @@ SaveAmberParm ramp RAMP1_ion.prmtop RAMP1_ion.inpcrd
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://fy-han.github.io.git/blog/2021/3/12/2021%E5%91%A8%E6%8A%A5-1%E5%AD%A3%E5%BA%A6-2021-3-12-3-14%E5%91%A8%E6%8A%A5-2021-3-12-%E8%87%B33-14%E5%91%A8%E6%8A%A5/" data-id="ckvxchang000nk4u5g5fi2ddj" data-title="至3.14周报" class="article-share-link">Share</a>
+      <a data-url="https://fy-han.github.io.git/blog/2021/3/12/2021%E5%91%A8%E6%8A%A5-1%E5%AD%A3%E5%BA%A6-2021-3-12-3-14%E5%91%A8%E6%8A%A5-2021-3-12-%E8%87%B33-14%E5%91%A8%E6%8A%A5/" data-id="ckvxdaw5s000n0su59ya22h9t" data-title="至3.14周报" class="article-share-link">Teilen</a>
       
       
       
@@ -594,7 +648,7 @@ SaveAmberParm ramp RAMP1_ion.prmtop RAMP1_ion.inpcrd
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://fy-han.github.io.git/blog/2021/3/10/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%8D%9A%E5%AE%A2-2021-3-10-hexo-github%E5%BB%BA%E7%AB%8B%E5%8D%9A%E5%AE%A2%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98-2021-3-10-hexo-github%E5%BB%BA%E7%AB%8B%E5%8D%9A%E5%AE%A2%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98%EF%BC%881%EF%BC%89/" data-id="ckvxchany001zk4u5286k34ss" data-title="hexo+github建立博客遇到的问题" class="article-share-link">Share</a>
+      <a data-url="https://fy-han.github.io.git/blog/2021/3/10/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%8D%9A%E5%AE%A2-2021-3-10-hexo-github%E5%BB%BA%E7%AB%8B%E5%8D%9A%E5%AE%A2%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98-2021-3-10-hexo-github%E5%BB%BA%E7%AB%8B%E5%8D%9A%E5%AE%A2%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98%EF%BC%881%EF%BC%89/" data-id="ckvxdaw69001z0su59s107mba" data-title="hexo+github建立博客遇到的问题" class="article-share-link">Teilen</a>
       
       
       
@@ -639,7 +693,7 @@ SaveAmberParm ramp RAMP1_ion.prmtop RAMP1_ion.inpcrd
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://fy-han.github.io.git/blog/2021/3/10/%E6%80%9D%E8%80%83-2021-3-10-%E7%94%9F%E6%B4%BB%E3%80%81%E5%AD%A6%E4%B9%A0%E4%B8%8E%E5%A8%B1%E4%B9%90%E8%87%B3%E6%AD%BB%E7%9A%84%E5%8F%8D%E6%80%9D-1-2021-3-10-%E7%94%9F%E6%B4%BB%E3%80%81%E5%AD%A6%E4%B9%A0%E4%B8%8E%E5%A8%B1%E4%B9%90%E8%87%B3%E6%AD%BB%E7%9A%84%E5%8F%8D%E6%80%9D-1/" data-id="ckvxchand000ck4u5dqs743qy" data-title="生活、学习与娱乐至死的哲思(1)" class="article-share-link">Share</a>
+      <a data-url="https://fy-han.github.io.git/blog/2021/3/10/%E6%80%9D%E8%80%83-2021-3-10-%E7%94%9F%E6%B4%BB%E3%80%81%E5%AD%A6%E4%B9%A0%E4%B8%8E%E5%A8%B1%E4%B9%90%E8%87%B3%E6%AD%BB%E7%9A%84%E5%8F%8D%E6%80%9D-1-2021-3-10-%E7%94%9F%E6%B4%BB%E3%80%81%E5%AD%A6%E4%B9%A0%E4%B8%8E%E5%A8%B1%E4%B9%90%E8%87%B3%E6%AD%BB%E7%9A%84%E5%8F%8D%E6%80%9D-1/" data-id="ckvxdaw5r000h0su5ghik1lny" data-title="生活、学习与娱乐至死的哲思(1)" class="article-share-link">Teilen</a>
       
       
       
@@ -657,7 +711,7 @@ SaveAmberParm ramp RAMP1_ion.prmtop RAMP1_ion.inpcrd
 
   <nav id="page-nav">
     
-    <a class="extend prev" rel="prev" href="/page/5/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span>
+    <a class="extend prev" rel="prev" href="/page/5/">&laquo; zurück</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span>
   </nav>
 
 </section>
@@ -681,14 +735,14 @@ SaveAmberParm ramp RAMP1_ion.prmtop RAMP1_ion.inpcrd
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/AMBER/" style="font-size: 17.5px;">AMBER</a> <a href="/tags/GMX/" style="font-size: 10px;">GMX</a> <a href="/tags/Gaussian/" style="font-size: 10px;">Gaussian</a> <a href="/tags/ai/" style="font-size: 12.5px;">ai</a> <a href="/tags/gmx/" style="font-size: 17.5px;">gmx</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/moe/" style="font-size: 12.5px;">moe</a> <a href="/tags/summer-intern/" style="font-size: 10px;">summer intern</a> <a href="/tags/web/" style="font-size: 10px;">web</a> <a href="/tags/%E4%BD%9C%E6%9B%B2/" style="font-size: 10px;">作曲</a> <a href="/tags/%E5%8D%9A%E5%AE%A2%E5%BB%BA%E7%AB%8B/" style="font-size: 15px;">博客建立</a> <a href="/tags/%E5%91%A8%E6%8A%A5/" style="font-size: 20px;">周报</a> <a href="/tags/%E6%8A%80%E6%9C%AF%E6%9D%82%E8%B0%88/" style="font-size: 15px;">技术杂谈</a> <a href="/tags/%E7%94%9F%E6%B4%BB%E5%8F%8D%E6%80%9D/" style="font-size: 15px;">生活反思</a>
+      <a href="/tags/AMBER/" style="font-size: 17.5px;">AMBER</a> <a href="/tags/GMX/" style="font-size: 12.5px;">GMX</a> <a href="/tags/Gaussian/" style="font-size: 10px;">Gaussian</a> <a href="/tags/ai/" style="font-size: 12.5px;">ai</a> <a href="/tags/gmx/" style="font-size: 17.5px;">gmx</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/moe/" style="font-size: 12.5px;">moe</a> <a href="/tags/summer-intern/" style="font-size: 10px;">summer intern</a> <a href="/tags/web/" style="font-size: 10px;">web</a> <a href="/tags/%E4%BD%9C%E6%9B%B2/" style="font-size: 10px;">作曲</a> <a href="/tags/%E5%8D%9A%E5%AE%A2%E5%BB%BA%E7%AB%8B/" style="font-size: 15px;">博客建立</a> <a href="/tags/%E5%91%A8%E6%8A%A5/" style="font-size: 20px;">周报</a> <a href="/tags/%E6%8A%80%E6%9C%AF%E6%9D%82%E8%B0%88/" style="font-size: 15px;">技术杂谈</a> <a href="/tags/%E7%94%9F%E6%B4%BB%E5%8F%8D%E6%80%9D/" style="font-size: 15px;">生活反思</a>
     </div>
   </div>
 
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Archives</h3>
+    <h3 class="widget-title">Archiv</h3>
     <div class="widget">
       <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/11/">November 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/10/">October 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/09/">September 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/08/">August 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/07/">July 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/06/">June 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/05/">May 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">April 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a></li></ul>
     </div>
@@ -698,9 +752,13 @@ SaveAmberParm ramp RAMP1_ion.prmtop RAMP1_ion.inpcrd
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Recent Posts</h3>
+    <h3 class="widget-title">letzter Beitrag</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/blog/2021/11/13/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%88%86%E5%AD%90%E6%A8%A1%E6%8B%9F-GMX-2021-11-13-GROMACS-PCA-2021-11-13-GROMACS-PCA/">GROMACS PCA</a>
+          </li>
         
           <li>
             <a href="/blog/2021/11/13/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%8A%80%E6%9C%AF-%E6%8A%80%E6%9C%AF%E6%9D%82%E8%B0%88-2021-11-13-shell%E8%84%9A%E6%9C%AC%E6%84%8F%E6%80%9D-2021-11-13-shell%E8%84%9A%E6%9C%AC%E6%84%8F%E6%80%9D/">shell脚本意思</a>
@@ -716,10 +774,6 @@ SaveAmberParm ramp RAMP1_ion.prmtop RAMP1_ion.inpcrd
         
           <li>
             <a href="/blog/2021/11/5/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%8D%9A%E5%AE%A2-2021-3-10-hexo-github%E5%BB%BA%E7%AB%8B%E5%8D%9A%E5%AE%A2%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98-2021-11-5-hexo%E5%8D%9A%E5%AE%A2%E4%B8%8D%E8%83%BD%E6%9B%B4%E6%96%B0/">hexo博客不能更新</a>
-          </li>
-        
-          <li>
-            <a href="/blog/2021/10/31/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%88%86%E5%AD%90%E6%A8%A1%E6%8B%9F-GMX-2021-10-31-GROMACS-MD-%E9%80%9F%E5%BA%A6%E8%B0%83%E6%95%B4/">GROMACS MD 速度调整</a>
           </li>
         
       </ul>

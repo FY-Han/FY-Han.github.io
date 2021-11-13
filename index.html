@@ -59,10 +59,10 @@
         
           <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
         
-        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+        <a id="nav-search-btn" class="nav-icon" title="Suche"></a>
       </nav>
       <div id="search-form-wrap">
-        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://FY-Han.github.io.git"></form>
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Suche"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://FY-Han.github.io.git"></form>
       </div>
     </div>
   </div>
@@ -70,6 +70,83 @@
 
       <div class="outer">
         <section id="main">
+  
+    <article id="post-科研学习-分子模拟-GMX-2021-11-13-GROMACS-PCA-2021-11-13-GROMACS-PCA" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/blog/2021/11/13/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%88%86%E5%AD%90%E6%A8%A1%E6%8B%9F-GMX-2021-11-13-GROMACS-PCA-2021-11-13-GROMACS-PCA/" class="article-date">
+  <time class="dt-published" datetime="2021-11-13T05:05:29.000Z" itemprop="datePublished">2021-11-13</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/blog/2021/11/13/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%88%86%E5%AD%90%E6%A8%A1%E6%8B%9F-GMX-2021-11-13-GROMACS-PCA-2021-11-13-GROMACS-PCA/">GROMACS PCA</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="任务"><a href="#任务" class="headerlink" title="任务"></a>任务</h2><p>将能量都投射到到两个主成分上显示</p>
+<h2 id="附录-GROMACS续跑与画图"><a href="#附录-GROMACS续跑与画图" class="headerlink" title="附录-GROMACS续跑与画图"></a>附录-GROMACS续跑与画图</h2><h3 id="Gromacs续跑"><a href="#Gromacs续跑" class="headerlink" title="Gromacs续跑"></a>Gromacs续跑</h3><h4 id="Gromacs-中断后续跑"><a href="#Gromacs-中断后续跑" class="headerlink" title="Gromacs 中断后续跑"></a>Gromacs 中断后续跑</h4><p>MD中断前的作业运行：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gmx mdrun -V -deffnm md</span><br></pre></td></tr></table></figure>
+<p>MD作业中断后可以继续用mdrun接着续跑，只需要加上-cpi md.cpt和-s md.tpr的参数。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gmx mdrun -s md.tpr -cpi md.cpt -deffnm md</span><br></pre></td></tr></table></figure>
+<p>mdrun默认会将新产生的轨迹添加到原始文件末尾，最终文件会包括中断前与续跑后的所有内容。</p>
+<h4 id="Gromacs延长时间再跑"><a href="#Gromacs延长时间再跑" class="headerlink" title="Gromacs延长时间再跑"></a>Gromacs延长时间再跑</h4><h5 id="续跑10ns且单独生成文件"><a href="#续跑10ns且单独生成文件" class="headerlink" title="续跑10ns且单独生成文件"></a>续跑10ns且单独生成文件</h5><p>MD作业已经完整跑完，延续之前的模拟参数，再跑额外的10ns模拟，可以使用convert-tpr重新生成新的md2.tpr，并用-extend 10000选项将模拟时间延长10ns后重新mdrun提交新作业md2，并且在mdrun参数选项中加上原始的cpt文件-cpi md1.cpt，最后的-noappend选项则表示生成单独的后续文件而不续写。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">gmx convert-tpr -s md1.tpr -extend 10000 -o md2.tpr</span><br><span class="line">gmx mdrun -V -deffnm md2 -cpi md.cpt -noappend </span><br></pre></td></tr></table></figure>
+<p>最终会得到md2.part0002.xtc/log/edr/gro/cpt，这是将后续10ns的结果单独生成新的文件。</p>
+<h5 id="续跑10ns且续写入源文件"><a href="#续跑10ns且续写入源文件" class="headerlink" title="续跑10ns且续写入源文件"></a>续跑10ns且续写入源文件</h5><p>MD作业已经完整跑完，延续之前的模拟参数，再跑额外的10ns模拟，可以使用convert-tpr命令直接修改原始的md.tpr，并用-extend 10000选项将模拟时间延长10ns后重新mdrun提交新作业md，并且在参数选项中加上原始的cpt文件-cpi md.cpt即可。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">gmx convert-tpr -s md1.tpr -extend 10000 -o md.tpr</span><br><span class="line">gmx mdrun -V -deffnm md -cpi md1.cpt</span><br></pre></td></tr></table></figure>
+<h3 id="Gromacs画图"><a href="#Gromacs画图" class="headerlink" title="Gromacs画图"></a>Gromacs画图</h3><ol>
+<li><p>计算RMSD</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#source &#x2F;home&#x2F;murphy&#x2F;gromacs&#x2F;Gromacs_mpi&#x2F;bin&#x2F;GMXRC</span><br><span class="line">gmx_mpi rms -f md.xtc -s complex_ions.gro</span><br></pre></td></tr></table></figure>
+<p>选择相应的组分，生成rmsd.xvg文件。</p>
+</li>
+<li><p>提取10ns模拟体系中的后2ns</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#source &#x2F;home&#x2F;murphy&#x2F;gromacs&#x2F;Gromacs_mpi&#x2F;bin&#x2F;GMXRC</span><br><span class="line">gmx_mpi trjconv -f md.xtc -o MmPbsa.xtc -b 8000 -e 10000</span><br></pre></td></tr></table></figure>
+<p>gmx中以ps为单位，-b 8000 -e 10000为begin和end时间窗口。</p>
+</li>
+<li><p>RMSD画图</p>
+</li>
+</ol>
+<ul>
+<li>将rms命令生成的rmsd.xvg文件用gnuplot作图。<br>  首先去掉rmsd.xvg中的注释信息。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">#!&#x2F;bin&#x2F;bash</span><br><span class="line">cat rmsd.xvg |grep -v -E &quot;#|@&quot; &gt;rmsd_1.xvg</span><br><span class="line">gnuplot &lt;&lt;EOF</span><br><span class="line">set term pngcairo lw 2 font &quot;Times_New_Roman,14&quot;</span><br><span class="line">set output &quot;rmsd.png&quot;</span><br><span class="line">set xlabel &#39;Time (ps)&#39;</span><br><span class="line">set ylabel &#39;RMSD (nm)&#39;</span><br><span class="line">set title &#39;RMSD&#39;</span><br><span class="line">unset key</span><br><span class="line">plot &#39;rmsd_1.xvg&#39; with line linetype 1 linewidth 1</span><br><span class="line">set output</span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
+<ol>
+<li><p>g_MMPBSA后作图，多个图叠合在一起</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">#!&#x2F;bin&#x2F;bash</span><br><span class="line">gnuplot &lt;&lt;EOF</span><br><span class="line">set term pngcairo lw 2 font &quot;Times_New_Roman,14&quot;</span><br><span class="line">set output &quot;a.png&quot;</span><br><span class="line">set xlabel &#39;Residue Number&#39;</span><br><span class="line">set ylabel &#39;Contribution Energy (kJ&#x2F;mol)&#39;</span><br><span class="line">set title &#39;Contribution of residues to the binding energy&#39;</span><br><span class="line">#unset key</span><br><span class="line">set xrange [1:306]</span><br><span class="line">#set xtics 1,1,306 </span><br><span class="line">#unset border</span><br><span class="line">#set zeroaxis lt -1 lw 2</span><br><span class="line">plot &#39;cq-3.dat&#39; with line linetype 1 linewidth 1 title &quot;CQ-1&quot;,&#39;cq-2.dat&#39; with line linetype 2 linewidth 1 title &quot;CQ-2&quot;, &#39;hcq.dat&#39; with line linetype 3 linewidth 1 title &quot;HCQ-1&quot;,&#39;hcq-3.dat&#39; with line linetype 4 linewidth 1 title &quot;HCQ-2&quot; </span><br><span class="line">#plot &#39;cq-3.dat&#39; with line linetype 1 linewidth 1 title &quot;CQ-3&quot; &gt;&#39;hcq.dat&#39; with line linetype 3 linewidth 1 title &quot;HCQ-1&quot; &gt;&#39;hcq-3.dat&#39; with line linetype 4 linewidth 1 title &quot;HCQ-3&quot;</span><br><span class="line">set output</span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<hr>
+<blockquote>
+<p>“版权声明：本文为CSDN博主「MurphyStar」的原创文章，遵循CC 4.0 BY-SA版权协议，转载请附上原文出处链接及本声明。<br>原文链接：<a target="_blank" rel="noopener" href="https://blog.csdn.net/MurphyStar/article/details/113679744">https://blog.csdn.net/MurphyStar/article/details/113679744</a></p>
+</blockquote>
+<p><img src="/blog/2021/11/13/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%88%86%E5%AD%90%E6%A8%A1%E6%8B%9F-GMX-2021-11-13-GROMACS-PCA-2021-11-13-GROMACS-PCA/tmp7FE9.png" alt="test"></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://fy-han.github.io.git/blog/2021/11/13/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%88%86%E5%AD%90%E6%A8%A1%E6%8B%9F-GMX-2021-11-13-GROMACS-PCA-2021-11-13-GROMACS-PCA/" data-id="ckvxdaw6i002s0su5bkgm40i1" data-title="GROMACS PCA" class="article-share-link">Teilen</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/GMX/" rel="tag">GMX</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
   
     <article id="post-科研学习-计算机技术-技术杂谈-2021-11-13-shell脚本意思-2021-11-13-shell脚本意思" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
@@ -110,7 +187,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://fy-han.github.io.git/blog/2021/11/13/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%8A%80%E6%9C%AF-%E6%8A%80%E6%9C%AF%E6%9D%82%E8%B0%88-2021-11-13-shell%E8%84%9A%E6%9C%AC%E6%84%8F%E6%80%9D-2021-11-13-shell%E8%84%9A%E6%9C%AC%E6%84%8F%E6%80%9D/" data-id="ckvxchaoc003lk4u56sgxg41d" data-title="shell脚本意思" class="article-share-link">Share</a>
+      <a data-url="https://fy-han.github.io.git/blog/2021/11/13/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%8A%80%E6%9C%AF-%E6%8A%80%E6%9C%AF%E6%9D%82%E8%B0%88-2021-11-13-shell%E8%84%9A%E6%9C%AC%E6%84%8F%E6%80%9D-2021-11-13-shell%E8%84%9A%E6%9C%AC%E6%84%8F%E6%80%9D/" data-id="ckvxdaw6r003o0su56ti04q1g" data-title="shell脚本意思" class="article-share-link">Teilen</a>
       
       
       
@@ -151,7 +228,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://fy-han.github.io.git/blog/2021/11/6/2021%E5%91%A8%E6%8A%A5-4%E5%AD%A3%E5%BA%A6-2021-11-6-10-30-11-6%E5%91%A8%E6%8A%A5-2021-11-6-10-30-11-6%E5%91%A8%E6%8A%A5/" data-id="ckvxchant001lk4u5bjzk2g9i" data-title="10.30-11.6周报" class="article-share-link">Share</a>
+      <a data-url="https://fy-han.github.io.git/blog/2021/11/6/2021%E5%91%A8%E6%8A%A5-4%E5%AD%A3%E5%BA%A6-2021-11-6-10-30-11-6%E5%91%A8%E6%8A%A5-2021-11-6-10-30-11-6%E5%91%A8%E6%8A%A5/" data-id="ckvxdaw65001j0su54v1o9yps" data-title="10.30-11.6周报" class="article-share-link">Teilen</a>
       
       
       
@@ -323,7 +400,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://fy-han.github.io.git/blog/2021/11/5/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%8D%9A%E5%AE%A2-2021-3-10-hexo-github%E5%BB%BA%E7%AB%8B%E5%8D%9A%E5%AE%A2%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98-2021-11-5-hexo%E5%8D%9A%E5%AE%A2%E6%97%A0%E6%B3%95hexo-d%E8%BF%9B%E8%A1%8C%E9%83%A8%E7%BD%B2-2021-11-5-hexo%E5%8D%9A%E5%AE%A2%E6%97%A0%E6%B3%95hexo-d%E8%BF%9B%E8%A1%8C%E9%83%A8%E7%BD%B2/" data-id="ckvxchaod003qk4u5ehnhdes7" data-title="hexo博客无法hexo d进行部署" class="article-share-link">Share</a>
+      <a data-url="https://fy-han.github.io.git/blog/2021/11/5/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%8D%9A%E5%AE%A2-2021-3-10-hexo-github%E5%BB%BA%E7%AB%8B%E5%8D%9A%E5%AE%A2%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98-2021-11-5-hexo%E5%8D%9A%E5%AE%A2%E6%97%A0%E6%B3%95hexo-d%E8%BF%9B%E8%A1%8C%E9%83%A8%E7%BD%B2-2021-11-5-hexo%E5%8D%9A%E5%AE%A2%E6%97%A0%E6%B3%95hexo-d%E8%BF%9B%E8%A1%8C%E9%83%A8%E7%BD%B2/" data-id="ckvxdaw6s003s0su54ys5hgqi" data-title="hexo博客无法hexo d进行部署" class="article-share-link">Teilen</a>
       
       
       
@@ -363,7 +440,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://fy-han.github.io.git/blog/2021/11/5/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%8D%9A%E5%AE%A2-2021-3-10-hexo-github%E5%BB%BA%E7%AB%8B%E5%8D%9A%E5%AE%A2%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98-2021-11-5-hexo%E5%8D%9A%E5%AE%A2%E4%B8%8D%E8%83%BD%E6%9B%B4%E6%96%B0/" data-id="ckvxchanx001wk4u5d0an82we" data-title="hexo博客不能更新" class="article-share-link">Share</a>
+      <a data-url="https://fy-han.github.io.git/blog/2021/11/5/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%8D%9A%E5%AE%A2-2021-3-10-hexo-github%E5%BB%BA%E7%AB%8B%E5%8D%9A%E5%AE%A2%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98-2021-11-5-hexo%E5%8D%9A%E5%AE%A2%E4%B8%8D%E8%83%BD%E6%9B%B4%E6%96%B0/" data-id="ckvxdaw68001w0su5fpmyeqex" data-title="hexo博客不能更新" class="article-share-link">Teilen</a>
       
       
       
@@ -418,7 +495,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://fy-han.github.io.git/blog/2021/10/31/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%88%86%E5%AD%90%E6%A8%A1%E6%8B%9F-GMX-2021-10-31-GROMACS-MD-%E9%80%9F%E5%BA%A6%E8%B0%83%E6%95%B4/" data-id="ckvxchanv001pk4u5cwpz1kvl" data-title="GROMACS MD 速度调整" class="article-share-link">Share</a>
+      <a data-url="https://fy-han.github.io.git/blog/2021/10/31/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%88%86%E5%AD%90%E6%A8%A1%E6%8B%9F-GMX-2021-10-31-GROMACS-MD-%E9%80%9F%E5%BA%A6%E8%B0%83%E6%95%B4/" data-id="ckvxdaw67001s0su542vdgzig" data-title="GROMACS MD 速度调整" class="article-share-link">Teilen</a>
       
       
       
@@ -968,7 +1045,7 @@ h6.md-focus:before {
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://fy-han.github.io.git/blog/2021/10/25/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%8A%80%E6%9C%AF-%E6%8A%80%E6%9C%AF%E6%9D%82%E8%B0%88-2021-10-25-Bash%E6%95%99%E5%AD%A6/" data-id="ckvxchaod003mk4u529m62xtz" data-title="" class="article-share-link">Share</a>
+      <a data-url="https://fy-han.github.io.git/blog/2021/10/25/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%8A%80%E6%9C%AF-%E6%8A%80%E6%9C%AF%E6%9D%82%E8%B0%88-2021-10-25-Bash%E6%95%99%E5%AD%A6/" data-id="ckvxdaw6r003p0su5bn221xh2" data-title="" class="article-share-link">Teilen</a>
       
       
       
@@ -1034,7 +1111,7 @@ h6.md-focus:before {
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://fy-han.github.io.git/blog/2021/10/25/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%8A%80%E6%9C%AF-%E9%85%8D%E7%BD%AE%E7%94%B5%E8%84%91-2021-10-25-%E8%A3%85gromacs%E6%9C%89gcc%E9%97%AE%E9%A2%98/" data-id="ckvxchao1002ak4u561hh7t5s" data-title="装gromacs有gcc问题" class="article-share-link">Share</a>
+      <a data-url="https://fy-han.github.io.git/blog/2021/10/25/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%8A%80%E6%9C%AF-%E9%85%8D%E7%BD%AE%E7%94%B5%E8%84%91-2021-10-25-%E8%A3%85gromacs%E6%9C%89gcc%E9%97%AE%E9%A2%98/" data-id="ckvxdaw6c002a0su5ajqggtwd" data-title="装gromacs有gcc问题" class="article-share-link">Teilen</a>
       
       
       
@@ -1086,7 +1163,7 @@ h6.md-focus:before {
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://fy-han.github.io.git/blog/2021/10/22/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%88%86%E5%AD%90%E6%A8%A1%E6%8B%9F-GMX-2021-10-22-gmx%E6%BA%B6%E5%89%82%E5%8C%96%E8%B7%91md/" data-id="ckvxchanu001nk4u5140wax54" data-title="gmx溶剂化跑md" class="article-share-link">Share</a>
+      <a data-url="https://fy-han.github.io.git/blog/2021/10/22/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%88%86%E5%AD%90%E6%A8%A1%E6%8B%9F-GMX-2021-10-22-gmx%E6%BA%B6%E5%89%82%E5%8C%96%E8%B7%91md/" data-id="ckvxdaw66001p0su51s77dvle" data-title="gmx溶剂化跑md" class="article-share-link">Teilen</a>
       
       
       
@@ -1197,7 +1274,7 @@ x_{ij}^2\quad \sqrt{x}\quad \sqrt[3]{x}</script><script type="math/tex; mode=dis
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://fy-han.github.io.git/blog/2021/9/23/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%8A%80%E6%9C%AF-%E6%8A%80%E6%9C%AF%E6%9D%82%E8%B0%88-2021-9-23-markdown%E8%AF%AD%E6%B3%95%E5%AD%A6%E4%B9%A0%E5%A4%A7%E5%85%A8/" data-id="ckvxchao00028k4u55tji6fax" data-title="markdown语法学习大全" class="article-share-link">Share</a>
+      <a data-url="https://fy-han.github.io.git/blog/2021/9/23/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%8A%80%E6%9C%AF-%E6%8A%80%E6%9C%AF%E6%9D%82%E8%B0%88-2021-9-23-markdown%E8%AF%AD%E6%B3%95%E5%AD%A6%E4%B9%A0%E5%A4%A7%E5%85%A8/" data-id="ckvxdaw6c00280su5dpfn59bi" data-title="markdown语法学习大全" class="article-share-link">Teilen</a>
       
       
       
@@ -1211,56 +1288,11 @@ x_{ij}^2\quad \sqrt{x}\quad \sqrt[3]{x}</script><script type="math/tex; mode=dis
 
 
   
-    <article id="post-2021周报-3季度-2021-9-22-第30周至9-26" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/blog/2021/9/22/2021%E5%91%A8%E6%8A%A5-3%E5%AD%A3%E5%BA%A6-2021-9-22-%E7%AC%AC30%E5%91%A8%E8%87%B39-26/" class="article-date">
-  <time class="dt-published" datetime="2021-09-21T16:03:56.000Z" itemprop="datePublished">2021-09-22</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/blog/2021/9/22/2021%E5%91%A8%E6%8A%A5-3%E5%AD%A3%E5%BA%A6-2021-9-22-%E7%AC%AC30%E5%91%A8%E8%87%B39-26/">第30周至9.26</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        Here's something encrypted, password is required to continue reading.
-        
-          <p class="article-more-link">
-            <a href="/blog/2021/9/22/2021%E5%91%A8%E6%8A%A5-3%E5%AD%A3%E5%BA%A6-2021-9-22-%E7%AC%AC30%E5%91%A8%E8%87%B39-26/#more">Read More</a>
-          </p>
-        
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://fy-han.github.io.git/blog/2021/9/22/2021%E5%91%A8%E6%8A%A5-3%E5%AD%A3%E5%BA%A6-2021-9-22-%E7%AC%AC30%E5%91%A8%E8%87%B39-26/" data-id="ckvxchanc000ak4u52p4u1s58" data-title="第30周至9.26" class="article-share-link">Share</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%91%A8%E6%8A%A5/" rel="tag">周报</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
 
 
   <nav id="page-nav">
     
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/2/">weiter &raquo;</a>
   </nav>
 
 </section>
@@ -1284,14 +1316,14 @@ x_{ij}^2\quad \sqrt{x}\quad \sqrt[3]{x}</script><script type="math/tex; mode=dis
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/AMBER/" style="font-size: 17.5px;">AMBER</a> <a href="/tags/GMX/" style="font-size: 10px;">GMX</a> <a href="/tags/Gaussian/" style="font-size: 10px;">Gaussian</a> <a href="/tags/ai/" style="font-size: 12.5px;">ai</a> <a href="/tags/gmx/" style="font-size: 17.5px;">gmx</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/moe/" style="font-size: 12.5px;">moe</a> <a href="/tags/summer-intern/" style="font-size: 10px;">summer intern</a> <a href="/tags/web/" style="font-size: 10px;">web</a> <a href="/tags/%E4%BD%9C%E6%9B%B2/" style="font-size: 10px;">作曲</a> <a href="/tags/%E5%8D%9A%E5%AE%A2%E5%BB%BA%E7%AB%8B/" style="font-size: 15px;">博客建立</a> <a href="/tags/%E5%91%A8%E6%8A%A5/" style="font-size: 20px;">周报</a> <a href="/tags/%E6%8A%80%E6%9C%AF%E6%9D%82%E8%B0%88/" style="font-size: 15px;">技术杂谈</a> <a href="/tags/%E7%94%9F%E6%B4%BB%E5%8F%8D%E6%80%9D/" style="font-size: 15px;">生活反思</a>
+      <a href="/tags/AMBER/" style="font-size: 17.5px;">AMBER</a> <a href="/tags/GMX/" style="font-size: 12.5px;">GMX</a> <a href="/tags/Gaussian/" style="font-size: 10px;">Gaussian</a> <a href="/tags/ai/" style="font-size: 12.5px;">ai</a> <a href="/tags/gmx/" style="font-size: 17.5px;">gmx</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/moe/" style="font-size: 12.5px;">moe</a> <a href="/tags/summer-intern/" style="font-size: 10px;">summer intern</a> <a href="/tags/web/" style="font-size: 10px;">web</a> <a href="/tags/%E4%BD%9C%E6%9B%B2/" style="font-size: 10px;">作曲</a> <a href="/tags/%E5%8D%9A%E5%AE%A2%E5%BB%BA%E7%AB%8B/" style="font-size: 15px;">博客建立</a> <a href="/tags/%E5%91%A8%E6%8A%A5/" style="font-size: 20px;">周报</a> <a href="/tags/%E6%8A%80%E6%9C%AF%E6%9D%82%E8%B0%88/" style="font-size: 15px;">技术杂谈</a> <a href="/tags/%E7%94%9F%E6%B4%BB%E5%8F%8D%E6%80%9D/" style="font-size: 15px;">生活反思</a>
     </div>
   </div>
 
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Archives</h3>
+    <h3 class="widget-title">Archiv</h3>
     <div class="widget">
       <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/11/">November 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/10/">October 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/09/">September 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/08/">August 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/07/">July 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/06/">June 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/05/">May 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">April 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a></li></ul>
     </div>
@@ -1301,9 +1333,13 @@ x_{ij}^2\quad \sqrt{x}\quad \sqrt[3]{x}</script><script type="math/tex; mode=dis
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Recent Posts</h3>
+    <h3 class="widget-title">letzter Beitrag</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/blog/2021/11/13/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%88%86%E5%AD%90%E6%A8%A1%E6%8B%9F-GMX-2021-11-13-GROMACS-PCA-2021-11-13-GROMACS-PCA/">GROMACS PCA</a>
+          </li>
         
           <li>
             <a href="/blog/2021/11/13/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%8A%80%E6%9C%AF-%E6%8A%80%E6%9C%AF%E6%9D%82%E8%B0%88-2021-11-13-shell%E8%84%9A%E6%9C%AC%E6%84%8F%E6%80%9D-2021-11-13-shell%E8%84%9A%E6%9C%AC%E6%84%8F%E6%80%9D/">shell脚本意思</a>
@@ -1319,10 +1355,6 @@ x_{ij}^2\quad \sqrt{x}\quad \sqrt[3]{x}</script><script type="math/tex; mode=dis
         
           <li>
             <a href="/blog/2021/11/5/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%8D%9A%E5%AE%A2-2021-3-10-hexo-github%E5%BB%BA%E7%AB%8B%E5%8D%9A%E5%AE%A2%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98-2021-11-5-hexo%E5%8D%9A%E5%AE%A2%E4%B8%8D%E8%83%BD%E6%9B%B4%E6%96%B0/">hexo博客不能更新</a>
-          </li>
-        
-          <li>
-            <a href="/blog/2021/10/31/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%88%86%E5%AD%90%E6%A8%A1%E6%8B%9F-GMX-2021-10-31-GROMACS-MD-%E9%80%9F%E5%BA%A6%E8%B0%83%E6%95%B4/">GROMACS MD 速度调整</a>
           </li>
         
       </ul>
