@@ -6,7 +6,7 @@
   <link href="https://fy-han.github.io.git/atom.xml" rel="self"/>
   
   <link href="https://fy-han.github.io.git/"/>
-  <updated>2021-11-15T04:34:48.831Z</updated>
+  <updated>2021-12-01T08:38:59.046Z</updated>
   <id>https://fy-han.github.io.git/</id>
   
   <author>
@@ -15,6 +15,25 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>11.6-12.5周报</title>
+    <link href="https://fy-han.github.io.git/blog/2021/12/1/2021%E5%91%A8%E6%8A%A5-4%E5%AD%A3%E5%BA%A6-2021-11-6-10-30-11-6%E5%91%A8%E6%8A%A5-2021-12-1-11-6-12-5%E5%91%A8%E6%8A%A5/"/>
+    <id>https://fy-han.github.io.git/blog/2021/12/1/2021%E5%91%A8%E6%8A%A5-4%E5%AD%A3%E5%BA%A6-2021-11-6-10-30-11-6%E5%91%A8%E6%8A%A5-2021-12-1-11-6-12-5%E5%91%A8%E6%8A%A5/</id>
+    <published>2021-12-01T08:36:36.000Z</published>
+    <updated>2021-12-01T08:38:59.046Z</updated>
+    
+    <content type="html"><![CDATA[<div class="hbe hbe-container" id="hexo-blog-encrypt" data-wpm="Oh, this is an invalid password. Check and try again, please." data-whm="OOPS, these decrypted content may changed, but you can still have a look.">  <script id="hbeData" type="hbeData" data-hmacdigest="dc966911ecbce09447173734ce2327c5d37442c532ede445a0f1cdcc99265e1b">4d26c1cd31922c8bdc126de486d7c94b35c6761bd1441c8b9878551cb9e18a5d5a60d2c5412e82dd9d26d5b0cc0a26e036e5dc13530f1aa8b7cd06dd42f379fbace4256c04a725c96f305d188d8e55ea258df6b16cf0a10cd4f0cd82ea9c84dab5cf4ebbbafeb4fe58c21ddeef328b27920ac852647f2719131d51c3a3e2bdb957d647ea204b5be8a8218188e5bfac943724949a5fd2ee58f016c780827bc59c0212fc96c2b79a1fa62e4a48dfa38f3eb1b356c0180b69b466c6f9fb5695c56eea2da53c693e31efd24dfaea41ef85575253e658edbb2596927a1ac3c14fe911b823da987c6a1d1ef541b829bd6f76d5612dc180f3cf2e7471c2ce891473da4b6f75aa27609193a5fd16108f36f40f127a1ab8cba2561caf04f81c7a11e6107439509a6152dfef8aa76de58607c24eb303c711752ea61e2d7c920946a1db44670453777c23367d4d5fae1cb7ccae2f8f7a9c06c4891f60927dbbc3ed1a62150a6f0da061573ff6a58231c41e00338cff7e17ae589c686b9d3fac72f12ddc5994fb062b65734b8ec379de11ee60ab76684e13117f2c2daed8cc94b8e0a33b36fab2765be6e28e1f9df5614e72a39af4a7</script>  <div class="hbe hbe-content">    <div class="hbe hbe-input hbe-input-default">      <input class="hbe hbe-input-field hbe-input-field-default" type="password" id="hbePass">      <label class="hbe hbe-input-label hbe-input-label-default" for="hbePass">        <span class="hbe hbe-input-label-content hbe-input-label-content-default">Hey, password is required here.</span>      </label>    </div>  </div></div><script data-pjax src="/lib/hbe.js"></script><link href="/css/hbe.style.css" rel="stylesheet" type="text/css">]]></content>
+    
+    
+    <summary type="html">Here&#39;s something encrypted, password is required to continue reading.</summary>
+    
+    
+    
+    
+    <category term="周报" scheme="https://fy-han.github.io.git/tags/%E5%91%A8%E6%8A%A5/"/>
+    
+  </entry>
   
   <entry>
     <title>pymol教程</title>
@@ -141,16 +160,12 @@
     <link href="https://fy-han.github.io.git/blog/2021/11/6/2021%E5%91%A8%E6%8A%A5-4%E5%AD%A3%E5%BA%A6-2021-11-6-10-30-11-6%E5%91%A8%E6%8A%A5-2021-11-6-10-30-11-6%E5%91%A8%E6%8A%A5/"/>
     <id>https://fy-han.github.io.git/blog/2021/11/6/2021%E5%91%A8%E6%8A%A5-4%E5%AD%A3%E5%BA%A6-2021-11-6-10-30-11-6%E5%91%A8%E6%8A%A5-2021-11-6-10-30-11-6%E5%91%A8%E6%8A%A5/</id>
     <published>2021-11-06T06:05:28.000Z</published>
-    <updated>2021-11-06T06:06:27.123Z</updated>
+    <updated>2021-12-01T08:39:09.744Z</updated>
     
-    <content type="html"><![CDATA[<h2 id="11-6"><a href="#11-6" class="headerlink" title="11.6"></a>11.6</h2><p>做缝缝补补的善后工作，给此前的文章打补丁。没有这个水平，就最好写中文后翻译成英文，不然真的是折磨自己。</p>]]></content>
+    <content type="html"><![CDATA[<div class="hbe hbe-container" id="hexo-blog-encrypt" data-wpm="Oh, this is an invalid password. Check and try again, please." data-whm="OOPS, these decrypted content may changed, but you can still have a look.">  <script id="hbeData" type="hbeData" data-hmacdigest="30fd1619bd0eac4b5f3dcc022b3432069c0f8c2c2f9e6145c25391b93f7ae342">4d26c1cd31922c8bdc126de486d7c94b8f1b7edf4f52d10c9747eb2fbe8dcf5294a84eaac4b81ca53381644c9c85fed4c8e4c3db8eb6add821b57d3bec95eb853724c5fc3cb1a01767fb5bec8a3ca086f345387b3102fce0ab2c4d34b83b4c18ce3b5a3084b300615f7755341146054face3391f35007be74e2936532ccf8334252cfb0344360990ebb9b4c03df0a0ccc751e1f343fe513e67776b5552538f06f2bbd2eff9de08a26f8253c612954a2f7bf0feb72def1fb1b82aef46575b7cf0e8b9174f3ae1342959027e697af8200ba596a659f41d444e1b93b94814797dd8e46e1cff9a5b407c86d363d620e356de62d7d4c3cac03712d921bd0cfc5d3fd6e1eaec52760eac00d69d0bec995888f6</script>  <div class="hbe hbe-content">    <div class="hbe hbe-input hbe-input-default">      <input class="hbe hbe-input-field hbe-input-field-default" type="password" id="hbePass">      <label class="hbe hbe-input-label hbe-input-label-default" for="hbePass">        <span class="hbe hbe-input-label-content hbe-input-label-content-default">Hey, password is required here.</span>      </label>    </div>  </div></div><script data-pjax src="/lib/hbe.js"></script><link href="/css/hbe.style.css" rel="stylesheet" type="text/css">]]></content>
     
     
-      
-      
-    <summary type="html">&lt;h2 id=&quot;11-6&quot;&gt;&lt;a href=&quot;#11-6&quot; class=&quot;headerlink&quot; title=&quot;11.6&quot;&gt;&lt;/a&gt;11.6&lt;/h2&gt;&lt;p&gt;做缝缝补补的善后工作，给此前的文章打补丁。没有这个水平，就最好写中文后翻译成英文，不然真的是折磨自己。&lt;/p&gt;
-</summary>
-      
+    <summary type="html">Here&#39;s something encrypted, password is required to continue reading.</summary>
     
     
     
@@ -302,7 +317,7 @@
     <link href="https://fy-han.github.io.git/blog/2021/9/22/2021%E5%91%A8%E6%8A%A5-3%E5%AD%A3%E5%BA%A6-2021-9-22-%E7%AC%AC30%E5%91%A8%E8%87%B39-26/"/>
     <id>https://fy-han.github.io.git/blog/2021/9/22/2021%E5%91%A8%E6%8A%A5-3%E5%AD%A3%E5%BA%A6-2021-9-22-%E7%AC%AC30%E5%91%A8%E8%87%B39-26/</id>
     <published>2021-09-21T16:03:56.000Z</published>
-    <updated>2021-09-22T16:20:04.234Z</updated>
+    <updated>2021-12-01T08:39:14.049Z</updated>
     
     <content type="html"><![CDATA[<div class="hbe hbe-container" id="hexo-blog-encrypt" data-wpm="Oh, this is an invalid password. Check and try again, please." data-whm="OOPS, these decrypted content may changed, but you can still have a look.">  <script id="hbeData" type="hbeData" data-hmacdigest="d6162bb9c967531bfe16d1738837f3298f4eb8e7ba703f4510ef9d8c83c662be">4d26c1cd31922c8bdc126de486d7c94bdf653074f535d23ec3e0e9f451f45021f35cd1e04ffe7c30b0f6b8e7d2e5709ceefb9350da4c4964f7260787a644c07269334c2186e623c4cc618cb681791c9ebbd6480629fca97fa01521b8bd28c6c4f509939c90444bd274fa120aab70c631095542291586971dbbca39a46fcc610af821c57e3360d1c22ec74a66dd04eae94aa1fe60d39ca309c9c96ddaab315abe332db06be20e653a35ffe81750704f7c970fb82153632a83d62320818a9c078550e929aeb97d817a276653a53c8571769a58d4caf3eff6230b52fe54eeb9ca892727b371c5850b51a740c686aedf87099222fc514b9be87359aca34492ccfe795957e76b7fb67b2b4487080869a33e743824ad2c745e872ff8f5d7fa5d8c9549ba913815ac24eacaf790ef8f22d4ce94450f9eb8680a94812a9e2e1589a44a44fd90de9f64a21eaa59d5e8a4aa8cedbb1d05a9788ce440b0e02afcf2ef537b5df1cbc35ae643c13c8baa904b3410e87eadb2b86e5dda6e33a3c4bf4bb40b42f9a9f4f668ec8ea6feeae0fcdccda3439934b4503bd0921f9a31e7f0f2dc210d783414f205dc059fe98bd1222db269fa11977e6e86376cfad7815f065fa57392bc8c14edd45f9ff6c13ecf515d0897e821d9cb8a012e5a98ba35c2bd990b86a9567ff8da60f94b38990db53d33a28cbf6af90cfa65e826a8d003684f49138111ef</script>  <div class="hbe hbe-content">    <div class="hbe hbe-input hbe-input-default">      <input class="hbe hbe-input-field hbe-input-field-default" type="password" id="hbePass">      <label class="hbe hbe-input-label hbe-input-label-default" for="hbePass">        <span class="hbe hbe-input-label-content hbe-input-label-content-default">Hey, password is required here.</span>      </label>    </div>  </div></div><script data-pjax src="/lib/hbe.js"></script><link href="/css/hbe.style.css" rel="stylesheet" type="text/css">]]></content>
     
@@ -449,31 +464,6 @@
     
     
     <category term="ai" scheme="https://fy-han.github.io.git/tags/ai/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>moe教程-1</title>
-    <link href="https://fy-han.github.io.git/blog/2021/8/12/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%88%86%E5%AD%90%E6%A8%A1%E6%8B%9F-MOE-2021-8-12-moe%E6%95%99%E7%A8%8B-1/"/>
-    <id>https://fy-han.github.io.git/blog/2021/8/12/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%88%86%E5%AD%90%E6%A8%A1%E6%8B%9F-MOE-2021-8-12-moe%E6%95%99%E7%A8%8B-1/</id>
-    <published>2021-08-12T08:28:20.000Z</published>
-    <updated>2021-08-24T15:11:01.309Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="总论"><a href="#总论" class="headerlink" title="总论"></a>总论</h2><ol><li>可以在windows里找到开了哪些窗口</li><li>可以研究tutorials做深入学习理解</li><li>SVL共享脚本（可以学习理解）</li><li>SVL：记录所有命令记录，SEQ（序列编辑框），DBV（数据库）</li><li>左下角力场，与周期性边界条件</li><li>创建工作路径cwd</li><li>open的时候：PSILO晶体结构数据库（要钱），以及pdb database（需正版）。ok（关闭panel），apply（不关闭）</li></ol><h2 id="OPEN-Panel"><a href="#OPEN-Panel" class="headerlink" title="OPEN Panel"></a>OPEN Panel</h2>]]></content>
-    
-    
-      
-      
-    <summary type="html">&lt;h2 id=&quot;总论&quot;&gt;&lt;a href=&quot;#总论&quot; class=&quot;headerlink&quot; title=&quot;总论&quot;&gt;&lt;/a&gt;总论&lt;/h2&gt;&lt;ol&gt;
-&lt;li&gt;可以在windows里找到开了哪些窗口&lt;/li&gt;
-&lt;li&gt;可以研究tutorials做深入学习理解&lt;/li&gt;
-&lt;li&gt;SVL共享</summary>
-      
-    
-    
-    
-    
-    <category term="moe" scheme="https://fy-han.github.io.git/tags/moe/"/>
     
   </entry>
   

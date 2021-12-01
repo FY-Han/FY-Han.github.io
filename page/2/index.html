@@ -57,12 +57,12 @@
       </nav>
       <nav id="sub-nav">
         
-          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS"></a>
         
-        <a id="nav-search-btn" class="nav-icon" title="Suche"></a>
+        <a id="nav-search-btn" class="nav-icon" title="Buscar"></a>
       </nav>
       <div id="search-form-wrap">
-        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Suche"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://FY-Han.github.io.git"></form>
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Buscar"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://FY-Han.github.io.git"></form>
       </div>
     </div>
   </div>
@@ -70,6 +70,74 @@
 
       <div class="outer">
         <section id="main">
+  
+    <article id="post-科研学习-计算机技术-配置电脑-2021-10-25-装gromacs有gcc问题" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/blog/2021/10/25/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%8A%80%E6%9C%AF-%E9%85%8D%E7%BD%AE%E7%94%B5%E8%84%91-2021-10-25-%E8%A3%85gromacs%E6%9C%89gcc%E9%97%AE%E9%A2%98/" class="article-date">
+  <time class="dt-published" datetime="2021-10-25T00:09:40.000Z" itemprop="datePublished">2021-10-25</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/blog/2021/10/25/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%8A%80%E6%9C%AF-%E9%85%8D%E7%BD%AE%E7%94%B5%E8%84%91-2021-10-25-%E8%A3%85gromacs%E6%9C%89gcc%E9%97%AE%E9%A2%98/">装gromacs有gcc问题</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>gromacs装的时候发现gcc版本太老（很可能不是这个问题）报错</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Target &quot;cmTC_ac7df&quot; requires the language dialect &quot;CXX17&quot; , but CMake does</span><br><span class="line">  not know the compile flags to use to enable it.</span><br></pre></td></tr></table></figure>
+<p>检索到相关问题</p>
+<p><img src="/blog/2021/10/25/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%8A%80%E6%9C%AF-%E9%85%8D%E7%BD%AE%E7%94%B5%E8%84%91-2021-10-25-%E8%A3%85gromacs%E6%9C%89gcc%E9%97%AE%E9%A2%98/tmpEBEE.png" alt="tmpEBEE"></p>
+<p>于是更新gcc9.4.0，但gcc安装包装在了/sob/下后以为没用就删除了，导致配置环境变量.bashrc时找不到对应文件路径以指定PATH和动态链接库。师兄根据报错装了相关的补充包，并重新编译。</p>
+<p>==<strong>编译使用make -j36 install（最多有40个CPU核），提高编译速度，并重新装在/opt/中</strong>==</p>
+<p><strong>另一台89机器的环境变量配置</strong>：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">### set gcc</span></span><br><span class="line"><span class="built_in">export</span> PATH=<span class="string">&quot;/opt/gcc-6.5.0/bin:<span class="variable">$&#123;PATH&#125;</span>&quot;</span></span><br><span class="line"><span class="built_in">export</span> LD_LIBRARY_PATH=<span class="string">&quot;opt/gcc-6.5.0/lib64:<span class="variable">$&#123;LD_LIBRARY_PATH&#125;</span>&quot;</span></span><br></pre></td></tr></table></figure>
+<p>对应的gcc文件</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">(base) [root@Server-P100 hfy]# which gcc</span><br><span class="line">/usr/bin/gcc</span><br><span class="line">(base) [root@Server-P100 hfy]# whereis gcc</span><br><span class="line">gcc: /usr/bin/gcc /usr/lib/gcc /usr/libexec/gcc /opt/gcc-6.5.0/bin/gcc /usr/share/man/man1/gcc.1.gz /usr/share/info/gcc.info.gz</span><br></pre></td></tr></table></figure>
+<p>但是在120机器对应找不到，反而在local文件夹下</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[hfy@server-p100-sioc ~]$ which gcc</span><br><span class="line">/usr/local/bin/gcc</span><br><span class="line">[hfy@server-p100-sioc ~]$ whereis gcc</span><br><span class="line">gcc: /usr/bin/gcc /usr/lib/gcc /usr/local/bin/gcc /usr/local/lib/gcc /usr/libexec/gcc /usr/share/man/man1/gcc.1.gz</span><br></pre></td></tr></table></figure>
+<p>于是试图通过使用</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">find / -name xxx 2&amp;&gt;1 | grep -v &quot;Permission denied&quot;</span><br></pre></td></tr></table></figure>
+<p> 比对检索。最终找到含有类似文件的两个路径，并继续设置环境变量：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">### set gcc</span></span><br><span class="line"><span class="built_in">export</span> PATH=<span class="string">&quot;/usr/local/bin/:<span class="variable">$&#123;PATH&#125;</span>&quot;</span></span><br><span class="line"><span class="built_in">export</span> LD_LIBRARY_PATH=<span class="string">&quot;/usr/local/gcc-9.4.0/build/x86_64-pc-linux-gnu/:<span class="variable">$&#123;LD_LIBRARY_PATH&#125;</span>&quot;</span></span><br></pre></td></tr></table></figure>
+<p>随后发现动态链接库未更新，运行gmx命令报错</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">[hfy@server-p100-sioc ~]$ gmx</span><br><span class="line">gmx: /lib64/libstdc++.so.6: version `GLIBCXX_3.4.21&#x27; not found (required by gmx)</span><br><span class="line">gmx: /lib64/libstdc++.so.6: version `CXXABI_1.3.9&#x27; not found (required by gmx)</span><br><span class="line">gmx: /lib64/libstdc++.so.6: version `GLIBCXX_3.4.20&#x27; not found (required by /usr/local/gromacs-2021.3/build/lib/libgromacs.so.6)</span><br><span class="line">gmx: /lib64/libstdc++.so.6: version `CXXABI_1.3.8&#x27; not found (required by /usr/local/gromacs-2021.3/build/lib/libgromacs.so.6)</span><br><span class="line">gmx: /lib64/libstdc++.so.6: version `GLIBCXX_3.4.22&#x27; not found (required by /usr/local/gromacs-2021.3/build/lib/libgromacs.so.6)</span><br><span class="line">gmx: /lib64/libstdc++.so.6: version `CXXABI_1.3.9&#x27; not found (required by /usr/local/gromacs-2021.3/build/lib/libgromacs.so.6)</span><br><span class="line">gmx: /lib64/libstdc++.so.6: version `CXXABI_1.3.11&#x27; not found (required by /usr/local/gromacs-2021.3/build/lib/libgromacs.so.6)</span><br><span class="line">gmx: /lib64/libstdc++.so.6: version `GLIBCXX_3.4.21&#x27; not found (required by /usr/local/gromacs-2021.3/build/lib/libgromacs.so.6)</span><br></pre></td></tr></table></figure>
+<p>根据教程<a target="_blank" rel="noopener" href="https://itbilu.com/linux/management/NymXRUieg.html">解决类似 /usr/lib64/libstdc++.so.6: version `GLIBCXX_3.4.21’ not found 的问题 - IT笔录 (itbilu.com)</a>更新库。</p>
+<p>==<strong>完成gromacs安装</strong>==</p>
+<p>但为了装双精度版本，我把<code>gromacs/build</code>文件夹删了……以为用完了，要重新安装，结果导致gromacs没有关键对应的GMXRC文件。需要重新安装。</p>
+<p>重新安装中指定了<code>/usr/bin/gcc</code> 作为C_compiler，但是报错</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">[100%] Building CXX object src/programs/CMakeFiles/gmx.dir/legacymodules.cpp.o</span><br><span class="line">[100%] Building CXX object src/programs/CMakeFiles/gmx.dir/gmx.cpp.o</span><br><span class="line">[100%] Building CXX object share/template/CMakeFiles/template.dir/template.cpp.o</span><br><span class="line">[100%] Linking CXX executable ../../bin/gmx</span><br><span class="line">../../lib/libgromacs.so.3.5.0: undefined reference to `gmx::formatString(char const*, ...)<span class="string">&#x27;</span></span><br><span class="line"><span class="string">../../lib/libgromacs.so.3.5.0: undefined reference to `canDetectGpus(std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt;*)&#x27;</span></span><br><span class="line">collect2: error: ld returned 1 <span class="built_in">exit</span> status</span><br><span class="line">make[2]: *** [bin/gmx] Error 1</span><br><span class="line">make[1]: *** [src/programs/CMakeFiles/gmx.dir/all] Error 2</span><br><span class="line">make[1]: *** Waiting <span class="keyword">for</span> unfinished <span class="built_in">jobs</span>....</span><br><span class="line">[100%] Linking CXX executable ../../bin/template</span><br><span class="line">../../lib/libgromacs.so.3.5.0: undefined reference to `gmx::formatString(char const*, ...)<span class="string">&#x27;</span></span><br><span class="line"><span class="string">../../lib/libgromacs.so.3.5.0: undefined reference to `canDetectGpus(std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt;*)&#x27;</span></span><br><span class="line">collect2: error: ld returned 1 <span class="built_in">exit</span> status</span><br><span class="line">make[2]: *** [bin/template] Error 1</span><br><span class="line">make[1]: *** [share/template/CMakeFiles/template.dir/all] Error 2</span><br><span class="line">make: *** [all] Error 2</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cmake3 .. -DCMAKE_INSTALL_PREFIX=/opt/gmx2018.8 -DCMAKE_C_COMPILER=<span class="string">&#x27;/usr/bin/gcc&#x27;</span></span><br></pre></td></tr></table></figure>
+<h3 id="最终解决办法，进行GCC版本管理：Centos6安装gcc4-8及以上版本"><a href="#最终解决办法，进行GCC版本管理：Centos6安装gcc4-8及以上版本" class="headerlink" title="最终解决办法，进行GCC版本管理：Centos6安装gcc4.8及以上版本"></a><a target="_blank" rel="noopener" href="https://www.cnblogs.com/52fhy/p/12547521.html">最终解决办法，进行GCC版本管理：Centos6安装gcc4.8及以上版本</a></h3><p>由于gcc编译起来真的是非常非常的慢，而且特别耗资源，故使用<code>devtoolset</code>这个工具，几分钟就搞定了gcc版本升级的问题。具体操作方法见文章。</p>
+<p>使用中，在root权限下指定了gcc版本后，在user权限下gcc版本居然是不一样的。</p>
+<p><img src="/blog/2021/10/25/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%8A%80%E6%9C%AF-%E9%85%8D%E7%BD%AE%E7%94%B5%E8%84%91-2021-10-25-%E8%A3%85gromacs%E6%9C%89gcc%E9%97%AE%E9%A2%98/tmp221E.png" alt="tmp221E"></p>
+<p>最终通过使用gcc.7版本，完成安装。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://fy-han.github.io.git/blog/2021/10/25/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%8A%80%E6%9C%AF-%E9%85%8D%E7%BD%AE%E7%94%B5%E8%84%91-2021-10-25-%E8%A3%85gromacs%E6%9C%89gcc%E9%97%AE%E9%A2%98/" data-id="ckwna4tmv002nuku5g1bbc5yq" data-title="装gromacs有gcc问题" class="article-share-link">Compartir</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/gmx/" rel="tag">gmx</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
   
     <article id="post-科研学习-分子模拟-GMX-2021-10-22-gmx溶剂化跑md" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
@@ -109,7 +177,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://fy-han.github.io.git/blog/2021/10/22/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%88%86%E5%AD%90%E6%A8%A1%E6%8B%9F-GMX-2021-10-22-gmx%E6%BA%B6%E5%89%82%E5%8C%96%E8%B7%91md/" data-id="ckwg09uzr001ph4u5hong0ngm" data-title="gmx溶剂化跑md" class="article-share-link">Teilen</a>
+      <a data-url="https://fy-han.github.io.git/blog/2021/10/22/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%88%86%E5%AD%90%E6%A8%A1%E6%8B%9F-GMX-2021-10-22-gmx%E6%BA%B6%E5%89%82%E5%8C%96%E8%B7%91md/" data-id="ckwna4tmm001quku51kgpcw48" data-title="gmx溶剂化跑md" class="article-share-link">Compartir</a>
       
       
       
@@ -220,7 +288,7 @@ x_{ij}^2\quad \sqrt{x}\quad \sqrt[3]{x}</script><script type="math/tex; mode=dis
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://fy-han.github.io.git/blog/2021/9/23/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%8A%80%E6%9C%AF-%E6%8A%80%E6%9C%AF%E6%9D%82%E8%B0%88-2021-9-23-markdown%E8%AF%AD%E6%B3%95%E5%AD%A6%E4%B9%A0%E5%A4%A7%E5%85%A8/" data-id="ckwg09uzl0014h4u512bq55ox" data-title="markdown语法学习大全" class="article-share-link">Teilen</a>
+      <a data-url="https://fy-han.github.io.git/blog/2021/9/23/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%8A%80%E6%9C%AF-%E6%8A%80%E6%9C%AF%E6%9D%82%E8%B0%88-2021-9-23-markdown%E8%AF%AD%E6%B3%95%E5%AD%A6%E4%B9%A0%E5%A4%A7%E5%85%A8/" data-id="ckwna4tmw002ruku5ay149rx4" data-title="markdown语法学习大全" class="article-share-link">Compartir</a>
       
       
       
@@ -265,7 +333,7 @@ x_{ij}^2\quad \sqrt{x}\quad \sqrt[3]{x}</script><script type="math/tex; mode=dis
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://fy-han.github.io.git/blog/2021/9/22/2021%E5%91%A8%E6%8A%A5-3%E5%AD%A3%E5%BA%A6-2021-9-22-%E7%AC%AC30%E5%91%A8%E8%87%B39-26/" data-id="ckwg09uzf000jh4u5al1f7apj" data-title="第30周至9.26" class="article-share-link">Teilen</a>
+      <a data-url="https://fy-han.github.io.git/blog/2021/9/22/2021%E5%91%A8%E6%8A%A5-3%E5%AD%A3%E5%BA%A6-2021-9-22-%E7%AC%AC30%E5%91%A8%E8%87%B39-26/" data-id="ckwna4tm50006uku5bsy7fh6m" data-title="第30周至9.26" class="article-share-link">Compartir</a>
       
       
       
@@ -310,7 +378,7 @@ x_{ij}^2\quad \sqrt{x}\quad \sqrt[3]{x}</script><script type="math/tex; mode=dis
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://fy-han.github.io.git/blog/2021/9/14/2021%E5%91%A8%E6%8A%A5-3%E5%AD%A3%E5%BA%A6-2021-9-14-%E7%AC%AC29%E5%91%A8%E8%87%B39-19/" data-id="ckwg09uzf000hh4u530vkbrrj" data-title="第29周至9.19" class="article-share-link">Teilen</a>
+      <a data-url="https://fy-han.github.io.git/blog/2021/9/14/2021%E5%91%A8%E6%8A%A5-3%E5%AD%A3%E5%BA%A6-2021-9-14-%E7%AC%AC29%E5%91%A8%E8%87%B39-19/" data-id="ckwna4tm60009uku52dvkgugo" data-title="第29周至9.19" class="article-share-link">Compartir</a>
       
       
       
@@ -351,7 +419,7 @@ x_{ij}^2\quad \sqrt{x}\quad \sqrt[3]{x}</script><script type="math/tex; mode=dis
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://fy-han.github.io.git/blog/2021/9/11/2021%E5%91%A8%E6%8A%A5-3%E5%AD%A3%E5%BA%A6-2021-9-11-%E7%94%B3%E8%AF%B7%E8%AF%BE/" data-id="ckwg09uzd000dh4u563oe5rl0" data-title="申请课" class="article-share-link">Teilen</a>
+      <a data-url="https://fy-han.github.io.git/blog/2021/9/11/2021%E5%91%A8%E6%8A%A5-3%E5%AD%A3%E5%BA%A6-2021-9-11-%E7%94%B3%E8%AF%B7%E8%AF%BE/" data-id="ckwna4tm40004uku53f0a8bk3" data-title="申请课" class="article-share-link">Compartir</a>
       
       
       
@@ -394,7 +462,7 @@ x_{ij}^2\quad \sqrt{x}\quad \sqrt[3]{x}</script><script type="math/tex; mode=dis
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://fy-han.github.io.git/blog/2021/9/7/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%8A%80%E6%9C%AF-ai-2021-9-7-AI-%E7%AC%AC%E4%BA%8C%E8%8A%82%EF%BC%88%E7%BB%98%E5%9B%BE%EF%BC%89/" data-id="ckwg09uzn0019h4u59vzzefh4" data-title="AI 第二节（绘图）" class="article-share-link">Teilen</a>
+      <a data-url="https://fy-han.github.io.git/blog/2021/9/7/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%8A%80%E6%9C%AF-ai-2021-9-7-AI-%E7%AC%AC%E4%BA%8C%E8%8A%82%EF%BC%88%E7%BB%98%E5%9B%BE%EF%BC%89/" data-id="ckwna4tmt002euku56d00djw9" data-title="AI 第二节（绘图）" class="article-share-link">Compartir</a>
       
       
       
@@ -433,7 +501,7 @@ x_{ij}^2\quad \sqrt{x}\quad \sqrt[3]{x}</script><script type="math/tex; mode=dis
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://fy-han.github.io.git/blog/2021/9/4/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%8A%80%E6%9C%AF-web-develop-HTML5-CSS3-first-html/" data-id="ckwg09v00002wh4u5g6lugiko" data-title="" class="article-share-link">Teilen</a>
+      <a data-url="https://fy-han.github.io.git/blog/2021/9/4/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%8A%80%E6%9C%AF-web-develop-HTML5-CSS3-first-html/" data-id="ckwna4tn6003quku5h3tb4amg" data-title="" class="article-share-link">Compartir</a>
       
       
       
@@ -471,7 +539,7 @@ x_{ij}^2\quad \sqrt{x}\quad \sqrt[3]{x}</script><script type="math/tex; mode=dis
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://fy-han.github.io.git/blog/2021/9/4/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%8A%80%E6%9C%AF-web-develop-HTML5-CSS3-2021-9-4-web%E5%BC%80%E5%8F%91%E7%AC%AC%E4%B8%80%E8%8A%82/" data-id="ckwg09v020033h4u59fjyglr5" data-title="web开发第一节" class="article-share-link">Teilen</a>
+      <a data-url="https://fy-han.github.io.git/blog/2021/9/4/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%8A%80%E6%9C%AF-web-develop-HTML5-CSS3-2021-9-4-web%E5%BC%80%E5%8F%91%E7%AC%AC%E4%B8%80%E8%8A%82/" data-id="ckwna4tn6003puku5a5xn3g76" data-title="web开发第一节" class="article-share-link">Compartir</a>
       
       
       
@@ -553,7 +621,7 @@ mscl docking glide(autodock), online programme()
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://fy-han.github.io.git/blog/2021/8/16/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%8A%80%E6%9C%AF-ai-2021-8-16-AI-%E7%AC%AC%E4%B8%80%E8%8A%82/" data-id="ckwg09uzm0017h4u59pyz3psf" data-title="AI 第一节" class="article-share-link">Teilen</a>
+      <a data-url="https://fy-han.github.io.git/blog/2021/8/16/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%8A%80%E6%9C%AF-ai-2021-8-16-AI-%E7%AC%AC%E4%B8%80%E8%8A%82/" data-id="ckwna4tmu002iuku52ogu6oan" data-title="AI 第一节" class="article-share-link">Compartir</a>
       
       
       
@@ -567,60 +635,11 @@ mscl docking glide(autodock), online programme()
 
 
   
-    <article id="post-科研学习-分子模拟-MOE-2021-8-12-moe教程-1" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/blog/2021/8/12/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%88%86%E5%AD%90%E6%A8%A1%E6%8B%9F-MOE-2021-8-12-moe%E6%95%99%E7%A8%8B-1/" class="article-date">
-  <time class="dt-published" datetime="2021-08-12T08:28:20.000Z" itemprop="datePublished">2021-08-12</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/blog/2021/8/12/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%88%86%E5%AD%90%E6%A8%A1%E6%8B%9F-MOE-2021-8-12-moe%E6%95%99%E7%A8%8B-1/">moe教程-1</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h2 id="总论"><a href="#总论" class="headerlink" title="总论"></a>总论</h2><ol>
-<li>可以在windows里找到开了哪些窗口</li>
-<li>可以研究tutorials做深入学习理解</li>
-<li>SVL共享脚本（可以学习理解）</li>
-<li>SVL：记录所有命令记录，SEQ（序列编辑框），DBV（数据库）</li>
-<li>左下角力场，与周期性边界条件</li>
-<li>创建工作路径cwd</li>
-<li>open的时候：PSILO晶体结构数据库（要钱），以及pdb database（需正版）。ok（关闭panel），apply（不关闭）</li>
-</ol>
-<h2 id="OPEN-Panel"><a href="#OPEN-Panel" class="headerlink" title="OPEN Panel"></a>OPEN Panel</h2>
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://fy-han.github.io.git/blog/2021/8/12/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%88%86%E5%AD%90%E6%A8%A1%E6%8B%9F-MOE-2021-8-12-moe%E6%95%99%E7%A8%8B-1/" data-id="ckwg09uzo001fh4u50y5hehsk" data-title="moe教程-1" class="article-share-link">Teilen</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/moe/" rel="tag">moe</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
 
 
   <nav id="page-nav">
     
-    <a class="extend prev" rel="prev" href="/">&laquo; zurück</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><a class="extend next" rel="next" href="/page/3/">weiter &raquo;</a>
+    <a class="extend prev" rel="prev" href="/">&laquo; Previo</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><a class="extend next" rel="next" href="/page/3/">Siguiente &raquo;</a>
   </nav>
 
 </section>
@@ -642,7 +661,7 @@ mscl docking glide(autodock), online programme()
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Tag Cloud</h3>
+    <h3 class="widget-title">Nube de Tags</h3>
     <div class="widget tagcloud">
       <a href="/tags/AMBER/" style="font-size: 16px;">AMBER</a> <a href="/tags/Gaussian/" style="font-size: 10px;">Gaussian</a> <a href="/tags/ai/" style="font-size: 12px;">ai</a> <a href="/tags/gmx/" style="font-size: 18px;">gmx</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/moe/" style="font-size: 12px;">moe</a> <a href="/tags/pymol/" style="font-size: 10px;">pymol</a> <a href="/tags/summer-intern/" style="font-size: 10px;">summer intern</a> <a href="/tags/web/" style="font-size: 10px;">web</a> <a href="/tags/%E4%BD%9C%E6%9B%B2/" style="font-size: 10px;">作曲</a> <a href="/tags/%E5%8D%9A%E5%AE%A2%E5%BB%BA%E7%AB%8B/" style="font-size: 14px;">博客建立</a> <a href="/tags/%E5%91%A8%E6%8A%A5/" style="font-size: 20px;">周报</a> <a href="/tags/%E6%8A%80%E6%9C%AF%E6%9D%82%E8%B0%88/" style="font-size: 14px;">技术杂谈</a> <a href="/tags/%E7%94%9F%E6%B4%BB%E5%8F%8D%E6%80%9D/" style="font-size: 14px;">生活反思</a>
     </div>
@@ -651,9 +670,9 @@ mscl docking glide(autodock), online programme()
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Archiv</h3>
+    <h3 class="widget-title">Archivos</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/11/">November 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/10/">October 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/09/">September 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/08/">August 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/07/">July 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/06/">June 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/05/">May 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">April 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/12/">December 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/11/">November 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/10/">October 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/09/">September 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/08/">August 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/07/">July 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/06/">June 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/05/">May 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">April 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a></li></ul>
     </div>
   </div>
 
@@ -661,9 +680,13 @@ mscl docking glide(autodock), online programme()
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">letzter Beitrag</h3>
+    <h3 class="widget-title">Posts recientes</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/blog/2021/12/1/2021%E5%91%A8%E6%8A%A5-4%E5%AD%A3%E5%BA%A6-2021-11-6-10-30-11-6%E5%91%A8%E6%8A%A5-2021-12-1-11-6-12-5%E5%91%A8%E6%8A%A5/">11.6-12.5周报</a>
+          </li>
         
           <li>
             <a href="/blog/2021/11/15/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%88%86%E5%AD%90%E6%A8%A1%E6%8B%9F-Pymol-2021-11-15-pymol%E6%95%99%E7%A8%8B/">pymol教程</a>
@@ -681,10 +704,6 @@ mscl docking glide(autodock), online programme()
             <a href="/blog/2021/11/13/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%88%86%E5%AD%90%E6%A8%A1%E6%8B%9F-GMX-2021-11-13-GROMACS-PCA/">GROMACS PCA</a>
           </li>
         
-          <li>
-            <a href="/blog/2021/11/13/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%8A%80%E6%9C%AF-%E6%8A%80%E6%9C%AF%E6%9D%82%E8%B0%88-2021-11-13-shell%E8%84%9A%E6%9C%AC%E6%84%8F%E6%80%9D-2021-11-13-shell%E8%84%9A%E6%9C%AC%E6%84%8F%E6%80%9D/">shell脚本意思</a>
-          </li>
-        
       </ul>
     </div>
   </div>
@@ -699,7 +718,7 @@ mscl docking glide(autodock), online programme()
     <div id="footer-info" class="inner">
       
       &copy; 2021 FY-Han<br>
-      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+      Construido por <a href="https://hexo.io/" target="_blank">Hexo</a>
     </div>
   </div>
 </footer>
