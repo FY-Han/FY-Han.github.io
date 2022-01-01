@@ -6,15 +6,15 @@
   
   <title>gromacs技巧-测试md速度 | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="使用脚本测试 具体说明：GROMACS (2019.3 GPU版) 并行效率测试及调试思路 - 分子模拟 (Molecular Modeling) - 计算化学公社 (keinsci.com)">
+  <meta name="description" content="使用脚本测试 具体说明：GROMACS (2019.3 GPU版) 并行效率测试及调试思路 - 分子模拟 (Molecular Modeling) - 计算化学公社 (keinsci.com) 两块显卡相对于一块显卡的提升非常有限。如果装了两块显卡，想有效的利用这两块显卡，最好的办法是每块显卡跑一个独立gmx任务。问题是，这两个独立的gmx会相互干扰么？经过测试，结论是：cpu核数足够的情况下两块">
 <meta property="og:type" content="article">
 <meta property="og:title" content="gromacs技巧-测试md速度">
 <meta property="og:url" content="https://fy-han.github.io.git/blog/2022/1/1/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%88%86%E5%AD%90%E6%A8%A1%E6%8B%9F-%E8%BD%AF%E4%BB%B6-GMX-2022-1-1-gromacs%E6%8A%80%E5%B7%A7-%E6%B5%8B%E8%AF%95md%E9%80%9F%E5%BA%A6/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="使用脚本测试 具体说明：GROMACS (2019.3 GPU版) 并行效率测试及调试思路 - 分子模拟 (Molecular Modeling) - 计算化学公社 (keinsci.com)">
+<meta property="og:description" content="使用脚本测试 具体说明：GROMACS (2019.3 GPU版) 并行效率测试及调试思路 - 分子模拟 (Molecular Modeling) - 计算化学公社 (keinsci.com) 两块显卡相对于一块显卡的提升非常有限。如果装了两块显卡，想有效的利用这两块显卡，最好的办法是每块显卡跑一个独立gmx任务。问题是，这两个独立的gmx会相互干扰么？经过测试，结论是：cpu核数足够的情况下两块">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2022-01-01T07:29:42.000Z">
-<meta property="article:modified_time" content="2022-01-01T07:35:45.461Z">
+<meta property="article:modified_time" content="2022-01-01T07:38:47.683Z">
 <meta property="article:author" content="FY-Han">
 <meta property="article:tag" content="gmx">
 <meta name="twitter:card" content="summary">
@@ -98,11 +98,25 @@
       
         <p>使用<a href="A:\life\blog\source\_posts\科研学习\分子模拟\软件\GMX\2022.1.1-gromacs技巧-测试md速度\gmxbench.sh">脚本</a>测试</p>
 <p>具体说明：<a target="_blank" rel="noopener" href="http://bbs.keinsci.com/thread-13861-1-4.html">GROMACS (2019.3 GPU版) 并行效率测试及调试思路 - 分子模拟 (Molecular Modeling) - 计算化学公社 (keinsci.com)</a></p>
+<p>两块显卡相对于一块显卡的提升非常有限。如果装了两块显卡，想有效的利用这两块显卡，最好的办法是每块显卡跑一个独立gmx任务。问题是，这两个独立的gmx会相互干扰么？经过测试，结论是：<strong>cpu核数足够的情况下两块显卡单独运行两个Gromacs任务完全没有影响</strong>。<a target="_blank" rel="noopener" href="http://bbs.keinsci.com/thread-13910-1-1.html?tdsourcetag=s_pcqq_aiomsg">JCC,2019</a>的那篇文章中也可以看到，N显卡相对于单显卡的速度几乎就是N倍。</p>
+<p>单Rank下，随着openmp threads数量增多，显卡计算NB+BF的速度最终超过了NB+PME，这是因为1080性能略差，这样CPU并行数量上去之后，CPU计算PME的速度最终能够超过GPU计算PME的速度。而多节点运行事实上不划算</p>
+<p>==<strong>进程=火车，线程=车厢</strong></p>
+<ul>
+<li>线程在进程下行进（单纯的车厢无法运行）</li>
+<li>一个进程可以包含多个线程（一辆火车可以有多个车厢）</li>
+<li>不同进程间数据很难共享（一辆火车上的乘客很难换到另外一辆火车，比如站点换乘）</li>
+<li>同一进程下不同线程间数据很易共享（A车厢换到B车厢很容易）</li>
+<li>进程要比线程消耗更多的计算机资源（采用多列火车相比多个车厢更耗资源）</li>
+<li>进程间不会相互影响，一个线程挂掉将导致整个进程挂掉（一列火车不会影响到另外一列火车，但是如果一列火车上中间的一节车厢着火了，将影响到所有车厢）</li>
+<li>进程可以拓展到多机，进程最多适合多核（不同火车可以开在多个轨道上，同一火车的车厢不能在行进的不同的轨道上）</li>
+<li>进程使用的内存地址可以上锁，即一个线程使用某些共享内存时，其他线程必须等它结束，才能使用这一块内存。（比如火车上的洗手间）－”互斥锁”</li>
+<li>进程使用的内存地址可以限定使用量（比如火车上的餐厅，最多只允许多少人进入，如果满了需要在门口等，等有人出来了才能进去）－“信号量</li>
+</ul>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://fy-han.github.io.git/blog/2022/1/1/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%88%86%E5%AD%90%E6%A8%A1%E6%8B%9F-%E8%BD%AF%E4%BB%B6-GMX-2022-1-1-gromacs%E6%8A%80%E5%B7%A7-%E6%B5%8B%E8%AF%95md%E9%80%9F%E5%BA%A6/" data-id="ckxvigg61001iksu504g414bh" data-title="gromacs技巧-测试md速度" class="article-share-link">分享</a>
+      <a data-url="https://fy-han.github.io.git/blog/2022/1/1/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%88%86%E5%AD%90%E6%A8%A1%E6%8B%9F-%E8%BD%AF%E4%BB%B6-GMX-2022-1-1-gromacs%E6%8A%80%E5%B7%A7-%E6%B5%8B%E8%AF%95md%E9%80%9F%E5%BA%A6/" data-id="ckxvja1rw001n9gu595ar5wky" data-title="gromacs技巧-测试md速度" class="article-share-link">分享</a>
       
       
       
@@ -113,6 +127,15 @@
   
     
 <nav id="article-nav">
+  
+    <a href="/blog/2022/1/1/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%88%86%E5%AD%90%E6%A8%A1%E6%8B%9F-%E8%BD%AF%E4%BB%B6-GMX-2022-1-1-GROMACS%E4%B8%8E%E5%A3%B0%E9%9F%B3%E7%94%9F%E6%88%90/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">前一篇</strong>
+      <div class="article-nav-title">
+        
+          GROMACS与声音生成
+        
+      </div>
+    </a>
   
   
     <a href="/blog/2022/1/1/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%88%86%E5%AD%90%E6%A8%A1%E6%8B%9F-%E8%BD%AF%E4%BB%B6-GMX-2022-1-1-GROMACS%E5%AE%89%E8%A3%85%E6%8A%A5%E9%94%99/" id="article-nav-older" class="article-nav-link-wrap">
@@ -147,7 +170,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">标签云</h3>
     <div class="widget tagcloud">
-      <a href="/tags/AMBER/" style="font-size: 17.5px;">AMBER</a> <a href="/tags/Gaussian/" style="font-size: 10px;">Gaussian</a> <a href="/tags/chemdraw/" style="font-size: 10px;">chemdraw</a> <a href="/tags/gmx/" style="font-size: 17.5px;">gmx</a> <a href="/tags/linux/" style="font-size: 12.5px;">linux</a> <a href="/tags/mae/" style="font-size: 10px;">mae</a> <a href="/tags/%E4%BD%9C%E6%9B%B2/" style="font-size: 10px;">作曲</a> <a href="/tags/%E5%8D%9A%E5%AE%A2%E5%BB%BA%E7%AB%8B/" style="font-size: 10px;">博客建立</a> <a href="/tags/%E5%91%A8%E6%8A%A5/" style="font-size: 20px;">周报</a> <a href="/tags/%E7%94%9F%E6%B4%BB%E5%8F%8D%E6%80%9D/" style="font-size: 15px;">生活反思</a>
+      <a href="/tags/AMBER/" style="font-size: 16px;">AMBER</a> <a href="/tags/Gaussian/" style="font-size: 10px;">Gaussian</a> <a href="/tags/chemdraw/" style="font-size: 10px;">chemdraw</a> <a href="/tags/gmx/" style="font-size: 18px;">gmx</a> <a href="/tags/linux/" style="font-size: 12px;">linux</a> <a href="/tags/mae/" style="font-size: 10px;">mae</a> <a href="/tags/%E4%BD%9C%E6%9B%B2/" style="font-size: 10px;">作曲</a> <a href="/tags/%E5%8D%9A%E5%AE%A2%E5%BB%BA%E7%AB%8B/" style="font-size: 10px;">博客建立</a> <a href="/tags/%E5%91%A8%E6%8A%A5/" style="font-size: 20px;">周报</a> <a href="/tags/%E7%94%9F%E6%B4%BB%E5%8F%8D%E6%80%9D/" style="font-size: 14px;">生活反思</a>
     </div>
   </div>
 
@@ -169,6 +192,10 @@
       <ul>
         
           <li>
+            <a href="/blog/2022/1/1/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%88%86%E5%AD%90%E6%A8%A1%E6%8B%9F-%E8%BD%AF%E4%BB%B6-GMX-2022-1-1-GROMACS%E4%B8%8E%E5%A3%B0%E9%9F%B3%E7%94%9F%E6%88%90/">GROMACS与声音生成</a>
+          </li>
+        
+          <li>
             <a href="/blog/2022/1/1/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%88%86%E5%AD%90%E6%A8%A1%E6%8B%9F-%E8%BD%AF%E4%BB%B6-GMX-2022-1-1-gromacs%E6%8A%80%E5%B7%A7-%E6%B5%8B%E8%AF%95md%E9%80%9F%E5%BA%A6/">gromacs技巧-测试md速度</a>
           </li>
         
@@ -182,10 +209,6 @@
         
           <li>
             <a href="/blog/2022/1/1/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-hello-world/">Hello World</a>
-          </li>
-        
-          <li>
-            <a href="/blog/2021/6/30/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%88%86%E5%AD%90%E6%A8%A1%E6%8B%9F-%E8%BD%AF%E4%BB%B6-GMX-2021-6-30-gmx%E5%85%A5%E9%97%A83/">gmx入门3</a>
           </li>
         
       </ul>
