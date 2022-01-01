@@ -6,7 +6,7 @@
   <link href="https://fy-han.github.io.git/atom.xml" rel="self"/>
   
   <link href="https://fy-han.github.io.git/"/>
-  <updated>2022-01-01T06:44:50.102Z</updated>
+  <updated>2022-01-01T06:47:14.848Z</updated>
   <id>https://fy-han.github.io.git/</id>
   
   <author>
@@ -15,6 +15,19 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>test2</title>
+    <link href="https://fy-han.github.io.git/blog/2022/1/1/test2/"/>
+    <id>https://fy-han.github.io.git/blog/2022/1/1/test2/</id>
+    <published>2022-01-01T06:47:14.000Z</published>
+    <updated>2022-01-01T06:47:14.848Z</updated>
+    
+    
+    
+    
+    
+  </entry>
   
   <entry>
     <title>test</title>
