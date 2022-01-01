@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"fy-han.github.io.git","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="mdp文件注解小结来源：踏雪无痕简要摘录，详细的去看文件 ; 预处理title&#x3D;      # 最长64字符cpp         # 预处理器（默认cpp）include     # 拓扑文件引用其他文件的路径define&#x3D;     # -DFLEXIBLE（用柔性水模型，共轭梯度必要；或-DPOSRES（用于位置限制md） ; 模拟控制integrator  #">
+<meta property="og:type" content="article">
+<meta property="og:title" content="gromacs学习——mdp文件编写">
+<meta property="og:url" content="https://fy-han.github.io.git/blog/2021/4/25/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%88%86%E5%AD%90%E6%A8%A1%E6%8B%9F-GMX-2021-4-25-gromacs%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94mdp%E6%96%87%E4%BB%B6%E7%BC%96%E5%86%99-2021-4-25-gromacs%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94mdp%E6%96%87%E4%BB%B6%E7%BC%96%E5%86%99/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="mdp文件注解小结来源：踏雪无痕简要摘录，详细的去看文件 ; 预处理title&#x3D;      # 最长64字符cpp         # 预处理器（默认cpp）include     # 拓扑文件引用其他文件的路径define&#x3D;     # -DFLEXIBLE（用柔性水模型，共轭梯度必要；或-DPOSRES（用于位置限制md） ; 模拟控制integrator  #">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-04-25T11:03:52.000Z">
+<meta property="article:modified_time" content="2021-10-20T07:19:19.390Z">
+<meta property="article:author" content="FY-Han">
+<meta property="article:tag" content="gmx">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://fy-han.github.io.git/blog/2021/4/25/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%88%86%E5%AD%90%E6%A8%A1%E6%8B%9F-GMX-2021-4-25-gromacs%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94mdp%E6%96%87%E4%BB%B6%E7%BC%96%E5%86%99-2021-4-25-gromacs%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94mdp%E6%96%87%E4%BB%B6%E7%BC%96%E5%86%99/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>gromacs学习——mdp文件编写 | Hexo</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://fy-han.github.io.git/blog/2021/4/25/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%88%86%E5%AD%90%E6%A8%A1%E6%8B%9F-GMX-2021-4-25-gromacs%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94mdp%E6%96%87%E4%BB%B6%E7%BC%96%E5%86%99-2021-4-25-gromacs%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94mdp%E6%96%87%E4%BB%B6%E7%BC%96%E5%86%99/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="FY-Han">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          gromacs学习——mdp文件编写
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-04-25 19:03:52" itemprop="dateCreated datePublished" datetime="2021-04-25T19:03:52+08:00">2021-04-25</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-10-20 15:19:19" itemprop="dateModified" datetime="2021-10-20T15:19:19+08:00">2021-10-20</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="mdp文件注解小结"><a href="#mdp文件注解小结" class="headerlink" title="mdp文件注解小结"></a>mdp文件注解小结</h2><p><em>来源：踏雪无痕</em><br>简要摘录，详细的去看文件</p>
+<h3 id="预处理"><a href="#预处理" class="headerlink" title="; 预处理"></a>; 预处理</h3><p>title=      # 最长64字符<br>cpp         # 预处理器（默认cpp）<br>include     # 拓扑文件引用其他文件的路径<br>define=     # -DFLEXIBLE（用柔性水模型，共轭梯度必要；或-DPOSRES（用于位置限制md）</p>
+<h3 id="模拟控制"><a href="#模拟控制" class="headerlink" title="; 模拟控制"></a>; 模拟控制</h3><p>integrator  #<br>                md：leap-frog做md<br>                sd：stochastic dynamics做md<br>                bd：Euler方法啥的做md<br>                steep：最速下降能量优化 同时设置能量优化最大位移参数 emstep 由emtol决定最大容忍度<br>                cg：共轭梯度能量优化，与最速联用，对能量优化常态分析时用双精度<br>                l-bfgs：不并行，类似cg，收敛快<br>                nm：对tpr文件常态分析，必须为双精度GROMACS<br>                tpi：插入测试粒子</p>
+<p>; 开始时间与步长 单位ps<br>tinit=0     # 模拟开始时间，默认0，min不用，只用于md sd bd<br>dt=0.002    # 步长2fs，默认1fs，同上<br>nsteps=50000# 默认0</p>
+<p>; run continuation or redoing part of a run<br>init_step   # 第i步时间可以算</p>
+<p>; center of mass remove<br>comm_mode = Linear  # 质心移动 Linear 平动，Angular转动平动，No不操作</p>
+<p>; numer of steps for mass center removal<br>nstcomm = 10    # 操作频率，默认0，单位step</p>
+<h3 id="Langevin动力学"><a href="#Langevin动力学" class="headerlink" title="Langevin动力学"></a>Langevin动力学</h3><p>; friction coefficient and random seed<br>bd_fric = 0<br>ld_seed = 1993</p>
+<h3 id="能量最小化"><a href="#能量最小化" class="headerlink" title="能量最小化"></a>能量最小化</h3>
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/gmx/" rel="tag"># gmx</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/blog/2021/4/19/2021%E5%91%A8%E6%8A%A5-2%E5%AD%A3%E5%BA%A6-2021-4-19-%E7%AC%AC%E5%85%AB%E5%91%A8-4-19%E8%87%B34-25-2021-4-19-%E7%AC%AC%E5%85%AB%E5%91%A8-4-19%E8%87%B34-25/" rel="prev" title="第八周 4.19至4.25">
+      <i class="fa fa-chevron-left"></i> 第八周 4.19至4.25
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/blog/2021/4/26/2021%E5%91%A8%E6%8A%A5-2%E5%AD%A3%E5%BA%A6-2021-4-26-%E7%AC%AC%E4%B9%9D%E5%91%A8-5-2-2021-4-26-%E7%AC%AC%E4%B9%9D%E5%91%A8-5-2/" rel="next" title="第九周-5.2">
+      第九周-5.2 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#mdp%E6%96%87%E4%BB%B6%E6%B3%A8%E8%A7%A3%E5%B0%8F%E7%BB%93"><span class="nav-number">1.</span> <span class="nav-text">mdp文件注解小结</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%A2%84%E5%A4%84%E7%90%86"><span class="nav-number">1.1.</span> <span class="nav-text">; 预处理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A8%A1%E6%8B%9F%E6%8E%A7%E5%88%B6"><span class="nav-number">1.2.</span> <span class="nav-text">; 模拟控制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Langevin%E5%8A%A8%E5%8A%9B%E5%AD%A6"><span class="nav-number">1.3.</span> <span class="nav-text">Langevin动力学</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%83%BD%E9%87%8F%E6%9C%80%E5%B0%8F%E5%8C%96"><span class="nav-number">1.4.</span> <span class="nav-text">能量最小化</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">FY-Han</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">38</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">FY-Han</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

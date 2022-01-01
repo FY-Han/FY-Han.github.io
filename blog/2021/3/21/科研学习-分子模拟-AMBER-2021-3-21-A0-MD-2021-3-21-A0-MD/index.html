@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"fy-han.github.io.git","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="pmemd 跑MD流程 使用N卡（NVIDA）可以在GPU上跑，并行加速 此前准备阶段已经生成了top和crd文件，需要进行能量最小化，升温两步达到平衡，然后MD模拟注：溶剂盒子似乎影响电荷以及最小化过程   创建三个文件 01_min.in 02_heat.in 03_MD.in  能量最小化命令  $AMBERHOME&#x2F;bin&#x2F;sander -O -i 01_min.in -o 01_min.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="A0 MD">
+<meta property="og:url" content="https://fy-han.github.io.git/blog/2021/3/21/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%88%86%E5%AD%90%E6%A8%A1%E6%8B%9F-AMBER-2021-3-21-A0-MD-2021-3-21-A0-MD/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="pmemd 跑MD流程 使用N卡（NVIDA）可以在GPU上跑，并行加速 此前准备阶段已经生成了top和crd文件，需要进行能量最小化，升温两步达到平衡，然后MD模拟注：溶剂盒子似乎影响电荷以及最小化过程   创建三个文件 01_min.in 02_heat.in 03_MD.in  能量最小化命令  $AMBERHOME&#x2F;bin&#x2F;sander -O -i 01_min.in -o 01_min.">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://img.imgdb.cn/item/6056ba00524f85ce293b31dc.png">
+<meta property="og:image" content="https://img.imgdb.cn/item/6056ba4b524f85ce293b57dc.png">
+<meta property="og:image" content="https://img.imgdb.cn/item/6056ba66524f85ce293b6469.png">
+<meta property="og:image" content="https://img.imgdb.cn/item/6056ba81524f85ce293b7319.png">
+<meta property="og:image" content="https://img.imgdb.cn/item/6056ba94524f85ce293b7c8f.png">
+<meta property="article:published_time" content="2021-03-21T02:44:15.000Z">
+<meta property="article:modified_time" content="2021-03-21T07:06:44.491Z">
+<meta property="article:author" content="FY-Han">
+<meta property="article:tag" content="AMBER">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://img.imgdb.cn/item/6056ba00524f85ce293b31dc.png">
+
+<link rel="canonical" href="https://fy-han.github.io.git/blog/2021/3/21/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%88%86%E5%AD%90%E6%A8%A1%E6%8B%9F-AMBER-2021-3-21-A0-MD-2021-3-21-A0-MD/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>A0 MD | Hexo</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://fy-han.github.io.git/blog/2021/3/21/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%88%86%E5%AD%90%E6%A8%A1%E6%8B%9F-AMBER-2021-3-21-A0-MD-2021-3-21-A0-MD/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="FY-Han">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          A0 MD
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2021-03-21 10:44:15 / 修改时间：15:06:44" itemprop="dateCreated datePublished" datetime="2021-03-21T10:44:15+08:00">2021-03-21</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="pmemd-跑MD流程"><a href="#pmemd-跑MD流程" class="headerlink" title="pmemd 跑MD流程"></a>pmemd 跑MD流程</h2><ol>
+<li>使用N卡（NVIDA）可以在GPU上跑，并行加速</li>
+<li>此前准备阶段已经生成了top和crd文件，需要进行能量最小化，升温两步达到平衡，然后MD模拟<br>注：溶剂盒子似乎影响电荷以及最小化过程</li>
+</ol>
+<ul>
+<li><p>创建三个文件 01_min.in 02_heat.in 03_MD.in<br><img src="https://img.imgdb.cn/item/6056ba00524f85ce293b31dc.png" width="450"><br><img src="https://img.imgdb.cn/item/6056ba4b524f85ce293b57dc.png" width="450"><br><img src="https://img.imgdb.cn/item/6056ba66524f85ce293b6469.png" width="450"><br><img src="https://img.imgdb.cn/item/6056ba81524f85ce293b7319.png" width="450"><br><img src="https://img.imgdb.cn/item/6056ba94524f85ce293b7c8f.png" width="450"></p>
+</li>
+<li><p>能量最小化<br>命令<br>  $AMBERHOME/bin/sander -O -i 01_min.in -o 01_min.out -p name.top -c name.crd -r 01_min.rst -inf 01_min.mdinfo<br>pmemd似乎做不了<br>拓扑文件（势能函数）不变，crd文件转为输出的rst文件里，包括坐标和速度</p>
+</li>
+<li>升温<br>命令</li>
+</ul>
+<p>利用min的rst和势能，输出升温后的轨迹文件，以及info。速度0.2s一百步，一万步20s</p>
+<ul>
+<li>MD<br>用sander可以实现</li>
+</ul>
+<p>pmemd更好，额外需要一个jobfile.sh跑显卡</p>
+<p>使用命令后台运行md并检查情况<br>    nohup ./Jobfile_production.sh &amp;<br>    nvidia-smi</p>
+<ul>
+<li><p>报错： </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">nohup: ignoring input and appending output to &#39;nohup.out&#39;</span><br><span class="line">nohup: failed to run command &#39;.&#x2F;jobfile_md.sh&#39;: Permission denied</span><br></pre></td></tr></table></figure>
+<p>  原因是nohup会把错误信息输出出来，但还没输出前就发现out文件输出位置没有权限建立文件<br>  使用Linux重定向，2代表错误输出，1代表标准输出，0代表标准输入。 只要让二者都不输出或者重新定向位置就好了。（这里似乎是都不输出）<br>使用<br>  chmod +x jobfile_md.sh<br>  nohup ./jobfile_md.sh 2&gt;log<br>把文本变得可执行，然后把问题输出到log里，报错不平衡，原子解散了，说明还不够平衡；当然也有可能是升温时间太短了？？<br>  ERROR: Calculation halted.  Periodic box dimensions have changed too much from their initial values.<br>  Your system density has likely changed by a large amount, probably from<br>  starting the simulation from a structure a long way from equilibrium.</p>
+<p>  [Although this error can also occur if the simulation has blown up for some reason]</p>
+<p>  The GPU code does not automatically reorganize grid cells and thus you<br>  will need to restart the calculation from the previous restart file.<br>  This will generate new grid cells and allow the calculation to continue.<br>  It may be necessary to repeat this restarting multiple times if your system<br>  is a long way from an equilibrated density.</p>
+<p>  Alternatively you can run with the CPU code until the density has converged<br>  and then switch back to the GPU code.</p>
+</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/AMBER/" rel="tag"># AMBER</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/blog/2021/3/21/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%88%86%E5%AD%90%E6%A8%A1%E6%8B%9F-AMBER-2021-3-21-AMBER-%E5%85%A5%E9%97%A8%E6%95%99%E7%A8%8B%EF%BC%88%E5%9B%9B%EF%BC%89-2021-3-21-AMBER-%E5%85%A5%E9%97%A8%E6%95%99%E7%A8%8B%EF%BC%88%E5%9B%9B%EF%BC%89/" rel="prev" title="AMBER-入门教程（四）">
+      <i class="fa fa-chevron-left"></i> AMBER-入门教程（四）
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/blog/2021/3/22/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%88%86%E5%AD%90%E6%A8%A1%E6%8B%9F-GMX-2021-3-22-gmx%E5%85%A5%E9%97%A8-1-%E7%B1%BB%E6%AF%94amber-2021-3-22-gmx%E5%85%A5%E9%97%A8-1-%E7%B1%BB%E6%AF%94amber/" rel="next" title="gmx入门-1.类比amber">
+      gmx入门-1.类比amber <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#pmemd-%E8%B7%91MD%E6%B5%81%E7%A8%8B"><span class="nav-number">1.</span> <span class="nav-text">pmemd 跑MD流程</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">FY-Han</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">38</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">FY-Han</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

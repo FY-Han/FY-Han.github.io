@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"fy-han.github.io.git","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="使用tleap建立显式水蛋白体系 设立AMBERHOME（系统已经有了）bash下路径设立 export AMBERHOME &#x3D; &#x2F;usr&#x2F;local&#x2F;想设计的路径 显式溶剂体系准备打开tleap模式后 source.leaprc.water.一般常用TIP3P，适用于含有水的基团，也有甲醇，氯仿等模型。力场文件是与溶剂文件相对应的 这里使用ff14SB（推荐）对应OPC水溶剂（tip3p更常见）">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Amber--入门教程（三）">
+<meta property="og:url" content="https://fy-han.github.io.git/blog/2021/3/20/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%88%86%E5%AD%90%E6%A8%A1%E6%8B%9F-AMBER-2021-3-20-Amber-%E5%85%A5%E9%97%A8%E6%95%99%E7%A8%8B%EF%BC%88%E4%B8%89%EF%BC%89-2021-3-20-Amber-%E5%85%A5%E9%97%A8%E6%95%99%E7%A8%8B%EF%BC%88%E4%B8%89%EF%BC%89/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="使用tleap建立显式水蛋白体系 设立AMBERHOME（系统已经有了）bash下路径设立 export AMBERHOME &#x3D; &#x2F;usr&#x2F;local&#x2F;想设计的路径 显式溶剂体系准备打开tleap模式后 source.leaprc.water.一般常用TIP3P，适用于含有水的基团，也有甲醇，氯仿等模型。力场文件是与溶剂文件相对应的 这里使用ff14SB（推荐）对应OPC水溶剂（tip3p更常见）">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-03-20T07:02:30.000Z">
+<meta property="article:modified_time" content="2021-03-28T15:14:02.968Z">
+<meta property="article:author" content="FY-Han">
+<meta property="article:tag" content="AMBER">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://fy-han.github.io.git/blog/2021/3/20/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%88%86%E5%AD%90%E6%A8%A1%E6%8B%9F-AMBER-2021-3-20-Amber-%E5%85%A5%E9%97%A8%E6%95%99%E7%A8%8B%EF%BC%88%E4%B8%89%EF%BC%89-2021-3-20-Amber-%E5%85%A5%E9%97%A8%E6%95%99%E7%A8%8B%EF%BC%88%E4%B8%89%EF%BC%89/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Amber--入门教程（三） | Hexo</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://fy-han.github.io.git/blog/2021/3/20/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%88%86%E5%AD%90%E6%A8%A1%E6%8B%9F-AMBER-2021-3-20-Amber-%E5%85%A5%E9%97%A8%E6%95%99%E7%A8%8B%EF%BC%88%E4%B8%89%EF%BC%89-2021-3-20-Amber-%E5%85%A5%E9%97%A8%E6%95%99%E7%A8%8B%EF%BC%88%E4%B8%89%EF%BC%89/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="FY-Han">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Amber--入门教程（三）
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-03-20 15:02:30" itemprop="dateCreated datePublished" datetime="2021-03-20T15:02:30+08:00">2021-03-20</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-03-28 23:14:02" itemprop="dateModified" datetime="2021-03-28T23:14:02+08:00">2021-03-28</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="使用tleap建立显式水蛋白体系"><a href="#使用tleap建立显式水蛋白体系" class="headerlink" title="使用tleap建立显式水蛋白体系"></a>使用tleap建立显式水蛋白体系</h2><ol>
+<li>设立AMBERHOME（系统已经有了）<br>bash下路径设立<br> export AMBERHOME = /usr/local/想设计的路径</li>
+<li><p>显式溶剂体系准备<br>打开tleap模式后<br> source.leaprc.water.<type><br>一般常用TIP3P，适用于含有水的基团，也有甲醇，氯仿等模型。<br>力场文件是与溶剂文件相对应的 这里使用ff14SB（推荐）对应OPC水溶剂（tip3p更常见），并对应加载OPC中的水化自由能HFE的计算。对于初学者建议不要尝试。这与似乎也与配套的GB/SA模型有关，且不是很成熟。 这里涉及第4-7章<br> source leaprc.protein.ff19SB<br> source leaprc.water.opc<br> loadamberparams frcmod.ions1lm_126_hfe_opc</type></p>
+</li>
+<li><p>处理pdb格式<br>利用上一个教程里的pdb文件<br> name = loadpdb name.pdb<br>根据SSBOND改cys cyx，在tleap中连接二硫键</p>
+</li>
+</ol>
+<ul>
+<li>此前可以在moe里看看，实际上二硫键已经连接了，无需再bond，不知为何教程里还bond；如果再bond一次生成参数文件时会报错<br>  bond ramp.27.SG ramp.82.SG<br>  bond ramp.40.SG ramp.72.SG<br>  bond ramp.57.SG ramp.104.SG<br>保存<br>  saveamberparm<br>tleap值得注意的指令见<strong>附1</strong></li>
+</ul>
+<ol>
+<li><p>电中性与溶剂化<br> addions name Na+ 2<br> solvateoct name OPCBOX 10.0<br>10.0有三层溶剂分子，并一般加入150mM NaCl，对应9.03e22 Cl- atom/L<br>此时获取体积，如2.08e5 A3 = 2.08e-22L，把结果乘以1e-27。 上下相乘得需要加多少个离子<br> 实际结果<em>9.03</em>10e-5<br> addionsrand name Na+ 2 Cl- 2<br><strong>注意：</strong>加入后体系体积会减小，浓度实际大于150mM<br>值得思考，这里为什么是盐溶剂体系，水溶剂体系可以吗？</p>
+</li>
+<li><p>保存检查离子溶剂化后结果<br> saveamberparm  name name.top name.crd   </p>
+</li>
+</ol>
+<p><strong>注：</strong>以上流程可以写入一个脚本in文件 （AMBERHOME用$AMBERHOME即可使用，力场文件直接调用，省的敲一堆字）<br>    使用source tleap.in调用<br>    touch process.in #新建文件 使用rm命令删除 可以用空格建立两个文件 使用dd删除一行，：1,2d删除两行，ZZ保存退出<br>文件为</p>
+<pre><code>#tleap.in           #title
+source leaprc.protein.ff19SB
+source leaprc.water.opc
+loadamberparams frcmod.ions1lm_126_hfe_opc
+ramp=loadpdb RAMP1.pdb
+bond ramp.27.SG ramp.82.SG
+bond ramp.40.SG ramp.72.SG
+bond ramp.57.SG ramp.104.SG
+SaveAmberParm ramp RAMP1_gas.prmtop RAMP1_gas.inpcrd
+addIons ramp Na+ 2
+solvateOct ramp OPCBOX 10.0
+addIonsRand ramp Na+ 19 Cl- 19 
+SaveAmberParm ramp RAMP1_ion.prmtop RAMP1_ion.inpcrd
+</code></pre><p><strong>注：</strong>可以用cpptraj把输出文件写成pdb<br>创立一个输入转换文件pdb.in<br>    trajin RAMP1_ion.inpcrd<br>    trajout RAMP1_wions_water.pdb PDB<br>excute命令<br>    $AMBERHOME/bin/cpptraj -p RAMP1_ion.prmtop -i pdb.in&gt;pdb.out     #没有AMBERHOME直接从cpptraj开始就可以</p>
+<ol>
+<li><p>放松溶剂</p>
+<pre><code> 体系平衡弛豫，使用NVT系综（
+     控制压强，计算晶格常数使用NPT等温等压，或拉伸压缩模拟
+     NVE微正则，用于冲击辐照
+     NPH等压等焓系综
+ 周期性边界（补充跑出去的原子)
+</code></pre></li>
+<li><p>升温平衡</p>
+</li>
+</ol>
+<hr>
+<h2 id="附1"><a href="#附1" class="headerlink" title="附1"></a>附1</h2><p>tleap检查信息使用<br>    desc xxx</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/AMBER/" rel="tag"># AMBER</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/blog/2021/3/19/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%88%86%E5%AD%90%E6%A8%A1%E6%8B%9F-AMBER-2021-3-19-Amber-%E5%85%A5%E9%97%A8%E6%95%99%E7%A8%8B%EF%BC%88%E4%BA%8C%EF%BC%89-2021-3-19-Amber-%E5%85%A5%E9%97%A8%E6%95%99%E7%A8%8B%EF%BC%88%E4%BA%8C%EF%BC%89/" rel="prev" title="Amber--入门教程（二）">
+      <i class="fa fa-chevron-left"></i> Amber--入门教程（二）
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/blog/2021/3/20/%E7%A7%91%E7%A0%94%E5%AD%A6%E4%B9%A0-%E5%88%86%E5%AD%90%E6%A8%A1%E6%8B%9F-AMBER-2021-3-20-Amber%E8%BF%9B%E9%98%B6-%E9%BB%91%E5%A1%9E%E7%9F%A9%E9%98%B5%E5%9C%A8%E5%93%AA%E9%87%8C-2021-3-20-Amber%E8%BF%9B%E9%98%B6-%E9%BB%91%E5%A1%9E%E7%9F%A9%E9%98%B5%E5%9C%A8%E5%93%AA%E9%87%8C/" rel="next" title="Amber进阶-黑塞矩阵在哪里">
+      Amber进阶-黑塞矩阵在哪里 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8tleap%E5%BB%BA%E7%AB%8B%E6%98%BE%E5%BC%8F%E6%B0%B4%E8%9B%8B%E7%99%BD%E4%BD%93%E7%B3%BB"><span class="nav-number">1.</span> <span class="nav-text">使用tleap建立显式水蛋白体系</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%99%841"><span class="nav-number">2.</span> <span class="nav-text">附1</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">FY-Han</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">38</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">FY-Han</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
